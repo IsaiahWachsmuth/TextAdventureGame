@@ -9,6 +9,19 @@
     <title>Create Account</title>
     <style>
         
+        body {
+            background-color: #97c6ab;
+        }
+        .title {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding-top: 1%;
+            padding-bottom: 2%;
+            font-size: 32px;
+            font-weight:700;
+            
+        }
+
         /* All input boxes... */
         input {
         width: 100%;
@@ -17,88 +30,124 @@
         box-sizing: border-box;
         margin-top: 6px;
         margin-bottom: 16px;
+        border-radius: 10px 10px 10px 10px;
         }
 
         /* Style the submit button */
         input[type=submit] {
-        background-color: blue;
+        padding-bottom: 10px;
+        background-color: #4285f4;
         color: white;
         }
 
+        input[type=submit]:hover {
+            background-color: #3367d6;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #3367d6;
+            cursor: pointer;
+        }
+
+
         /* Style the container for inputs */
         .container {
-        background-color: #f1f1f1;
-        padding: 20px;
-        width: 25%;
+        background-color: #d1d1e0;
+        padding-top: 20px;
+        width: 30%;
         margin: 0 auto;
+        border-radius: 15px;
+        position: absolute;
+        top:25%;
+        left:35%;
+        height: 330px;
         }
 
         /* The checklist box is shown when the user clicks on the password field */
-        #checklist {
-        display: none;
+        /* #checklist {
+        display: block;
         background: #f1f1f1;
         color: #000;
-        position: relative;
         padding: 20px;
-        width: 25%;
-        height: 140px;
-        margin: 0 auto;
         margin-top: -35px;
         }
 
         #checklist p {
         padding: 0px 20px;
         font-size: 10px;
+        } */    
+
+        .tabs {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content: space-around;
+        margin-bottom: 10px;
         }
 
-        /* Add a green text color and a checkmark when the requirements are right */
-        .valid {
-        color: green;
+        .tab {
+        cursor: pointer;
+        padding: 10px 15px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 0 0;
+        margin-right: 5px;
         }
 
-        .valid:before {
-        position: relative;
-        left: -35px;
-        content: "\2713";
+        .tab:hover {
+        background-color: #ddd;
         }
 
-        /* Add a red text color and an "x" icon when the requirements are wrong */
-        .invalid {
-        color: red;
+        .tab-content {
+        display: none;
+        padding: 20px 20px 0px 20px;
+        border-radius: 0 0 5px 5px;
         }
 
-        .invalid:before {
-        position: relative;
-        left: -35px;
-        content: "\2717";
+        .tab-content.active {
+        display: block;
+        }
+
+        #createAccountTab {
+            background-color: transparent;
         }
 
     </style>
     </head>
 
     <body>
-        <div class="container">
-            <form action="/action_page.php">
-                <label for="usrname">Username</label>
-                <input type="text" id="usrname" name="usrname" required>
-
-                <label for="psw">Password</label>
-                <input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-
-                <label for="psw2">Re-Enter Password</label>
-                <input type="password2" id="psw2" name="psw2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-
-                <input type="submit" value="Submit">
-            </form>
+        <div class = "title">
+            Welcome, Teacher!
         </div>
+        <div class="container">
+            <ul class="tabs">
+                <li class="tab" onclick="openTab('loginTab')">Login</li>
+                <li class="tab" onclick="openTab('createAccountTab')">Create Account</li>
+              </ul>
+            
+            <div id="createAccountTab" class="tab-content">
+                <form action="/action_page.php">
+    
+                    <input type="text" id="usrname" placeholder = "Username" name="usrname" required>
 
-        <div id="checklist">
-            <h3>Password must contain the following:</h3>
-            <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-            <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-            <p id="number" class="invalid">A <b>number</b></p>
-            <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-            <p id="match" class = "invalid">Passwords<b> must match </b></p>
+                    <input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required >
+
+                    <input type="password2" id="psw2" name="psw2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Re-Enter Password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+
+                    <input type="submit" id="submitButton" value="Submit">
+                </form>
+
+                <!-- <div id="checklist">
+                    <h3>Password must contain the following:</h3>
+                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                    <p id="number" class="invalid">A <b>number</b></p>
+                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                    <p id="match" class = "invalid">Passwords<b> must match </b></p>
+                </div> -->
+            </div>
         </div>
     
     
@@ -106,92 +155,94 @@
     <script>
 
             var password = document.getElementById("psw");
-            var letter = document.getElementById("letter");
-            var capital = document.getElementById("capital");
-            var number = document.getElementById("number");
-            var length = document.getElementById("length");
+            // var letter = document.getElementById("letter");
+            // var capital = document.getElementById("capital");
+            // var number = document.getElementById("number");
+            // var length = document.getElementById("length");
             var password2 = document.getElementById("psw2");
+            var submitButton = document.getElementById("submitButton")
             password2.type = "password"
             
-            function hidemessage() {
-                console.log("1");
-                document.getElementById("checklist").style.display = "none";
-                console.log("2");
-            }
+            // function hidemessage() {
+            //     console.log("1");
+            //     document.getElementById("checklist").style.display = "none";
+            //     console.log("2");
+            // }
 
-            function displaymessage() {
-                console.log("3");
-                document.getElementById("checklist").style.display = "block";
-                console.log("4");
-            }
+            // function displaymessage() {
+            //     console.log("3");
+            //     document.getElementById("checklist").style.display = "block";
+            //     console.log("4");
+            // }
 
             function validate() {
                 // Validate lowercase letters
                 var lowerCaseLetters = /[a-z]/g;
-                if(password.value.match(lowerCaseLetters)) {
-                    letter.classList.remove("invalid");
-                    letter.classList.add("valid");
-                } else {
-                    letter.classList.remove("valid");
-                    letter.classList.add("invalid");
+                // if(password.value.match(lowerCaseLetters)) {
+                //     letter.classList.remove("invalid");
+                //     letter.classList.add("valid");
+                // } else {
+                //     letter.classList.remove("valid");
+                //     letter.classList.add("invalid");
+                // }
+                
+                if(!password.value.match(lowerCaseLetters)) {
+                    alert("You need at least 1 lowercase letter in your new password!");
+                    return;
                 }
+
 
                 // Validate capital letters
                 var upperCaseLetters = /[A-Z]/g;
-                if(password.value.match(upperCaseLetters)) {
-                    capital.classList.remove("invalid");
-                    capital.classList.add("valid");
-                } else {
-                    capital.classList.remove("valid");
-                    capital.classList.add("invalid");
+                if(!password.value.match(upperCaseLetters)) {
+                    alert("You need at least 1 capital letter in your new password!");
+                    return;
                 }
 
                 // Validate numbers
                 var numbers = /[0-9]/g;
-                if(password.value.match(numbers)) {
-                    number.classList.remove("invalid");
-                    number.classList.add("valid");
-                } else {
-                    number.classList.remove("valid");
-                    number.classList.add("invalid");
+                if(!password.value.match(numbers)) {
+                    alert("You need at least 1 number in your new password!");
+                    return;
                 }
 
                 // Validate length
-                if(password.value.length >= 8) {
-                    length.classList.remove("invalid");
-                    length.classList.add("valid");
-                } else {
-                    length.classList.remove("valid");
-                    length.classList.add("invalid");
+                if(!(password.value.length >= 8)) {
+                    alert("Your new password must have at least 8 characters!");
+                    return;
                 }
                 
                 // Validate match
-                if(password.value == password2.value) {
-                    match.classList.remove("invalid");
-                    match.classList.add("valid");
-                } else {
-                    match.classList.remove("valid");
-                    match.classList.add("invalid");
+                if(!password.value == password2.value) {
+                    alert("Your passwords do not match!");
+                    return;
                 }
 
+                else{
+                    console.log(password.value);
+                }
             }
            
             
-            password.addEventListener("click", displaymessage);
+            submitButton.addEventListener("click",  validate);
 
-            password2.addEventListener("click", displaymessage);
-
-            password.addEventListener("blur", hidemessage);
-
-            password2.addEventListener("blur", hidemessage);
 
             // When the user starts to type something inside the password field
-            password.addEventListener("keyup", validate);
-            password2.addEventListener("keyup", validate);
-            
+            // password.addEventListener("keyup", validate);
+            // password2.addEventListener("keyup", validate);
 
+
+            function openTab(tabId) {
+                // Hide all tab contents
+                var tabs = document.querySelectorAll('.tab-content');
+                tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+
+                // Show the selected tab content
+                document.getElementById(tabId).classList.add('active');
+            }
     </script>
 
-</div> 
 </body>
 </html>
