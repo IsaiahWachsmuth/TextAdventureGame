@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+
+/* MainArea.js */
+
+.main-landing {
+  width: 70%;;
+  height: 100vh;
+  background-image: url('../img/annie-spratt-4-4WPFLVhAY-unsplash.jpg');
+  /* image is from https://unsplash.com/photos/woman-in-black-long-sleeve-shirt-sitting-in-front-of-silver-macbook-4-4WPFLVhAY */
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset -12px 8px 15px -10px rgba(0,0,0,0.75);
+}
+
+.main-landing h1 {
+  font-size: 4.75rem;
+  color: white;
+}
+
+.main-landing p {
+  font-size: 1.25rem;
+  color: white;
+  padding-bottom: 20rem;
+}
+
+
+/* Sidebar.js */
+
+.main-sidebar {
+  width: 30%;
+  height: 100vh;
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
