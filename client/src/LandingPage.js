@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 const LandingPage = () => {
     return (
         <div class="d-flex">
+            {/* MainArea and Sidebar componets load in a flexbox */}
             <MainArea />
             <Sidebar />
         </div>

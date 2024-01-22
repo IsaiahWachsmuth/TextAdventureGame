@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.css'; // basic bootstrap styles
+import './App.css'; // custom general styles - keep at the end to override bootstrap
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
