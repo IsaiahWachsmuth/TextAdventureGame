@@ -1,12 +1,14 @@
 const {MongoClient} = require('mongodb');
+const fs = require('fs');
 
 async function main(){
     /**
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
      */
-    const uri = "mongodb+srv://app:s7yhI7X8w9o6XFZS@textadventurecluster.fpuqlbf.mongodb.net/test?retryWrites=true&w=majority";
- 
+
+    const uri = fs.readFileSync('mongouri.txt', 'utf8');
+
 
     const client = new MongoClient(uri);
  
