@@ -1,7 +1,7 @@
 import * as games from './adventures_model.mjs';
 import express from 'express';
 
-const PORT = 3000;
+const PORT = 3001;
 
 const app = express();
 
@@ -15,6 +15,18 @@ app.post('/games', (req, res) => {
         })
         .catch(error => {
             console.error(error);
+        });
+});
+
+// Return array of all games
+app.get('/games', (req, res) => {
+    games.findAllGames()
+        .then(games => {
+            res.json(games);
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ Error: 'Failed to fetch games' });
         });
 });
 

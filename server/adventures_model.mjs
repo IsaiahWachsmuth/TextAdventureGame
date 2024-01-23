@@ -25,3 +25,18 @@ const gameSchema = mongoose.Schema({
 });
 
 const Game = mongoose.model("Game", gameSchema);
+
+// Method to find all games
+const findAllGames = async () => {
+    try {
+        const games = await Game.find({});
+        return games; // Returns an array of game documents
+    } catch (error) {
+        // Log or handle error appropriately
+        console.error("Failed to find games:", error);
+        throw error; // Rethrow or handle as needed
+    }
+};
+
+// Export the functions for use in the controller
+export { Game, findAllGames };
