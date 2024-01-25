@@ -13,6 +13,11 @@ const Sidebar = () => {
         setIsTeacher(!isTeacher);
     };
 
+    const handleButtonClick = () => {
+        console.log('Button Clicked!');
+
+    };
+
     return (
         <div className='d-flex flex-column main-sidebar'>
             <div id='type-toggle'>
@@ -56,7 +61,7 @@ const Sidebar = () => {
                         </form>
                         </div>
                 ) : (
-                    <div className = 'studentLogin'> 
+                    <div className = 'login-wrapper'> 
                         <form>
                         <div>
                             <label htmlFor="name">Name: </label>
@@ -68,8 +73,8 @@ const Sidebar = () => {
                             <input type="code" id="code" name="code" required />
                         </div>
 
-                        <div className='student-login'>
-                                            <button type="submit">Login as Student</button>
+                        <div className='login-register-submit'>
+                                <button type="submit" onClick={handleButtonClick}> Login as Student</button>
                         </div>
                         </form>
                     </div>

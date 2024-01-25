@@ -101,6 +101,15 @@
   background: none;
   color: white;
   font-weight: bold;
+  justify-content: center;
+}
+
+#type-toggle button {
+  position: fixed;
+  top: 5px;
+  justify-content: center;
+  display: flex;
+  border-radius: 0.3rem;
 }
 
 .login-wrapper form {
@@ -133,4 +142,8 @@
   padding: 1rem 0;
   border: none;
   border-radius: 0.3rem;
+}
+
+.login-register-submit, #login-toggle {
+  justify-content: end;
 }
