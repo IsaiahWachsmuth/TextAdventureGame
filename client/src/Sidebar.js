@@ -15,13 +15,13 @@ const Sidebar = () => {
 
     return (
         <div className='d-flex flex-column main-sidebar'>
-            <div id='teacher-toggle'>
+            <div id='type-toggle'>
                         <button onClick={setUserType}>{isTeacher ? "Go to Student Login" : "Go to Teacher Login"}</button>
             </div>
 
             {isTeacher ? (
                 <div className='login-wrapper'>
-                    <div className = 'teacher-title'> Teacher Login/Registration </div>
+
                     <div id='login-toggle'>
                             <button onClick={toggleForm}>{isLogin ? "Register" : "Login"}</button>
                     </div>
@@ -38,7 +38,7 @@ const Sidebar = () => {
                         </div>
                             
                         {isLogin ? (
-                            <div className='login-register-submit'>
+                            <div className='login-wrapper'>
                                 <button type="submit">Login as Teacher</button>
                             </div>
                             
@@ -57,7 +57,6 @@ const Sidebar = () => {
                         </div>
                 ) : (
                     <div className = 'studentLogin'> 
-                        <div> Student Login </div>
                         <form>
                         <div>
                             <label htmlFor="name">Name: </label>
