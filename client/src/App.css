@@ -82,9 +82,42 @@
   justify-content: center;
 }
 
+
+.usertype-container button {
+  margin: 30px;
+  cursor: pointer;
+  border: none;
+  background-color: #4285f4;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.usertype-container button:hover {
+  background-color: #3367d6;
+}
+
+.usertype-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.usertype-container {
+  display: flex;
+  /* margin-top: 20px; */
+}
+
 .login-wrapper {
   width: 70%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 10rem;
+}
+
+.student-wrapper {
+  width: 70%;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -104,13 +137,6 @@
   justify-content: center;
 }
 
-#type-toggle button {
-  position: fixed;
-  top: 5px;
-  justify-content: center;
-  display: flex;
-  border-radius: 0.3rem;
-}
 
 .login-wrapper form {
   flex-direction: column;

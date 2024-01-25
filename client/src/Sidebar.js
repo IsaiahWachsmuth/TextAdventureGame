@@ -3,14 +3,9 @@ import React, { useState } from 'react';
 const Sidebar = () => {
     const [isLogin, setIsLogin] = useState(true);
 
-    const [isTeacher, setIsTeacher] = useState(true);
 
     const toggleForm = () => {
         setIsLogin(!isLogin);
-    };
-
-    const setUserType = () => {
-        setIsTeacher(!isTeacher);
     };
 
     const handleButtonClick = () => {
@@ -20,11 +15,14 @@ const Sidebar = () => {
 
     return (
         <div className='d-flex flex-column main-sidebar'>
-            <div id='type-toggle'>
-                        <button onClick={setUserType}>{isTeacher ? "Go to Student Login" : "Go to Teacher Login"}</button>
-            </div>
 
-            {isTeacher ? (
+                <div class="usertype-container">
+                    <h3> I am a...</h3>
+                    <div class="usertype-buttons">
+                        <button onclick="location.href='teacherLogin.html'">Teacher</button>
+                        <button onclick="location.href='#'">Student</button>
+                    </div>
+                </div>
                 <div className='login-wrapper'>
 
                     <div id='login-toggle'>
@@ -60,8 +58,8 @@ const Sidebar = () => {
                             )}
                         </form>
                         </div>
-                ) : (
-                    <div className = 'login-wrapper'> 
+
+                    <div className = 'student-wrapper'> 
                         <form>
                         <div>
                             <label htmlFor="name">Name: </label>
@@ -77,9 +75,7 @@ const Sidebar = () => {
                                 <button type="submit" onClick={handleButtonClick}> Login as Student</button>
                         </div>
                         </form>
-                    </div>
-                )}
-                
+                    </div>            
                 </div>
     
     );
