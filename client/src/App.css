@@ -84,12 +84,18 @@
 
 
 .usertype-container button {
-  margin: 30px;
+  margin: 60px;
   cursor: pointer;
   border: none;
   background-color: #4285f4;
   color: #fff;
   border-radius: 8px;
+}
+
+#teacher-button {
+  background-color: #3367d6;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .usertype-container button:hover {
@@ -99,6 +105,7 @@
 .usertype-buttons {
   display: flex;
   justify-content: space-between;
+
 }
 
 .usertype-container {
