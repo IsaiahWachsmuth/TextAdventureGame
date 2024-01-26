@@ -1,11 +1,13 @@
 import * as games from './adventures_model.mjs';
 import express from 'express';
+import cors from 'cors';
 
 const PORT = 3001;
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 // Create a new game
 app.post('/games', (req, res) => {
@@ -48,9 +50,9 @@ app.get('/games/:game_id', (req, res) => {
 // Update a game
 app.put('/games/:game_id', (req, res) => {
     games.updateGame(req.params.game_id, req.body.title, req.body.description, req.body.author, req.body.pages)
-        .then(updatedCount => {
-            if (updatedCount) {
-                res.json({ ...req.body });
+        .then(updatedGame => {
+            if (updatedGame) {
+                res.json(updatedGame);
             } else {
                 res.status(404).json({ Error: 'Game not found' });
             }

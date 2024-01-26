@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 mongoose.connect(
-    "mongodb+srv://adam:zydLJNZ86Ppkbz4B@textadventurecluster.fpuqlbf.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://adam:zydLJNZ86Ppkbz4B@textadventurecluster.fpuqlbf.mongodb.net/TextAdventures?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
@@ -24,7 +24,7 @@ const gameSchema = mongoose.Schema({
     pages: { type: Map, of: pageSchema, required: true }
 });
 
-const Game = mongoose.model("Game", gameSchema);
+const Game = mongoose.model("Game", gameSchema, 'Adventures');
 
 // Method to find all games
 const findAllGames = async () => {
@@ -38,5 +38,29 @@ const findAllGames = async () => {
     }
 };
 
+// Method to create a new game
+const createGame = async (game_id, title, description, author, pages) => {
+    const newGame = new Game({ game_id, title, description, author, pages });
+    await newGame.save();
+    return newGame;
+};
+
+// Method to find a game by ID
+const findGameById = async (game_id) => {
+    return await Game.findOne({ game_id });
+};
+
+// Method to update a game
+const updateGame = async (game_id, title, description, author, pages) => {
+    const updatedGame = await Game.findOneAndUpdate({ game_id }, { title, description, author, pages }, { new: true });
+    return updatedGame;
+};
+
+// Method to delete a game
+const deleteGame = async (game_id) => {
+    const result = await Game.deleteOne({ game_id });
+    return result.deletedCount; // Returns the number of documents deleted
+};
+
 // Export the functions for use in the controller
-export { Game, findAllGames };
+export { Game, findAllGames, createGame, findGameById, updateGame, deleteGame };
