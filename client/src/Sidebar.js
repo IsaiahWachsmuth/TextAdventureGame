@@ -8,7 +8,7 @@ const Sidebar = () => {
         setIsLogin(!isLogin);
     };
 
-    const studentButtonClick = (prev, current, currentbutton, prevbutton) => {
+    const userButtonClick = (prev, current, currentbutton, prevbutton) => {
         var removeselection = document.getElementsByClassName(prev);
         for (var i = 0; i < removeselection.length; i++) {
             removeselection[i].style.display = "none";
@@ -19,7 +19,7 @@ const Sidebar = () => {
             addselection[z].style.display = "block";
           }
         
-          var addbutton = document.getElementById("student-button");
+          var addbutton = document.getElementById(currentbutton);
           addbutton.style.fontWeight = "bold";
           addbutton.style.textDecoration = "underline";
           addbutton.style.backgroundColor = "#3367d6";
@@ -31,13 +31,67 @@ const Sidebar = () => {
 
     };
 
+    const validate = () => {
+
+        var username = document.getElementById("email")
+        var password = document.getElementById("password");
+        var password2 = document.getElementById("confirmPassword");
+
+
+        var lowerCaseLetters = /[a-z]/g;
+        
+        if(username.value.length < 3){
+            alert("Username must be at least 3 characters long!");
+            return;
+        }
+
+        if(!password.value.match(lowerCaseLetters)) {
+            alert("You need at least 1 lowercase letter in your new password!");
+            return;
+        }
+
+
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if(!password.value.match(upperCaseLetters)) {
+            alert("You need at least 1 capital letter in your new password!");
+            return;
+        }
+
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if(!password.value.match(numbers)) {
+            alert("You need at least 1 number in your new password!");
+            return;
+        }
+
+        // Validate length
+        if(!(password.value.length >= 8)) {
+            alert("Your new password must have at least 8 characters!");
+            return;
+        }
+        
+        // Validate match
+        if(password.value !== password2.value) {
+            alert("Your passwords do not match!");
+            return;
+        }
+        
+
+        else{
+            console.log("Sending Username and Password to Back-End");
+            console.log(username.value)
+            console.log(password2.value);
+        }
+    }
+
     return (
         <div className='d-flex flex-column main-sidebar'>
             <h3> I am a...</h3>
                 <div class="usertype-container">
                     <div class="usertype-buttons">
-                        <button id='teacher-button'>Teacher</button>
-                        <button id='student-button' onClick={() => studentButtonClick("login-wrapper", "student-wrapper", "student-button", "teacher-button")}>Student</button>
+                        <button id='teacher-button' onClick={() => userButtonClick("student-wrapper", "login-wrapper", "teacher-button", "student-button")}>Teacher</button>
+                        <button id='student-button' onClick={() => userButtonClick("login-wrapper", "student-wrapper", "student-button", "teacher-button")}>Student</button>
                     </div>
                 </div>
                 <div className='login-wrapper'>
@@ -59,7 +113,7 @@ const Sidebar = () => {
                             
                         {isLogin ? (
                             <div className='login-wrapper'>
-                                <button type="submit">Login as Teacher</button>
+                                <button type="submit">Login</button>
                             </div>
                             
                             ) : (
@@ -69,7 +123,7 @@ const Sidebar = () => {
                                         <input type="password" id="confirmPassword" name="confirmPassword" required />
                                     </div>
                                     <div className='login-register-submit'>
-                                        <button type="submit">Register as Teacher</button>
+                                        <button type="submit" onClick={() => validate()}>Register</button>
                                     </div>
                                 </>
                             )}
@@ -89,7 +143,7 @@ const Sidebar = () => {
                         </div>
 
                         <div className='login-register-submit'>
-                                <button type="submit"> Login as Student</button>
+                                <button type="submit"> Login</button>
                         </div>
                         </form>
                     </div>            
