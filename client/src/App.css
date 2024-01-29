@@ -110,7 +110,6 @@
 
 .usertype-container {
   display: flex;
-  /* margin-top: 20px; */
 }
 
 .login-wrapper {
@@ -136,6 +135,7 @@
   width: 100%;
 }
 
+
 #login-toggle button {
   border: none;
   background: none;
@@ -150,17 +150,37 @@
   align-items: flex-start;
 }
 
+.student-wrapper form {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .login-wrapper form > div {
   padding: 0.55rem 0;
 }
 
+.student-wrapper form > div {
+  padding: 0.55rem 0;
+}
+
+
 .login-wrapper form > div label {
-  display: inline-flex;
+  padding-right: 0.3rem;
+  width: 12rem;
+}
+
+.student-wrapper form > div label {
   padding-right: 0.3rem;
   width: 12rem;
 }
 
 .login-wrapper form > div input {
+  width: 100%;
+  padding: 0.3rem 0.2rem;
+  border-radius: 0.3rem;
+}
+
+.student-wrapper form > div input {
   width: 100%;
   padding: 0.3rem 0.2rem;
   border-radius: 0.3rem;
@@ -179,4 +199,14 @@
 
 .login-register-submit, #login-toggle {
   justify-content: end;
+} 
+
+.main-sidebar h3 {
+  position: absolute;
+  top: 25px;
+}
+
+.login-wrapper button {
+  border-radius: 5px;
+  align-items: center;
 }
