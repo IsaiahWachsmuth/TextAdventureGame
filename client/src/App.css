@@ -210,3 +210,40 @@
   border-radius: 5px;
   align-items: center;
 }
+
+
+/* Teacher Dashboard */
+
+#temp-ed-dash {
+  border: red 1px solid;
+  height: 100vh;
+}
+
+.dashboard {
+  flex-direction: column;
+}
+
+.dashboard > div.container, .dashboard nav div.container {
+  max-width: 100%;
+}
+
+.game-dash {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  padding: 1rem;
+}
+
+.game-card {
+  height: 14vh;
+  border: 1px solid black;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.2)
+}
+
+.add-game {
+  background: rgba(0,0,0,0.2);
+}

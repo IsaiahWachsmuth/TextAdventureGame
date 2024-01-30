@@ -1,6 +1,7 @@
 // App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+ import Dashboard from './pages/Dashboard'; // Adjust the path as necessary
 import GamePage from './pages/GamePage'; // Adjust the path as necessary
 import GameDetailsPage from './pages/GameDetails'; // Adjust the path as necessary
 import EditGame from './pages/EditGame'
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/add-game" element={<AddGame />} />
                     {/* Other routes */}
                 </Routes>
+                
             </div>
         </Router>
     );
@@ -41,6 +43,8 @@ function Home() {
                 <Link className="App-link" to="/games">Games Page</Link>
                 <Link className="App-link" to="/add-game">Add a Game</Link>
             </header>
+            {/* Dashboard component displayed under the Home content */}
+            <Dashboard />
       </div>
     )
 }
