@@ -1,6 +1,6 @@
 import React from 'react';
-import MainArea from './MainArea';
-import Sidebar from './Sidebar';
+import MainArea from '../components/MainArea';
+import Sidebar from '../components/Sidebar';
 
 const LandingPage = () => {
     return (

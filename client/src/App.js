@@ -1,12 +1,12 @@
 // App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
- import Dashboard from './pages/Dashboard'; // Adjust the path as necessary
+ import Dashboard from './pages/Dashboard'; // dashboard component
 import GamePage from './pages/GamePage'; // Adjust the path as necessary
 import GameDetailsPage from './pages/GameDetails'; // Adjust the path as necessary
 import EditGame from './pages/EditGame'
 import AddGame from './pages/AddGame'
-import LandingPage from './LandingPage';
+import LandingPage from './pages/LandingPage'; // main landing page
 import { Link } from 'react-router-dom';
 
 // ... other imports
