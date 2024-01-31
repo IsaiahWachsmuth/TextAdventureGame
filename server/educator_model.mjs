@@ -23,4 +23,17 @@ educatorSchema.pre('save',function(next){
   });
 });
 
+educatorSchema.methods.comparePassword = function(password, cb) {
+  bcrypt.compare(password, this.password, (err, isMatch) => {
+    if(err) {
+      return cb(err);
+    } else {
+      if(!isMatch) {
+        return cb(null, isMatch);
+      }
+      return cb(null, this);
+    }
+  });
+}
+
 export const Educator = mongoose.model('Educator', educatorSchema);
