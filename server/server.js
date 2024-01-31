@@ -1,6 +1,14 @@
 const {MongoClient} = require('mongodb');
 const fs = require('fs');
 
+const Educator = require('./educator_model.mjs');
+const userInput = {
+    name: "testname",
+    email: "testemail@email.com",
+    password: "badpassword",
+}
+const educatorUser = new Educator(userInput);
+
 async function main(){
     /**
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
@@ -11,23 +19,38 @@ async function main(){
 
 
     const client = new MongoClient(uri);
- 
-    try {
+    MongoClient.connect(uri, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("Users");
+        educatorUser.save()
+            .then(function (models) {
+                console.log(models);
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+        dbo.collection("Educators").insertOne(educatorUser, function(err, res) {
+          if (err) throw err;
+          console.log("1 document inserted");
+          db.close();
+        });
+      });
+    // try {
         // Connect to the MongoDB cluster
-        await client.connect();
- 
+        // await client.connect();
+        
         // Make the appropriate DB calls
-        await  listDatabases(client);
-        const database = client.db("TextAdventures");
-        const collection = database.collection("Adventures");
-        query = {title: "Renaissance Adventure"};
-        let movie = await collection.findOne(query);
-        console.log(movie);
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
+        // await  listDatabases(client);
+        // const database = client.db("Educators");
+        // const collection = database.collection("Adventures");
+        // query = {title: "Renaissance Adventure"};
+        // let movie = await collection.findOne(query);
+        // console.log(movie);
+    // } catch (e) {
+    //     console.error(e);
+    // } finally {
+    //     await client.close();
+    // }
 }
 
 async function listDatabases(client){

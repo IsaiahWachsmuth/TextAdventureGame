@@ -1,8 +1,22 @@
 // EducatorController.mjs
-import { Educator } from './EducatorModel.mjs';
+import Educator from './educator_model.mjs';
+import express from 'express';
+import cors from 'cors';
 
+const PORT = 3002;
+
+const app = express();
+const userInput = {
+  name: "testname",
+  email: "testemail@email.com",
+  password: "badpassword",
+}
+
+app.use(express.json());
+app.use(cors());
 // Create a new educator
 export async function createEducator(data) {
+
   try {
     const educator = new Educator(data);
     await educator.save();
@@ -41,3 +55,8 @@ export async function deleteEducator(id) {
     console.error('Error deleting educator:', error);
   }
 }
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}...`);
+  createEducator(userInput);
+});
