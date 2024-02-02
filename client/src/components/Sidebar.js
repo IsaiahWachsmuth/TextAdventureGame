@@ -31,6 +31,38 @@ const Sidebar = () => {
 
     };
 
+    const [responseMessage, setResponseMessage] = useState('');
+
+    const handleCreateEducator = async () => {
+        try {
+            const username = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const response = await fetch('http://localhost:3002/create-educator', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                name: username,
+                email: username,
+                password: password,
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setResponseMessage(`Educator created: ${data.educator.name}`);
+            } else {
+                const errorMessage = await response.text();
+                setResponseMessage(`Failed to create educator: ${errorMessage}`);
+            }
+        } 
+        
+        catch (error) {
+            setResponseMessage(`Error creating educator: ${error.message}`);
+        }
+    };
+
     const validate = () => {
 
         var username = document.getElementById("email")
@@ -79,9 +111,9 @@ const Sidebar = () => {
         
 
         else{
-            console.log("Sending Username and Password to Back-End");
-            console.log(username.value)
-            console.log(password2.value);
+            alert("AQUI");
+            handleCreateEducator();
+            alert("HERE Now");
         }
     }
 

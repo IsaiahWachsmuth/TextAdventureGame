@@ -4,8 +4,8 @@ import express from 'express';
 import cors from 'cors';
 
 const PORT = 3002;
-
 const app = express();
+
 const userInput = {
   name: "testname",
   email: "testemail@email.com",
@@ -15,16 +15,27 @@ const userInput = {
 app.use(express.json());
 app.use(cors());
 // Create a new educator
-export async function createEducator(data) {
-
+app.post('/create-educator', async (req, res) => {
   try {
-    const educator = new Educator(data);
+    const educator = new Educator(req.body);
     await educator.save();
-    return educator;
+    res.status(201).json({ success: true, educator });
   } catch (error) {
     console.error('Error creating educator:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
-}
+});
+
+// export async function createEducator(data) {
+
+//   try {
+//     const educator = new Educator(data);
+//     await educator.save();
+//     return educator;
+//   } catch (error) {
+//     console.error('Error creating educator:', error);
+//   }
+// }
 
 // Get educator by ID
 export async function getEducatorById(id) {
@@ -58,5 +69,5 @@ export async function deleteEducator(id) {
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
-  createEducator(userInput);
+  // createEducator(userInput);
 });
