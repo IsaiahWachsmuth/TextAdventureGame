@@ -33,6 +33,10 @@ const Sidebar = () => {
 
     const [responseMessage, setResponseMessage] = useState('');
 
+    const educatorExists = async () => {
+
+    };
+
     const handleCreateEducator = async () => {
         try {
             const username = document.getElementById("email").value;
@@ -55,6 +59,7 @@ const Sidebar = () => {
             } else {
                 const errorMessage = await response.text();
                 setResponseMessage(`Failed to create educator: ${errorMessage}`);
+                alert("This username is already in use!");
             }
         } 
         
@@ -111,9 +116,7 @@ const Sidebar = () => {
         
 
         else{
-            alert("AQUI");
             handleCreateEducator();
-            alert("HERE Now");
         }
     }
 

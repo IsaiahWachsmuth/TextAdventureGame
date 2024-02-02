@@ -14,9 +14,19 @@ const userInput = {
 
 app.use(express.json());
 app.use(cors());
+
+
 // Create a new educator
 app.post('/create-educator', async (req, res) => {
   try {
+    const { name } = req.body;
+
+    const existingEducator = await Educator.findOne({ name });
+
+    if (existingEducator) {
+      return res.status(400).json({ success: false, error: 'Educator with this name already exists' });
+    }
+
     const educator = new Educator(req.body);
     await educator.save();
     res.status(201).json({ success: true, educator });
