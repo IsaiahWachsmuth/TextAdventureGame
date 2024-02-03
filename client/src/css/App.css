@@ -42,7 +42,7 @@
 .main-landing {
   width: 70%;;
   height: 100vh;
-  background-image: url('../img/annie-spratt-4-4WPFLVhAY-unsplash.jpg');
+  background-image: url('../../public/img/annie-spratt-4-4WPFLVhAY-unsplash.jpg');
   /* image is from https://unsplash.com/photos/woman-in-black-long-sleeve-shirt-sitting-in-front-of-silver-macbook-4-4WPFLVhAY */
   background-size: cover;
   background-position: center;
