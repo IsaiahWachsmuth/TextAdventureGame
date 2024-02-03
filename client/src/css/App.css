@@ -119,8 +119,20 @@
   align-items: center;
   justify-content: center;
   padding-bottom: 10rem;
+  border: #fff 1px solid;
+  border-radius: 0.25rem;
 }
 
+.login-wrapper > div {
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.login-wrapper #student-log {
+  display: none;
+}
+
+/*
 .student-wrapper {
   width: 70%;
   display: none;
@@ -129,12 +141,15 @@
   justify-content: center;
   padding-bottom: 10rem;
 }
-
+*/
 .login-wrapper form, .login-wrapper form > div, #login-toggle {
   display: flex;
   width: 100%;
 }
 
+#educator-logReg {
+  flex-direction: column;
+}
 
 #login-toggle button {
   border: none;
