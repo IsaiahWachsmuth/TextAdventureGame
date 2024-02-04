@@ -107,24 +107,21 @@ const Sidebar = () => {
     return (
         <div className='d-flex flex-column main-sidebar'>
                 <div className='login-wrapper'>
+                    
                     <div id='top'>
-                        <button id='teacher-button' onClick={() => userTypeToggle("educator")}>Teacher</button>
-                        <button id='student-button' onClick={() => userTypeToggle("student")}>Student</button>
+                        <button id='teacher-button' className={`button ${activeView === 'educator' ? 'active' : ''}`} onClick={() => userTypeToggle("educator")}>Teacher</button>
+                        <button id='student-button' className={`button ${activeView === 'student' ? 'active' : ''}`} onClick={() => userTypeToggle("student")}>Student</button>
                     </div>
                     <div id='educator-logReg' style={{ display: activeView === 'educator' ? "flex" : "none" }}>
-                        <div id='login-toggle'>
-                                <button onClick={toggleForm}>{isLogin ? "Register" : "Login"}</button>
-                        </div>
+                        
                             
                         <form>
                             <div>
-                                <label htmlFor="email">Email: </label>
-                                <input type="email" id="email" name="email" required />
+                                <input type="email" id="email" name="email" placeholder="Email" required />
                             </div>
                                 
                             <div>
-                                <label htmlFor="password">Password: </label>
-                                <input type="password" id="password" name="password" required />
+                                <input type="password" id="password" name="password" placeholder='Password' required />
                             </div>
                                 
                             {isLogin ? (
@@ -134,9 +131,8 @@ const Sidebar = () => {
                                 
                                 ) : (
                                     <>
-                                        <div>
-                                            <label htmlFor="confirmPassword">Confirm Password: </label>
-                                            <input type="password" id="confirmPassword" name="confirmPassword" required />
+                                        <div> 
+                                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder='Confirm Password'required />
                                         </div>
                                         <div className='login-register-submit'>
                                             <button type="submit" onClick={() => validate()}>Register</button>
@@ -144,6 +140,9 @@ const Sidebar = () => {
                                     </>
                                 )}
                         </form>
+                        <div id='login-toggle'>
+                                <button onClick={toggleForm}>{isLogin ? "Need an account? Register" : "Have an account? Login"}</button>
+                        </div>
                     </div>
                     <div id='student-log' style={{ display: activeView === 'student' ? "flex" : "none" }}>
                         <form>
