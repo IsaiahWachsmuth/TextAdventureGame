@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function AddGame({ onBack }) { // Removed useNavigate and adjusted for onBack prop
-    const [game, setGame] = useState({ title: '', description: '', author: '' });
+    const [game, setGame] = useState({ title: '', description: '', author: '', pages: {} });
 
     const handleChange = (event) => {
         setGame({ ...game, [event.target.name]: event.target.value });
@@ -33,6 +33,11 @@ function AddGame({ onBack }) { // Removed useNavigate and adjusted for onBack pr
             <h2>Add New Game</h2>
             <form onSubmit={handleSubmit}>
                 <label>
+                    Game ID:
+                    <input type="text" name="game_id" value={game.game_id} onChange={handleChange} />
+                </label>
+                <br />
+                <label>
                     Title:
                     <input type="text" name="title" value={game.title} onChange={handleChange} />
                 </label>
@@ -46,9 +51,9 @@ function AddGame({ onBack }) { // Removed useNavigate and adjusted for onBack pr
                     Author:
                     <input type="text" name="author" value={game.author} onChange={handleChange} />
                 </label>
+                {/* Add fields for other properties like pages if necessary */}
                 <br />
                 <button type="submit">Add Game</button>
-                <button type="button" onClick={onBack}>Cancel</button>
             </form>
         </div>
     );
