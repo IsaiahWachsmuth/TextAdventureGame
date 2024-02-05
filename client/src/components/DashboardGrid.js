@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-const DashboardGrid = ({ games }) => {
+const DashboardGrid = ({ games, onAddGame }) => {
   return (
     <section className='game-dash'>
       {games.map((game) => (
@@ -11,11 +10,9 @@ const DashboardGrid = ({ games }) => {
           <p>{game.description}</p>
         </div>
       ))}
-      <Link to="/dashboard/add-game">
-        <div className='game-card add-game'>
-          <h5>Add Game</h5>
-        </div>
-      </Link>
+      <div className='game-card add-game' onClick={onAddGame}>
+        <h5>Add Game</h5>
+      </div>
     </section>
   );
 };
