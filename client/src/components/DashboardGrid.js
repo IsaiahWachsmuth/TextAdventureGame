@@ -1,15 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const DashboardGrid = () => {
+const DashboardGrid = ({ games }) => {
   return (
     <section className='game-dash'>
-        <div className='game-card'>
-            <h5>Game Name</h5>
-            <p>Info about the game.</p>
+      {games.map((game) => (
+        <div className='game-card' key={game.game_id}>
+          {/* Are we going to have images? If so we'll need to add them here. */}
+          <h5>{game.title}</h5>
+          <p>{game.description}</p>
         </div>
+      ))}
+      <Link to="/dashboard/add-game">
         <div className='game-card add-game'>
-            <h5>Add Game</h5>
+          <h5>Add Game</h5>
         </div>
+      </Link>
     </section>
   );
 };
