@@ -147,13 +147,13 @@ const Sidebar = () => {
                     <div id='student-log' style={{ display: activeView === 'student' ? "flex" : "none" }}>
                         <form>
                             <div>
-                                <label htmlFor="name">Name: </label>
-                                <input type="name" id="name" name="name" required />
+                                
+                                <input type="name" id="name" name="name" placeholder='Name' required />
                             </div>
                                     
                             <div>
-                                <label htmlFor="code">Class Code: </label>
-                                <input type="code" id="code" name="code" required />
+                                
+                                <input type="code" id="code" name="code" placeholder='Class Code' required />
                             </div>
 
                             <div className='login-register-submit'>

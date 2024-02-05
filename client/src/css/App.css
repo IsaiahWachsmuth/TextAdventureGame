@@ -63,10 +63,19 @@
   font-size: 1.25rem;
 }
 
-.main-landing a:link {
+.main-landing a {
   color: white;
   font-weight: bold;
   text-decoration: none;
+  transition: 0.3s;
+}
+
+.main-landing a:visited {
+  color: white;
+}
+
+.main-landing a:hover{
+  color: salmon;
 }
 
 /* Sidebar.js */
@@ -89,8 +98,9 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 10rem;
-  border-radius: 0.25rem;
   background-color: rgba(43, 47, 55, 1);
+  border-radius: 0.5rem 0.5rem 0 0;
+  box-shadow: 0px 1px 2px 0px rgb(32 37 49 / 55%);
 }
 
 .login-wrapper > div {
@@ -110,22 +120,42 @@
 
 .login-wrapper #top > button {
   border: none;
-  background: none;
+  background: rgba(34, 38, 46, 1);
   color: white;
   font-weight: bold;
   width: 100%;
   padding: 1.5rem 0;
 }
 .login-wrapper #top > button.active {
-  background-color: salmon;
+  background-color:rgba(43, 47, 55, 1);
 }
+
+.login-wrapper #top > button#teacher-button {
+  border-radius: 0.25rem 0 0 0;
+}
+
+.login-wrapper #top > button#student-button {
+  border-radius: 0 0.25rem 0 0;
+}
+
+.login-wrapper #top > button:hover {
+  box-shadow: inset 0 100px salmon;
+  transition: 0.3s ease-out;
+}
+
+.login-wrapper #top > button.active:hover {
+  background-color:rgba(43, 47, 55, 1);
+  box-shadow: none;
+}
+
 .login-wrapper form, .login-wrapper form > div, #login-toggle {
   display: flex;
   width: 100%;
 }
 
-#educator-logReg {
+#educator-logReg, #student-log {
   flex-direction: column;
+  padding-top: 2rem;
 }
 
 #login-toggle button {
@@ -151,30 +181,11 @@
   padding: 0.55rem 0;
 }
 
-.student-wrapper form > div {
-  padding: 0.55rem 0;
-}
-
-.login-wrapper form > div label {
-  padding-right: 0.3rem;
-  width: 12rem;
-}
-
-.student-wrapper form > div label {
-  padding-right: 0.3rem;
-  width: 12rem;
-}
-
 .login-wrapper form > div input {
   width: 100%;
-  padding: 0.3rem 0.2rem;
+  padding: 0.35rem 0.5rem;
   border-radius: 0.3rem;
-}
-
-.student-wrapper form > div input {
-  width: 100%;
-  padding: 0.3rem 0.2rem;
-  border-radius: 0.3rem;
+  height: 3.2rem;
 }
 
 .login-register-submit, #login-toggle {
