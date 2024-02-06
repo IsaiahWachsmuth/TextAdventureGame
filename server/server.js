@@ -35,22 +35,6 @@ async function main(){
           db.close();
         });
       });
-    // try {
-        // Connect to the MongoDB cluster
-        // await client.connect();
-        
-        // Make the appropriate DB calls
-        // await  listDatabases(client);
-        // const database = client.db("Educators");
-        // const collection = database.collection("Adventures");
-        // query = {title: "Renaissance Adventure"};
-        // let movie = await collection.findOne(query);
-        // console.log(movie);
-    // } catch (e) {
-    //     console.error(e);
-    // } finally {
-    //     await client.close();
-    // }
 }
 
 async function listDatabases(client){
