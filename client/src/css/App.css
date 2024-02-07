@@ -229,7 +229,7 @@
 }
 
 .game-card {
-  height: 14vh;
+  min-height: 10vh;
   border: 1px solid black;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -238,4 +238,5 @@
 
 .add-game {
   background: rgba(0,0,0,0.2);
+  cursor: pointer;
 }

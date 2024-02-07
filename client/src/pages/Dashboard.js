@@ -33,7 +33,7 @@ const Dashboard = () => {
             {currentView === 'list' ? (
                 <DashboardGrid games={games} onAddGame={handleAddGameClick} />
             ) : (
-                <AddGame setCurrentView={setCurrentView} />
+                <AddGame onBack={() => setCurrentView('list')} />
             )}
         </div>
     );

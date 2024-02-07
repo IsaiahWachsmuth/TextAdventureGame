@@ -5,7 +5,7 @@ const TopNavDashboard = () => {
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <Link class="navbar-brand" to="/dashboard">Dashboard</Link>
+        <Link class="navbar-brand" to="/">Dashboard</Link>
         <div id="basic-navbar-nav">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
