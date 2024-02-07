@@ -71,6 +71,8 @@ app.post('/login', async (req, res) => {
     res.status(200).json({ isAuthenticated: true, user: { name, email } });
   }
 });
+
+
 // export async function createEducator(data) {
 
 //   try {
@@ -111,7 +113,23 @@ export async function deleteEducator(id) {
     console.error('Error deleting educator:', error);
   }
 }
+async function testingEducators() {
+  const educator = await Educator.findOne({ name: "a@b.c" });
+  if (educator) {
+    educator.comparePassword("!123456789Ab", (err, result) => {
+      if (err) {
+        console.error('Error comparing password:', err);
+      } else {
+        console.log('Password match result:', result);
+      }
+    });
+  } else {
+    console.log('Educator not found');
+  }
+}
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
+  testingEducators();
 });

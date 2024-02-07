@@ -42,6 +42,7 @@ educatorSchema.methods.comparePassword = function(password, cb) {
       if (!isMatch) {
         return cb(null, isMatch);
       }
+      console.log('Password match:', isMatch);
       return cb(null, this);
     }
   });
