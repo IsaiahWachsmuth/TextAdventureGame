@@ -1,10 +1,15 @@
 // EducatorController.mjs
 import Educator from './educator_model.mjs';
 import express from 'express';
+import session from 'express-session';
 import cors from 'cors';
 
 const PORT = 3002;
 const app = express();
+import JWT from 'jsonwebtoken';
+import passport from 'passport';
+import passportConfig from './passport.mjs';
+
 
 const userInput = {
   name: "testname",
@@ -14,6 +19,15 @@ const userInput = {
 
 app.use(express.json());
 app.use(cors());
+app.use(session({
+  secret: 'testing',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 
 // Create a new educator
@@ -36,6 +50,27 @@ app.post('/create-educator', async (req, res) => {
   }
 });
 
+const signToken = userId => {
+  return JWT.sign(
+    {
+      iss: "testing",
+      sub: userId
+    },
+    "testing",
+    { expiresIn: "1h" }
+  );
+}
+
+app.post('/login', async (req, res) => {
+  console.log("logging in");
+  if(req.isAuthenticated()){
+    console.log("is authenticated");
+    const { _id, name, email } = req.user;
+    const token = signToken(_id);
+    res.cookie('access_token', token, { httpOnly: true, sameSite: true });
+    res.status(200).json({ isAuthenticated: true, user: { name, email } });
+  }
+});
 // export async function createEducator(data) {
 
 //   try {
@@ -79,5 +114,4 @@ export async function deleteEducator(id) {
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
-  // createEducator(userInput);
 });
