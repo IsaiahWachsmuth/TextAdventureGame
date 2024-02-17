@@ -36,6 +36,14 @@ const Sidebar = () => {
             if (response.ok) {
                 const data = await response.json();
                 setResponseMessage(`Educator created: ${data.educator.name}`);
+                const usernameInput = document.getElementById("email");
+                const passwordInput = document.getElementById("password");
+                const pword2Input = document.getElementById("confirmPassword")
+                // Set values to blank
+                usernameInput.value = '';
+                passwordInput.value = '';
+                pword2Input.value = '';
+
             } else {
                 const errorMessage = await response.text();
                 setResponseMessage(`Failed to create educator: ${errorMessage}`);
