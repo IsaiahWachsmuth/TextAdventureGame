@@ -64,14 +64,22 @@ app.post('/login', async(req, res) => {
         if (err) {
           console.error('Error comparing password:', err);
         } else {
-          console.log('Password match result:', result);
+            if (result) {
+              return res.status(200).json({ success: true, educator: educator });
+            }
+
+            else
+            {
+              return res.status(401).json({ success: false, error: 'Invalid username or password' });
+            }
+    
         }
     });
     }
 
     else
     {
-      console.log("The username or password does not match!");
+      return res.status(404).json({ success: false, error: 'Username does not exist' });
     }
   }
   catch (error) {

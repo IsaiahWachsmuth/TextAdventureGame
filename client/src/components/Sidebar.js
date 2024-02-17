@@ -65,8 +65,15 @@ const Sidebar = () => {
             });
 
             if (response.ok) {
+                console.log("HERE")
                 const data = await response.json();
                 setResponseMessage(`Logged In: ${data.educator.name}`);
+                const usernameInput = document.getElementById("email");
+                const passwordInput = document.getElementById("password");
+                // Set values to blank
+                usernameInput.value = '';
+                passwordInput.value = '';
+
             } else {
                 const errorMessage = await response.text();
                 setResponseMessage(`Failed to login: ${errorMessage}`);
