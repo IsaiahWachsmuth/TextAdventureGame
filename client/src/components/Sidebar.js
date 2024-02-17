@@ -17,10 +17,6 @@ const Sidebar = () => {
 
     const [responseMessage, setResponseMessage] = useState('');
 
-    const educatorExists = async () => {  // just noticed that this function is not used, leaving it here for now
-
-    };
-
     const handleCreateEducator = async () => {
         try {
             const username = document.getElementById("email").value;
@@ -44,6 +40,37 @@ const Sidebar = () => {
                 const errorMessage = await response.text();
                 setResponseMessage(`Failed to create educator: ${errorMessage}`);
                 alert("This username is already in use!");
+            }
+        } 
+        
+        catch (error) {
+            setResponseMessage(`Error creating educator: ${error.message}`);
+        }
+    };
+
+    const attemptLogin = async () => {
+        try {
+            const username = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            const response = await fetch('http://localhost:3002/login', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                name: username,
+                password: password,
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setResponseMessage(`Logged In: ${data.educator.name}`);
+            } else {
+                const errorMessage = await response.text();
+                setResponseMessage(`Failed to login: ${errorMessage}`);
+                alert("The username or password does not match!");
             }
         } 
         
@@ -126,7 +153,7 @@ const Sidebar = () => {
                                 
                             {isLogin ? (
                                 <div className='login-register-submit'>
-                                    <button type="submit">Login</button>
+                                    <button type="submit" onClick={() => attemptLogin()}>Login</button>
                                 </div>
                                 
                                 ) : (

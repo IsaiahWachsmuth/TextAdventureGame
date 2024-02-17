@@ -50,6 +50,47 @@ app.post('/create-educator', async (req, res) => {
   }
 });
 
+
+app.post('/login', async(req, res) => {
+  
+  try {
+    const { name } = req.body;
+    const { password } = req.body;
+    const educator = await Educator.findOne({ name: name});
+
+
+    if (educator) {
+      educator.comparePassword(password, (err, result) => {
+        if (err) {
+          console.error('Error comparing password:', err);
+        } else {
+          console.log('Password match result:', result);
+        }
+    });
+    }
+
+    else
+    {
+      console.log("The username or password does not match!");
+    }
+  }
+  catch (error) {
+    console.error('Error Logging in:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
+app.post('/createSession', async (req, res) => {
+  console.log("creating session");
+  if(req.isAuthenticated()){
+    console.log("is authenticated");
+    const { _id, name, email } = req.user;
+    const token = signToken(_id);
+    res.cookie('access_token', token, { httpOnly: true, sameSite: true });
+    res.status(200).json({ isAuthenticated: true, user: { name, email } }); 
+  }
+});
+
 const signToken = userId => {
   return JWT.sign(
     {
@@ -60,17 +101,6 @@ const signToken = userId => {
     { expiresIn: "1h" }
   );
 }
-
-app.post('/login', async (req, res) => {
-  console.log("logging in");
-  if(req.isAuthenticated()){
-    console.log("is authenticated");
-    const { _id, name, email } = req.user;
-    const token = signToken(_id);
-    res.cookie('access_token', token, { httpOnly: true, sameSite: true });
-    res.status(200).json({ isAuthenticated: true, user: { name, email } });
-  }
-});
 
 
 // export async function createEducator(data) {
@@ -131,5 +161,5 @@ async function testingEducators() {
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
-  testingEducators();
+  // testingEducators();
 });
