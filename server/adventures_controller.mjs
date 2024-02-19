@@ -1,6 +1,7 @@
 import * as games from './adventures_model.mjs';
 import express from 'express';
 import cors from 'cors';
+// import { findGameByClassCode } from './adventures_model.mjs'
 
 const PORT = 3001;
 
@@ -9,9 +10,30 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const generateUniqueClassCode = async () => {
+    let classCode;
+    // do {
+    classCode = generateClassCode();
+    // } while (Game.findOne({ class_code }));
+    return classCode;
+}
+
+const generateClassCode = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let result = '';
+    for (let i = 0; i < 4; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+};
+
 // Create a new game
-app.post('/games', (req, res) => {
-    games.createGame(req.body.game_id, req.body.title, req.body.description, req.body.author, req.body.pages)
+app.post('/games', async (req, res) => {
+    
+
+    const classCode = await generateUniqueClassCode();
+
+    games.createGame(req.body.game_id, classCode, req.body.title, req.body.description, req.body.author, req.body.pages)
         .then(game => {
             res.status(201).json(game);
         })
@@ -46,6 +68,8 @@ app.get('/games/:game_id', (req, res) => {
             res.status(400).json({ Error: 'Request failed' });
         });
 });
+
+
 
 // Update a game
 app.put('/games/:game_id', (req, res) => {

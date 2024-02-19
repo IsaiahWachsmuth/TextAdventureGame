@@ -18,6 +18,7 @@ const pageSchema = mongoose.Schema({
 
 const gameSchema = mongoose.Schema({
     game_id: { type: String, required: true },
+    class_code: {type: String, required: true},
     title: { type: String, required: true },
     description: { type: String, required: true },
     author: { type: String, required: true },
@@ -39,8 +40,8 @@ const findAllGames = async () => {
 };
 
 // Method to create a new game
-const createGame = async (game_id, title, description, author, pages) => {
-    const newGame = new Game({ game_id, title, description, author, pages });
+const createGame = async (game_id, class_code, title, description, author, pages) => {
+    const newGame = new Game({ game_id, class_code, title, description, author, pages });
     await newGame.save();
     return newGame;
 };
@@ -50,9 +51,15 @@ const findGameById = async (game_id) => {
     return await Game.findOne({ game_id });
 };
 
+// const findGameByClassCode = async (class_code) => {
+//     return await Game.findOne({ class_code });
+// };
+
+
+
 // Method to update a game
-const updateGame = async (game_id, title, description, author, pages) => {
-    const updatedGame = await Game.findOneAndUpdate({ game_id }, { title, description, author, pages }, { new: true });
+const updateGame = async (game_id, class_code, title, description, author, pages) => {
+    const updatedGame = await Game.findOneAndUpdate({ game_id }, { class_code, title, description, author, pages }, { new: true });
     return updatedGame;
 };
 
