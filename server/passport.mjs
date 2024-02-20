@@ -11,13 +11,13 @@ const cookieExtractor = req => {
     return token;
 };
 
-// Authorization
+// Authorization with JWT
 passport.use(new JwtStrategy({
     jwtFromRequest: cookieExtractor,
     secretOrKey: "testing"
 }, async (payload, done) => {
     try {
-        const educator = await Educator.findById({ _id: payload.sub });
+        const educator = await Educator.findById(payload.sub); // Ensure correct ID reference
         if (educator) {
             done(null, educator);
         } else {
@@ -28,7 +28,7 @@ passport.use(new JwtStrategy({
     }
 }));
 
-// Authenticated local strategy
+// Authentication with Local Strategy
 passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     try {
         const educator = await Educator.findOne({ email: email });
@@ -37,12 +37,27 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, passwor
         }
         educator.comparePassword(password, (err, isMatch) => {
             if (err) return done(err);
-            if (isMatch) return done(null, educator);
-            else return done(null, false, { message: 'Incorrect password.' });
+            if (isMatch) {
+                return done(null, educator);
+            } else {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
         });
     } catch (err) {
         return done(err);
     }
 }));
+
+// Serialize user to the session
+passport.serializeUser((user, done) => {
+  done(null, user.id); // or user._id if you're using MongoDB
+});
+
+// Deserialize user from the session
+passport.deserializeUser((id, done) => {
+  Educator.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
 
 export default passport;
