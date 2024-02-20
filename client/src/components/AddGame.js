@@ -30,30 +30,29 @@ function AddGame({ onBack }) { // Removed useNavigate and adjusted for onBack pr
 
     return (
         <div className='d-flex add-game-form'>
-            <h2>Add New Game</h2>
-            <form onSubmit={handleSubmit}>
+            <h2>Add a New Game</h2>
+            <p>Fill in the details of the game you want to add.</p>
+            <form className='d-flex' onSubmit={handleSubmit}>
                 <label>
-                    Game ID:
-                    <input type="text" name="game_id" value={game.game_id} onChange={handleChange} />
+                    <input type="text" placeholder='Game ID' name="game_id" value={game.game_id} onChange={handleChange} />
                 </label>
                 
                 <label>
-                    Title:
-                    <input type="text" name="title" value={game.title} onChange={handleChange} />
+                    <input type="text" placeholder='Title' name="title" value={game.title} onChange={handleChange} />
+                </label>
+
+                <label>
+                    <input type="text" name="author"  placeholder='Author' value={game.author} onChange={handleChange} />
                 </label>
                 
                 <label>
-                    Description:
-                    <textarea name="description" value={game.description} onChange={handleChange}></textarea>
+                    <textarea name="description" placeholder='Description' value={game.description} onChange={handleChange}></textarea>
                 </label>
                 
-                <label>
-                    Author:
-                    <input type="text" name="author" value={game.author} onChange={handleChange} />
-                </label>
                 {/* Add fields for other properties like pages if necessary */}
                 
                 <button type="submit">Add Game</button>
+                <button type="button" onClick={onBack}>Cancel</button>
             </form>
         </div>
     );

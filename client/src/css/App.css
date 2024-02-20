@@ -253,6 +253,17 @@
 .add-game-form form {
   flex-direction: column;
   align-items: flex-start;
-  padding: 1rem;
-  border: 1px solid black;
+  /* padding: 1rem;
+  border: 1px solid black; */
+}
+
+.add-game-form form label {
+  padding: 0.5rem 0;
+  /* border: red 1px solid; */
+}
+
+.add-game-form form input, .add-game-form form textarea {
+ 
+  border: none;
+  border-bottom: #282c34 solid 1px;
 }
