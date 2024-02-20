@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard'; // dashboard component
 // import AddGame from './pages/AddGame'
 import LandingPage from './pages/LandingPage'; // main landing page
 // import { Link } from 'react-router-dom';
+// import EditGame from './pages/EditGame'; 
+import GameEditorPage from './pages/GameEditorPage';
 
 // ... other imports
 
@@ -19,6 +21,7 @@ function App() {
                 {/* Initialize with the LandingPage component */}
                   <LandingPage />
                   <Dashboard />
+                  <GameEditorPage />
               </div>
                 
                 

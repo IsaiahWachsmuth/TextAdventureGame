@@ -267,3 +267,99 @@
   border: none;
   border-bottom: #282c34 solid 1px;
 }
+
+/* game editor */
+
+.game-editor-page {
+  flex-direction: row;
+  border: blue 1px solid;
+  height: 100vh;
+}
+
+.game-editor-main-area {
+  width: 80%;
+ 
+}
+
+.editor-frame {
+  flex-direction: column;
+  align-items: center;
+}
+
+.editor-frame header {
+  border-bottom: black solid 1px;
+  width: 80%;
+  padding: 1rem 0.5rem;
+}
+
+.editor-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.editor-content {
+  width: 80%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.editor-content h1 {
+  padding: 1rem 0;
+}
+.add-room-button {
+  margin: 2rem 0;
+}
+
+.add-room-button button {
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: rgba(34, 38, 46, 1);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+
+}
+
+/* Note: add in ::before to place + img later */
+
+.add-room-button button:hover {
+  background: white;
+  color: rgba(34, 38, 46, 1);
+  border: black 1px solid;
+}
+
+
+
+.game-editor-sidebar {
+  width: 20%;
+  background: #f1f1f1;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  flex-direction: column;
+ 
+}
+
+.game-editor-sidebar header {
+  padding: 0 0 1rem 0;
+  align-self: flex-start;
+}
+
+.elements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+
+  }
+  
+  .elements-grid button {
+  padding: 10px;
+  background-color: #e7e7e7;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  }
+  
+  .elements-grid button:hover {
+  background-color: #d4d4d4;
+  }
