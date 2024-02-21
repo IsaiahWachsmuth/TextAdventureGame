@@ -55,45 +55,40 @@ const Sidebar = () => {
             setResponseMessage(`Error creating educator: ${error.message}`);
         }
     };
-
     const attemptLogin = async () => {
         try {
-            const username = document.getElementById("email").value;
+            const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            
             const response = await fetch('http://localhost:3002/login', {
                 method: 'POST',
                 headers: {
-                'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
+                credentials: 'include', // Necessary for cookies to be sent and received
                 body: JSON.stringify({
-                name: username,
-                password: password,
+                    email: email, // Adjusted to use 'email' instead of 'name'
+                    password: password,
                 }),
             });
-
+    
             if (response.ok) {
-                console.log("HERE")
+                console.log("Logged In!");
                 const data = await response.json();
-                setResponseMessage(`Logged In: ${data.educator.name}`);
-                const usernameInput = document.getElementById("email");
-                const passwordInput = document.getElementById("password");
-                // Set values to blank
-                usernameInput.value = '';
-                passwordInput.value = '';
-
+                setResponseMessage(`Logged In!`);
+                // Clear input fields
+                document.getElementById("email").value = '';
+                document.getElementById("password").value = '';
             } else {
                 const errorMessage = await response.text();
                 setResponseMessage(`Failed to login: ${errorMessage}`);
                 alert("The username or password does not match!");
             }
-        } 
-        
-        catch (error) {
-            setResponseMessage(`Error creating educator: ${error.message}`);
+        } catch (error) {
+            console.error(`Error during login: ${error.message}`);
+            setResponseMessage(`Error during login: ${error.message}`);
         }
     };
-
+    
     const validate = () => {
 
         var username = document.getElementById("email")
@@ -168,7 +163,7 @@ const Sidebar = () => {
                                 
                             {isLogin ? (
                                 <div className='login-register-submit'>
-                                    <button type="submit" onClick={() => attemptLogin()}>Login</button>
+                                    <button type="button" onClick={() => attemptLogin()}>Login</button>
                                 </div>
                                 
                                 ) : (

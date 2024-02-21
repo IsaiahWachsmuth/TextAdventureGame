@@ -50,14 +50,18 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, passwor
 
 // Serialize user to the session
 passport.serializeUser((user, done) => {
-  done(null, user.id); // or user._id if you're using MongoDB
+  done(null, user.id);
 });
 
 // Deserialize user from the session
-passport.deserializeUser((id, done) => {
-  Educator.findById(id, (err, user) => {
-    done(err, user);
+passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await Educator.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
   });
-});
+  
 
 export default passport;
