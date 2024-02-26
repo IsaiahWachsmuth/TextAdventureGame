@@ -5,13 +5,33 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import * as games from './adventures_model.mjs';
+import session from 'express-session';
+import passport from 'passport';
+import JWT from 'jsonwebtoken';
 // import { findGameByClassCode } from './adventures_model.mjs'
 
 const PORT = 3001;
 const app = express();
 
+// app.use(express.json());
+// app.use(cors());
+
+
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+}
+
+app.use(cors(corsOptions));
+app.use(session({
+  secret: 'testing',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false, httpOnly: true }
+}))
+app.use(passport.initialize());
+app.use(passport.session());
 
 const generateUniqueClassCode = async () => {
     let classCode;
@@ -19,7 +39,7 @@ const generateUniqueClassCode = async () => {
     classCode = generateClassCode();
     // } while (Game.findOne({ class_code }));
     return classCode;
-}
+};
 
 const generateClassCode = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -51,6 +71,7 @@ const upload = multer({ storage: storage });
 
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(uploadDir));
+
 
 // Create a new game
 app.post('/games', upload.single('image'), async (req, res) => {
@@ -93,6 +114,26 @@ app.get('/games/:game_id', (req, res) => {
             res.status(400).json({ Error: 'Request failed' });
         });
 });
+
+
+//Student Login
+app.get('/studentlogin', async (req, res) => {
+    
+    console.log("Student logging in");
+  
+    // try {
+    //     const student = await games.findOne({ code });
+    //     console.log('Game found.');
+    //     res.status(200).json({ message: 'Game found.' });
+    // } 
+    
+    // catch (error) {
+    //     console.error('No code found:', error);
+    //     res.status(400).json({ message: 'Game found.' });
+    // }
+    
+    
+    });
 
 
 

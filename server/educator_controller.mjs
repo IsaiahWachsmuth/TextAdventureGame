@@ -3,7 +3,6 @@ import Educator from './educator_model.mjs';
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
-
 const PORT = 3002;
 const app = express();
 import JWT from 'jsonwebtoken';
@@ -89,6 +88,7 @@ app.post('/createSession', async (req, res) => {
   }
 });
 
+
 const signToken = userId => {
   return JWT.sign(
     {
@@ -144,8 +144,6 @@ async function testingEducators() {
   }
 }
 
-
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
-  // testingEducators();
 });

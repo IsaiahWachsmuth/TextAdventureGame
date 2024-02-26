@@ -55,6 +55,8 @@ const Sidebar = () => {
             setResponseMessage(`Error creating educator: ${error.message}`);
         }
     };
+    
+    
     const attemptLogin = async () => {
         try {
             const email = document.getElementById("email").value;
@@ -89,6 +91,47 @@ const Sidebar = () => {
         }
     };
     
+    const studentLogin = async () => {
+        
+        try {
+    
+            const code = document.getElementById("code").value;
+            const response = await fetch('http://localhost:3001/studentlogin', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    code: code,
+                }),
+            });
+            
+            alert("HESRE");
+            if (response.ok) {
+                console.log("Game Found!");
+                const data = await response.json();
+                setResponseMessage(`Game Found!`);
+                // Clear input fields
+                document.getElementById("email").value = '';
+                document.getElementById("password").value = '';
+            } 
+            
+            else {
+                const errorMessage = await response.text();
+                setResponseMessage(`Failed to find game: ${errorMessage}`);
+                alert("Game not Found!");
+            }
+        } 
+        catch (error) {
+            console.error(`Error during login: ${error.message}`);
+            setResponseMessage(`Error during login: ${error.message}`);
+        }
+    };
+
+
+
+
+
     const validate = () => {
 
         var username = document.getElementById("email")
@@ -194,7 +237,7 @@ const Sidebar = () => {
                             </div>
 
                             <div className='login-register-submit'>
-                                    <button type="submit">Login</button>
+                                    <button type="submit" onClick={() => studentLogin()} >Login</button>
                             </div>
                         </form>
                     </div>
