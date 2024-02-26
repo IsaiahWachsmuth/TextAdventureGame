@@ -18,19 +18,16 @@ const userInput = {
 }
 
 app.use(express.json());
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true,
-}
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(session({
   secret: 'testing',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, httpOnly: true }
+  cookie: { secure: true }
 }))
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 
 // Create a new educator
@@ -53,28 +50,41 @@ app.post('/create-educator', async (req, res) => {
   }
 });
 
-app.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) return next(err);
-    if (!user) {
-      return res.status(400).json({ message: info.message });
-    }
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      // Login successful, user will be redirected or responded with success message
-      // The session cookie is automatically set by express-session
-      return res.json({ message: 'Logged in successfully' });
-    });
-  })(req, res, next);
-});
 
-app.get('/protected', (req, res) => {
-  if (req.isAuthenticated()) {
-    // User is authenticated
-    res.json({ status: 'success', message: 'You are authenticated' });
-  } else {
-    // User is not authenticated
-    res.status(401).json({ status: 'error', message: 'You are not authenticated' });
+app.post('/login', async(req, res) => {
+  
+  try {
+    const { name } = req.body;
+    const { password } = req.body;
+    const educator = await Educator.findOne({ name: name});
+
+
+    if (educator) {
+      educator.comparePassword(password, (err, result) => {
+        if (err) {
+          console.error('Error comparing password:', err);
+        } else {
+            if (result) {
+              return res.status(200).json({ success: true, educator: educator });
+            }
+
+            else
+            {
+              return res.status(401).json({ success: false, error: 'Invalid username or password' });
+            }
+    
+        }
+    });
+    }
+
+    else
+    {
+      return res.status(404).json({ success: false, error: 'Username does not exist' });
+    }
+  }
+  catch (error) {
+    console.error('Error Logging in:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 });
 
@@ -99,6 +109,18 @@ const signToken = userId => {
     { expiresIn: "1h" }
   );
 }
+
+
+// export async function createEducator(data) {
+
+//   try {
+//     const educator = new Educator(data);
+//     await educator.save();
+//     return educator;
+//   } catch (error) {
+//     console.error('Error creating educator:', error);
+//   }
+// }
 
 // Get educator by ID
 export async function getEducatorById(id) {
