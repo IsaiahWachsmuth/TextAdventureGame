@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import fs from 'fs';
 import * as games from './adventures_model.mjs';
 
@@ -11,6 +12,11 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
+// Define __dirname in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Set up multer for file storage
 const uploadDir = path.join(__dirname, '/uploads');
 fs.existsSync(uploadDir) || fs.mkdirSync(uploadDir);
 
@@ -24,6 +30,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(uploadDir));
 
 app.use('/uploads', express.static(uploadDir));
 
