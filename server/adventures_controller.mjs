@@ -52,8 +52,6 @@ const upload = multer({ storage: storage });
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(uploadDir));
 
-app.use('/uploads', express.static(uploadDir));
-
 // Create a new game
 app.post('/games', upload.single('image'), (req, res) => {
     const { game_id, title, description, author, pages } = req.body;
