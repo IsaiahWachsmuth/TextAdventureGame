@@ -53,11 +53,13 @@ const upload = multer({ storage: storage });
 app.use('/uploads', express.static(uploadDir));
 
 // Create a new game
-app.post('/games', upload.single('image'), (req, res) => {
+app.post('/games', upload.single('image'), async (req, res) => {
+    const classCode = await generateUniqueClassCode(); // Correctly generating the class code
     const { game_id, title, description, author, pages } = req.body;
     const image = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
-
-    games.createGame(game_id, title, description, author, pages, image)
+    
+    // Make sure to include classCode as a parameter to createGame
+    games.createGame(game_id, classCode, title, description, author, pages, image)
         .then(game => res.status(201).json(game))
         .catch(error => {
             console.error(error);

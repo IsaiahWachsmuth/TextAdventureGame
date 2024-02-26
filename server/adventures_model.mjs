@@ -19,7 +19,7 @@ const pageSchema = mongoose.Schema({
 
 const gameSchema = mongoose.Schema({
     game_id: { type: String, required: true },
-    // class_code: {type: String, required: true},
+    class_code: {type: String, required: true},
     title: { type: String, required: true },
     description: { type: String, required: true },
     author: { type: String, required: true },
@@ -40,8 +40,8 @@ const findAllGames = async () => {
 };
 
 // Method to create a new game
-const createGame = async (game_id, title, description, author, pages, image) => {
-    const newGame = new Game({ game_id, title, description, author, pages, image });
+const createGame = async (game_id, classCode, title, description, author, pages, image) => {
+    const newGame = new Game({ game_id, class_code: classCode, title, description, author, pages, image }); // Notice class_code: classCode
     await newGame.save();
     return newGame;
 };
