@@ -1,11 +1,10 @@
 import React from 'react';
 
-const DashboardGrid = ({ games, onAddGame }) => {
+const DashboardGrid = ({ games, onAddGame, onGameSelect }) => {
   return (
     <section className='game-dash'>
       {games.map((game) => (
-        <div className='game-card' key={game.game_id}>
-          {/* Are we going to have images? If so we'll need to add them here. */}
+        <div className='game-card' key={game.game_id} onClick={() => onGameSelect(game)}>
           <h5>{game.title}</h5>
           <p>{game.description}</p>
         </div>
