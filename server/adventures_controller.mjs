@@ -5,12 +5,30 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import * as games from './adventures_model.mjs';
+// import { findGameByClassCode } from './adventures_model.mjs'
 
-const app = express();
 const PORT = 3001;
+const app = express();
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
+
+const generateUniqueClassCode = async () => {
+    let classCode;
+    // do {
+    classCode = generateClassCode();
+    // } while (Game.findOne({ class_code }));
+    return classCode;
+}
+
+const generateClassCode = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let result = '';
+    for (let i = 0; i < 4; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+};
 
 // Define __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
@@ -36,6 +54,7 @@ app.use('/uploads', express.static(uploadDir));
 
 app.use('/uploads', express.static(uploadDir));
 
+// Create a new game
 app.post('/games', upload.single('image'), (req, res) => {
     const { game_id, title, description, author, pages } = req.body;
     const image = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
@@ -48,6 +67,36 @@ app.post('/games', upload.single('image'), (req, res) => {
         });
 });
 
+// Return array of all games
+app.get('/games', (req, res) => {
+    games.findAllGames()
+        .then(games => {
+            res.json(games);
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ Error: 'Failed to fetch games' });
+        });
+});
+
+// Get a game by ID
+app.get('/games/:game_id', (req, res) => {
+    games.findGameById(req.params.game_id)
+        .then(game => {
+            if (game) {
+                res.json(game);
+            } else {
+                res.status(404).json({ Error: 'Game not found' });
+            }
+        })
+        .catch(error => {
+            res.status(400).json({ Error: 'Request failed' });
+        });
+});
+
+
+
+// Update a game
 app.put('/games/:game_id', upload.single('image'), (req, res) => {
     const { title, description, author, pages } = req.body;
     const image = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : undefined; // undefined indicates no new image uploaded
@@ -66,30 +115,7 @@ app.put('/games/:game_id', upload.single('image'), (req, res) => {
         });
 });
 
-app.get('/games', (req, res) => {
-    games.findAllGames()
-        .then(games => res.json(games))
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ Error: 'Failed to fetch games' });
-        });
-});
-
-app.get('/games/:game_id', (req, res) => {
-    games.findGameById(req.params.game_id)
-        .then(game => {
-            if (game) {
-                res.json(game);
-            } else {
-                res.status(404).json({ Error: 'Game not found' });
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(400).json({ Error: 'Request failed' });
-        });
-});
-
+// Delete a game
 app.delete('/games/:game_id', (req, res) => {
     games.deleteGame(req.params.game_id)
         .then(deletedCount => {
