@@ -86,7 +86,7 @@ app.post('/games', upload.single('image'), async (req, res) => {
     }
 
     // Assuming your createGame function can accept a Base64 string for the image
-    games.createGame(game_id, classCode, title, description, author, pages, imageBase64)
+    games.createGame(classCode, title, description, author, pages, imageBase64)
         .then(game => {
             // Optionally delete the file after conversion if you're still using multer for file handling
             if (req.file) fs.unlinkSync(req.file.path);

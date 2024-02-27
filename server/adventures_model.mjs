@@ -41,8 +41,9 @@ const findAllGames = async () => {
 };
 
 // Method to create a new game
-const createGame = async (game_id, classCode, title, description, author, pages, image) => {
+const createGame = async (classCode, title, description, author, pages, image) => {
     try {
+        const game_id = new mongoose.Types.ObjectId();
         const newGame = new Game({ game_id, class_code: classCode, title, description, author, pages, image }); // Notice class_code: classCode
         await newGame.save();
         return newGame;
