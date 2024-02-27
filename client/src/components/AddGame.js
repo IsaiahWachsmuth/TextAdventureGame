@@ -1,9 +1,19 @@
 // client/src/components/AddGame.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function AddGame({ onBack }) {
     const [game, setGame] = useState({ title: '', description: '', author: '', pages: [] }); // Initialize pages as an array
     const [image, setImage] = useState(null); // State for the image
+    const [imagePreview, setImagePreview] = useState(null); // State for the image preview
+
+    // useEffect hook can handle image preview
+    useEffect(() => {
+        if (image) {
+            const previewUrl = URL.createObjectURL(image);
+            setImagePreview(previewUrl);
+            return () => URL.revokeObjectURL(previewUrl);
+        }
+    }, [image]);
 
     const handleChange = (event) => {
         if (event.target.name === 'image') {
@@ -13,11 +23,10 @@ function AddGame({ onBack }) {
         }
     };
 
-    // AddGame component
     const handlePageChange = (index, event) => {
         const { name, value, type } = event.target;
         const pages = [...game.pages];
-        
+
         if (type === 'file') {
             const reader = new FileReader();
             const file = event.target.files[0];
@@ -25,6 +34,7 @@ function AddGame({ onBack }) {
             reader.onloadend = () => {
                 const imageData = reader.result;
                 pages[index][name] = imageData; // Store image data as Base64
+                pages[index]['imagePreview'] = URL.createObjectURL(file); // Create a preview URL
                 setGame({ ...game, pages });
             };
 
@@ -35,7 +45,8 @@ function AddGame({ onBack }) {
             pages[index][name] = value;
             setGame({ ...game, pages });
         }
-};
+    };
+
 
 
     const addPage = () => {
@@ -97,6 +108,9 @@ function AddGame({ onBack }) {
                 <label>
                     Upload Image:
                     <input type="file" name="image" onChange={handleChange} />
+                        {imagePreview && (
+                            <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', height: 'auto' }} />
+                        )}
                 </label>
                 {/* Add fields for other properties like pages if necessary */}
                 <div>
@@ -122,6 +136,9 @@ function AddGame({ onBack }) {
                             <label>
                                 Upload Image:
                                 <input type="file" name="image" onChange={(e) => handlePageChange(index, e)} />
+                                    {page.imagePreview && (
+                                        <img src={page.imagePreview} alt="Page Preview" style={{ maxWidth: '100%', height: 'auto' }} />
+                                    )}
                             </label>
                             <button type="button" onClick={() => removePage(index)}>Remove Page</button>
                         </div>
