@@ -1,6 +1,15 @@
 import React from 'react';
 
 const DashboardGrid = ({ games, onAddGame, onGameSelect }) => {
+  // Function to generate the correct src attribute for an image
+  const getImageSrc = (image) => {
+    // Check if the image string is likely base64 encoded
+    if (image && !image.startsWith('http')) {
+      return `data:image/jpeg;base64,${image}`;
+    }
+    return image;
+  };
+
   return (
     <section className='game-dash'>
       {games.map((game) => (
@@ -8,7 +17,11 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect }) => {
           <h5>{game.title}</h5>
           <p>{game.description}</p>
           {game.image && (
-            <img src={game.image} alt={`Cover for ${game.title}`} style={{ maxWidth: '100%', height: '240px' }} />
+            <img
+              src={getImageSrc(game.image)}
+              alt={`Bad file type req JPEG`}
+              style={{ maxWidth: '100%', height: '240px' }}
+            />
           )}
         </div>
       ))}
