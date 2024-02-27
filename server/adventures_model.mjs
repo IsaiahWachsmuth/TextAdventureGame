@@ -13,6 +13,7 @@ db.once("open", () => {
 const pageSchema = mongoose.Schema({
     page_id: { type: String, required: true },
     content: { type: String, required: true },
+    question: { type: String, required: true },
     choices: { type: [String], required: true }, // Array of strings or another schema if choices are complex
     image: { type: String, required: false }  // Optional image URL for pages
 });
@@ -23,7 +24,7 @@ const gameSchema = mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     author: { type: String, required: true },
-    // pages: { type: Map, of: pageSchema, required: true },
+    pages: { type: [pageSchema], required: true },
     image: { type: String, required: false }  // Optional image URL for games
 });
 
@@ -41,10 +42,16 @@ const findAllGames = async () => {
 
 // Method to create a new game
 const createGame = async (game_id, classCode, title, description, author, pages, image) => {
-    const newGame = new Game({ game_id, class_code: classCode, title, description, author, pages, image }); // Notice class_code: classCode
-    await newGame.save();
-    return newGame;
+    try {
+        const newGame = new Game({ game_id, class_code: classCode, title, description, author, pages, image }); // Notice class_code: classCode
+        await newGame.save();
+        return newGame;
+    } catch (error) {
+        console.error("Failed to create game:", error);
+        throw error;
+    }
 };
+
 
 // Method to find a game by ID
 const findGameById = async (game_id) => {
@@ -57,13 +64,14 @@ const findGameById = async (game_id) => {
 
 // Method to update a game
 const updateGame = async (game_id, title, description, author, pages, image) => {
-    const updateGame = { title, description, author, pages };
+    const updateData = { title, description, author, pages }; // Change variable name to updateData
     if (image !== undefined) {
-        updateGame.image = image;
+        updateData.image = image;
     }
     const updatedGame = await Game.findOneAndUpdate({ game_id }, updateData, { new: true });
     return updatedGame;
 };
+
 
 // Method to delete a game
 const deleteGame = async (game_id) => {

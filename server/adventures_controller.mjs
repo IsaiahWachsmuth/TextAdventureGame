@@ -184,6 +184,38 @@ app.delete('/games/:game_id', (req, res) => {
         });
 });
 
+// Assuming the 'games' object is imported from your model file
+// and it contains the 'Game' model.
+
+// Endpoint to add a page to a game
+app.post('/games/:game_id/pages', async (req, res) => {
+    const { page_id, content, question, choices, image } = req.body;
+    const game_id = req.params.game_id;
+
+    try {
+        // Find the game by ID
+        const game = await games.Game.findOne({ game_id });
+
+        if (!game) {
+            return res.status(404).json({ message: 'Game not found' });
+        }
+
+        // Construct the new page object based on your page schema
+        const newPage = new games.Page({ page_id, content, question, choices, image });
+
+        // Push the new page to the game's pages array
+        game.pages.push(newPage);
+
+        // Save the updated game document
+        await game.save();
+
+        res.status(201).json({ message: 'Page added successfully', game });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding page to game' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
 });
