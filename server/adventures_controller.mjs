@@ -75,18 +75,30 @@ app.use('/uploads', express.static(uploadDir));
 
 // Create a new game
 app.post('/games', upload.single('image'), async (req, res) => {
-    const classCode = await generateUniqueClassCode(); // Correctly generating the class code
+    const classCode = await generateUniqueClassCode();
     const { game_id, title, description, author, pages } = req.body;
-    const image = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
-    
-    // Make sure to include classCode as a parameter to createGame
-    games.createGame(game_id, classCode, title, description, author, pages, image)
-        .then(game => res.status(201).json(game))
+
+    let imageBase64 = null;
+    if (req.file) {
+        // Convert the image to a Base64 string
+        const imgBuffer = fs.readFileSync(req.file.path);
+        imageBase64 = imgBuffer.toString('base64');
+    }
+
+    // Assuming your createGame function can accept a Base64 string for the image
+    games.createGame(game_id, classCode, title, description, author, pages, imageBase64)
+        .then(game => {
+            // Optionally delete the file after conversion if you're still using multer for file handling
+            if (req.file) fs.unlinkSync(req.file.path);
+
+            res.status(201).json(game);
+        })
         .catch(error => {
             console.error(error);
             res.status(500).json({ message: 'Error creating new game' });
         });
 });
+
 
 // Return array of all games
 app.get('/games', (req, res) => {
