@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function AddGame({ onBack }) {
-    const [game, setGame] = useState({ title: '', description: '', author: '', pages: {} });
+    const [game, setGame] = useState({ title: '', description: '', author: '', pages: [] }); // Initialize pages as an array
     const [image, setImage] = useState(null); // State for the image
 
     const handleChange = (event) => {
@@ -12,21 +12,41 @@ function AddGame({ onBack }) {
         }
     };
 
+    const handlePageChange = (index, event) => {
+        const { name, value } = event.target;
+        const pages = [...game.pages];
+        pages[index][name] = value;
+        setGame({ ...game, pages });
+    };
+
+    const addPage = () => {
+        setGame({ ...game, pages: [...game.pages, { page_id: '', content: '', question: '', choices: '', image: '' }] });
+    };
+
+    const removePage = (index) => {
+        const pages = [...game.pages];
+        pages.splice(index, 1);
+        setGame({ ...game, pages });
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         const formData = new FormData(); // Use FormData to handle file upload
         formData.append('title', game.title);
         formData.append('description', game.description);
         formData.append('author', game.author);
+        game.pages.forEach((page, index) => {
+            Object.entries(page).forEach(([key, value]) => {
+                formData.append(`pages[${index}][${key}]`, value);
+            });
+        });
         // Append other game fields as needed
         if (image) formData.append('image', image); // Append the image file if present
-
+    
         try {
             const response = await fetch('http://localhost:3001/games', {
                 method: 'POST',
-                // Do not set Content-Type header when using FormData
-                // headers: { 'Content-Type': 'multipart/form-data' }, // This is not needed, browser will set it
                 body: formData, // Send formData instead of JSON
             });
             if (response.ok) {
@@ -39,6 +59,7 @@ function AddGame({ onBack }) {
             console.error('Error:', error);
         }
     };
+    
 
     return (
         <div className='d-flex add-game-form'>
@@ -59,6 +80,35 @@ function AddGame({ onBack }) {
                     <input type="file" name="image" onChange={handleChange} />
                 </label>
                 {/* Add fields for other properties like pages if necessary */}
+                <div>
+                    <h3>Pages</h3>
+                    {game.pages.map((page, index) => (
+                        <div key={index}>
+                            <label>
+                                Page ID:
+                                <input type="text" name="page_id" value={page.page_id} onChange={(e) => handlePageChange(index, e)} />
+                            </label>
+                            <label>
+                                Content:
+                                <textarea name="content" value={page.content} onChange={(e) => handlePageChange(index, e)}></textarea>
+                            </label>
+                            <label>
+                                Question:
+                                <input type="text" name="question" value={page.question} onChange={(e) => handlePageChange(index, e)} />
+                            </label>
+                            <label>
+                                Choices:
+                                <input type="text" name="choices" value={page.choices} onChange={(e) => handlePageChange(index, e)} />
+                            </label>
+                            <label>
+                                Upload Image:
+                                <input type="file" name="image" onChange={(e) => handlePageChange(index, e)} />
+                            </label>
+                            <button type="button" onClick={() => removePage(index)}>Remove Page</button>
+                        </div>
+                    ))}
+                    <button type="button" onClick={addPage}>Add Page</button>
+                </div>
                 <button type="submit">Add Game</button>
                 <button type="button" onClick={onBack}>Cancel</button>
             </form>
