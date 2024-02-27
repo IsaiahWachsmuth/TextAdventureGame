@@ -21,7 +21,7 @@ function App() {
                 {/* Initialize with the LandingPage component */}
                   <LandingPage />
                   <Dashboard />
-                  <GameEditorPage />
+                {/* <GameEditorPage /> */}
               </div>
                 
                 
