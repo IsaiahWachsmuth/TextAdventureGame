@@ -92,21 +92,21 @@ const Sidebar = () => {
     };
     
     const studentLogin = async () => {
-        
         try {
     
             const code = document.getElementById("code").value;
-            const response = await fetch('http://localhost:3001/studentlogin', {
-                method: 'GET',
+            const url = 'http://localhost:3001/studentlogin';
+            
+            alert(code);
+            const response = await fetch(url, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    code: code,
-                }),
+                    code: code,}),
             });
             
-            alert("HESRE");
             if (response.ok) {
                 console.log("Game Found!");
                 const data = await response.json();
@@ -237,7 +237,7 @@ const Sidebar = () => {
                             </div>
 
                             <div className='login-register-submit'>
-                                    <button type="submit" onClick={() => studentLogin()} >Login</button>
+                                    <button type="button" onClick={() => studentLogin()} >Login</button>
                             </div>
                         </form>
                     </div>

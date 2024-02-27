@@ -8,7 +8,7 @@ import * as games from './adventures_model.mjs';
 import session from 'express-session';
 import passport from 'passport';
 import JWT from 'jsonwebtoken';
-// import { findGameByClassCode } from './adventures_model.mjs'
+import { findGameByClassCode } from './adventures_model.mjs'
 
 const PORT = 3001;
 const app = express();
@@ -129,23 +129,33 @@ app.get('/games/:game_id', (req, res) => {
 
 
 //Student Login
-app.get('/studentlogin', async (req, res) => {
+app.post('/studentlogin', async (req, res) => {
     
+    const {code} = req.body;
+
+
     console.log("Student logging in");
-  
-    // try {
-    //     const student = await games.findOne({ code });
-    //     console.log('Game found.');
-    //     res.status(200).json({ message: 'Game found.' });
-    // } 
+    console.log({code})
+
+//     const existingGame = await games.findOne({ code: code });
     
-    // catch (error) {
-    //     console.error('No code found:', error);
-    //     res.status(400).json({ message: 'Game found.' });
-    // }
+//     // console.log(existingGame);
     
+//     if (existingGame) {
+//         console.log("Existing Game!");
+//         return res.status(201).json({ success: true, existingGame});
+//     }
+
+//     else
+//     {
+//         console.log("Failure");
+//         res.status(401).json({ success: false});
+//     }
+});
     
-    });
+
+
+    
 
 
 

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+const { Schema } = mongoose;
 mongoose.connect(
     "mongodb+srv://adam:zydLJNZ86Ppkbz4B@textadventurecluster.fpuqlbf.mongodb.net/TextAdventures?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
@@ -19,7 +19,7 @@ const pageSchema = mongoose.Schema({
 });
 
 const gameSchema = mongoose.Schema({
-    // game_id: { type: String, required: true },
+    game_id: { type: String, required: true },
     class_code: {type: String, required: true},
     title: { type: String, required: true },
     description: { type: String, required: true },
@@ -58,9 +58,9 @@ const findGameById = async (game_id) => {
     return await Game.findOne({ game_id });
 };
 
-// const findGameByClassCode = async (class_code) => {
-//     return await Game.findOne({ class_code });
-// };
+const findGameByClassCode = async (class_code) => {
+    return await Game.findOne({ class_code });
+};
 
 // Method to update a game
 const updateGame = async (game_id, title, description, author, pages, image) => {
@@ -80,4 +80,4 @@ const deleteGame = async (game_id) => {
 };
 
 // Export the functions for use in the controller
-export { Game, findAllGames, createGame, findGameById, updateGame, deleteGame };
+export { Game, findAllGames, createGame, findGameById, findGameByClassCode, updateGame, deleteGame };
