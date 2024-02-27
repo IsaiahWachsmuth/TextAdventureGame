@@ -18,12 +18,12 @@ const pageSchema = mongoose.Schema({
 });
 
 const gameSchema = mongoose.Schema({
-    game_id: { type: String, required: true },
+    // game_id: { type: String, required: true },
     class_code: {type: String, required: true},
     title: { type: String, required: true },
     description: { type: String, required: true },
     author: { type: String, required: true },
-    pages: { type: Map, of: pageSchema, required: true },
+    // pages: { type: Map, of: pageSchema, required: true },
     image: { type: String, required: false }  // Optional image URL for games
 });
 
