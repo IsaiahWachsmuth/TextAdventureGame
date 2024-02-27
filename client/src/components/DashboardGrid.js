@@ -1,3 +1,4 @@
+// c;ient/src/components/DashboardGrid.js
 import React from 'react';
 
 const DashboardGrid = ({ games, onAddGame, onGameSelect }) => {

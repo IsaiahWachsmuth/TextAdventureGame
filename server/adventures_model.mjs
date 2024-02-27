@@ -1,3 +1,4 @@
+// server/adventures_model.mjs
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 mongoose.connect(

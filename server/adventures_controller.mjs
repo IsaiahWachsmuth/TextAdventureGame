@@ -1,3 +1,4 @@
+// server/adventures_controller.mjs
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';

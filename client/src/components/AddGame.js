@@ -1,3 +1,4 @@
+// client/src/components/AddGame.js
 import React, { useState } from 'react';
 
 function AddGame({ onBack }) {
