@@ -31,7 +31,7 @@ function GameDetails({ game, onBack }) {
                 {/* Render image if available */}
                 {game.pages[currentPageIndex].image && (
                     <p>
-                        <img src={`data:image/jpeg;base64,${game.pages[currentPageIndex].image}`} alt={`Bad file type req JPEG`} style={{ maxWidth: '100%', height: '240px' }} />
+                        <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" style={{ maxWidth: '100%', height: '240px' }} />
                     </p>
                 )}
             </div>

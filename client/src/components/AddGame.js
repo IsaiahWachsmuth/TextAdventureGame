@@ -12,12 +12,30 @@ function AddGame({ onBack }) {
         }
     };
 
+    // AddGame component
     const handlePageChange = (index, event) => {
-        const { name, value } = event.target;
+        const { name, value, type } = event.target;
         const pages = [...game.pages];
-        pages[index][name] = value;
-        setGame({ ...game, pages });
-    };
+        
+        if (type === 'file') {
+            const reader = new FileReader();
+            const file = event.target.files[0];
+
+            reader.onloadend = () => {
+                const imageData = reader.result;
+                pages[index][name] = imageData; // Store image data as Base64
+                setGame({ ...game, pages });
+            };
+
+            if (file) {
+                reader.readAsDataURL(file); // Read the file as Data URL
+            }
+        } else {
+            pages[index][name] = value;
+            setGame({ ...game, pages });
+        }
+};
+
 
     const addPage = () => {
         setGame({ ...game, pages: [...game.pages, { page_id: '', content: '', question: '', choices: '', image: '' }] });
