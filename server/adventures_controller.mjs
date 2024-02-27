@@ -184,13 +184,10 @@ app.delete('/games/:game_id', (req, res) => {
         });
 });
 
-// Assuming the 'games' object is imported from your model file
-// and it contains the 'Game' model.
 
 // Endpoint to add a page to a game
 app.post('/games/:game_id/pages', async (req, res) => {
     const { page_id, content, question, choices, image } = req.body;
-    const game_id = req.params.game_id;
 
     try {
         // Find the game by ID
@@ -200,8 +197,12 @@ app.post('/games/:game_id/pages', async (req, res) => {
             return res.status(404).json({ message: 'Game not found' });
         }
 
+        // Decode the Base64-encoded image data
+        const imageBuffer = Buffer.from(image, 'base64');
+        const imageBase64 = imageBuffer.toString('base64');
+
         // Construct the new page object based on your page schema
-        const newPage = new games.Page({ page_id, content, question, choices, image });
+        const newPage = new games.Page({ page_id, content, question, choices, image: imageBase64 });
 
         // Push the new page to the game's pages array
         game.pages.push(newPage);
