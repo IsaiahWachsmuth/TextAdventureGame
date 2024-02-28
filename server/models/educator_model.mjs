@@ -3,15 +3,6 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 const { Schema } = mongoose;
 
-// mongoose.connect(
-//     "mongodb+srv://adam:zydLJNZ86Ppkbz4B@textadventurecluster.fpuqlbf.mongodb.net/Users?retryWrites=true&w=majority",
-//     { useNewUrlParser: true, useUnifiedTopology: true }
-// );
-
-// const db = mongoose.connection;
-// db.once("open", () => {
-//     console.log("Successfully connected to MongoDB using Mongoose!");
-// });
 const educatorSchema = new Schema({
   _id: { type: Schema.Types.ObjectId, required: true, auto: true },
   name: { type: String, min: 1, max: 100},
