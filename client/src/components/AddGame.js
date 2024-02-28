@@ -92,9 +92,9 @@ function AddGame({ onBack }) {
     
 
     return (
-        <section className='d-flex'>
+        <section className='d-flex add-game-wrap'>
             {/* Split this into wo sections */}
-            <section className='d-flex add-game-form'>
+            <section className='d-flex add-game-form' id='add-game-sec'>
                 <h2>Game Info</h2>
                 <p>Fill in the details of the game you want to add, including an image.</p>
                 <form className='d-flex' onSubmit={handleSubmit}>
@@ -114,6 +114,8 @@ function AddGame({ onBack }) {
                                 <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', height: 'auto' }} />
                             )}
                     </label>
+                    {/* Temp */}
+                    <button type="button" onClick={addPage}>Add Page</button>
                 </form>
             </section>
 
@@ -149,14 +151,14 @@ function AddGame({ onBack }) {
                     </form>
                     ))}
             </section>
-            <aside>
+            <footer>
                 <form className='d-flex' onSubmit={handleSubmit}>
                     <button type="submit">Add Game</button>
                     <button type="button" onClick={onBack}>Cancel</button>
                     {/* Temp */}
                     <button type="button" onClick={addPage}>Add Page</button>
                 </form>
-            </aside>
+            </footer>
             
         </section>
     );
