@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy } from 'passport-jwt';
-import Educator from './educator_model.mjs';
+import Educator from './models/educator_model.mjs';
 
 const cookieExtractor = req => {
     let token = null;

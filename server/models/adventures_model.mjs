@@ -1,15 +1,15 @@
 // server/adventures_model.mjs
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-mongoose.connect(
-    "mongodb+srv://adam:zydLJNZ86Ppkbz4B@textadventurecluster.fpuqlbf.mongodb.net/TextAdventures?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-);
+// mongoose.connect(
+//     "mongodb+srv://adam:zydLJNZ86Ppkbz4B@textadventurecluster.fpuqlbf.mongodb.net/TextAdventures?retryWrites=true&w=majority",
+//     { useNewUrlParser: true, useUnifiedTopology: true }
+// );
 
-const db = mongoose.connection;
-db.once("open", () => {
-    console.log("Successfully connected to MongoDB using Mongoose!");
-});
+// const db = mongoose.connection;
+// db.once("open", () => {
+//     console.log("Successfully connected to MongoDB using Mongoose!");
+// });
 
 const pageSchema = mongoose.Schema({
     page_id: { type: String, required: true },

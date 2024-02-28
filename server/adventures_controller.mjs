@@ -5,18 +5,14 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-import * as games from './adventures_model.mjs';
+import * as games from './models/adventures_model.mjs';
 import session from 'express-session';
 import passport from 'passport';
 import JWT from 'jsonwebtoken';
-import { findGameByClassCode } from './adventures_model.mjs'
+import { findGameByClassCode } from './models/adventures_model.mjs'
 
 const PORT = 3001;
 const app = express();
-
-// app.use(express.json());
-// app.use(cors());
-
 
 app.use(express.json());
 const corsOptions = {

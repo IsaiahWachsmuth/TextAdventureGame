@@ -21,7 +21,7 @@ const Sidebar = () => {
         try {
             const username = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            const response = await fetch('http://localhost:3002/create-educator', {
+            const response = await fetch('http://localhost:3001/educator/create-educator', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -61,14 +61,14 @@ const Sidebar = () => {
         try {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            const response = await fetch('http://localhost:3002/login', {
+            const response = await fetch('http://localhost:3001/educator/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include', // Necessary for cookies to be sent and received
                 body: JSON.stringify({
-                    email: email, // Adjusted to use 'email' instead of 'name'
+                    email: email,
                     password: password,
                 }),
             });

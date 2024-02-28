@@ -1,5 +1,5 @@
-// EducatorController.mjs
-import Educator from './educator_model.mjs';
+// educator_controller.mjs
+import Educator from '../models/educator_model.mjs';
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
@@ -7,7 +7,7 @@ const PORT = 3002;
 const app = express();
 import JWT from 'jsonwebtoken';
 import passport from 'passport';
-import passportConfig from './passport.mjs';
+import passportConfig from '../passport.mjs';
 
 
 const userInput = {
@@ -78,9 +78,7 @@ app.get('/protected', (req, res) => {
 });
 
 app.post('/createSession', async (req, res) => {
-  console.log("creating session");
   if(req.isAuthenticated()){
-    console.log("is authenticated");
     const { _id, name, email } = req.user;
     const token = signToken(_id);
     res.cookie('access_token', token, { httpOnly: true, sameSite: true });

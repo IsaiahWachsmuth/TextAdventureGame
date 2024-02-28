@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "So far this server is connecting to our mongodb database and pulling our sample text adventure. This serves as the initial steps to creating a backend with CRUD functionality.",
-  "main": "adventures_controller.mjs",
+  "main": "server.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon adventures_controller.mjs"
+    "start": "nodemon server.mjs"
   },
   "keywords": [],
   "author": "",
