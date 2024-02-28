@@ -17,6 +17,29 @@ function GameDetails({ game, onBack }) {
         }
     };
 
+    const deleteGame = async (gameId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this game?");
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3001/games/${gameId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert("Game deleted successfully.");
+                onBack(); // Navigate back or refresh the list
+            } else {
+                alert("Failed to delete the game.");
+            }
+        } catch (error) {
+            console.error("There was an error deleting the game:", error);
+            alert("An error occurred while deleting the game.");
+        }
+    };
+
     return (
         <div>
             <h2>Game Details</h2>
@@ -51,6 +74,7 @@ function GameDetails({ game, onBack }) {
             ) : (
                 <p>No pages available for this game.</p>
             )}
+            <button onClick={() => deleteGame(game.game_id)}>Delete Game</button>
             <button onClick={onBack}>Back to List</button>
         </div>
     );

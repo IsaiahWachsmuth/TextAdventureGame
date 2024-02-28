@@ -207,7 +207,7 @@
 /* Teacher Dashboard */
 
 #temp-ed-dash {
-  border: red 1px solid;
+  /*border: red 1px solid;*/
   height: 100vh;
 }
 
@@ -245,6 +245,8 @@
 .add-game-wrap {
   flex-direction: row;
   flex-wrap: wrap;
+  /*height: calc(100vh - 6.48vh);  6.48vh is the calc height of the nav header */
+  height: max-content;
 }
 
 .add-game-form {
@@ -279,10 +281,31 @@
   /* border: red 1px solid; */
 }
 
+
 .add-game-form form input, .add-game-form form textarea {
- 
   border: none;
   border-bottom: #282c34 solid 1px;
+  width: 500px;
+}
+
+.add-game-form form textarea {
+  height: 300px;
+  border: #282c34 solid 1px;
+  border-radius: 0.5rem;
+}
+.add-game-form form label img {
+  width: 300px;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+.add-game-foot {
+  width: 100%;
+  padding: 1rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-top: #282c34 1px solid;
+
 }
 
 /* game editor */

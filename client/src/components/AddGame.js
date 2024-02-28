@@ -96,7 +96,7 @@ function AddGame({ onBack }) {
             {/* Split this into wo sections */}
             <section className='d-flex add-game-form' id='add-game-sec'>
                 <h2>Game Info</h2>
-                <p>Fill in the details of the game you want to add, including an image.</p>
+                <p>Fill in the details of the game you want to create, including an image.</p>
                 <form className='d-flex' onSubmit={handleSubmit}>
                     <label>
                         <input type="text" placeholder='Title' name="title" value={game.title} onChange={handleChange} />
@@ -108,42 +108,42 @@ function AddGame({ onBack }) {
                         <textarea placeholder='Description' name="description" value={game.description} onChange={handleChange}></textarea>
                     </label>
                     <label>
-                        Upload Image:
-                        <input type="file" name="image" onChange={handleChange} />
+                        <input type="file" placeholder="Add Image" name="image" onChange={handleChange} />
                             {imagePreview && (
                                 <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', height: 'auto' }} />
                             )}
                     </label>
                     {/* Temp */}
+                    <p>You can click on "Create Game" below or you can add your first page!</p>
                     <button type="button" onClick={addPage}>Add Page</button>
                 </form>
             </section>
 
-            <section className='d-flex add-game-form'>
+            <section className='d-flex add-game-form' id='add-page-sec'>
                 <h2>Pages</h2>
+                <p>Add pages to your game to create an adventure.</p>
+                
                 {game.pages.map((page, index) => (
+                    
                     <form key={index} className='d-flex' onSubmit={handleSubmit}>
+                        
                         <label>
-                            Page ID:
-                            <input type="text" name="page_id" value={page.page_id} onChange={(e) => handlePageChange(index, e)} />
+                            <input type="text" placeholder="Page ID" name="page_id" value={page.page_id} onChange={(e) => handlePageChange(index, e)} />
                         </label>
                         <label>
-                            Content:
-                            <textarea name="content" value={page.content} onChange={(e) => handlePageChange(index, e)}></textarea>
+                            <textarea name="content" placeholder="Content" value={page.content} onChange={(e) => handlePageChange(index, e)}></textarea>
                         </label>
                         <label>
-                            Question:
-                            <input type="text" name="question" value={page.question} onChange={(e) => handlePageChange(index, e)} />
+                            <input type="text" placeholder="Question" name="question" value={page.question} onChange={(e) => handlePageChange(index, e)} />
                         </label>
                         <label>
-                            Choices:
-                            <input type="text" name="choices" value={page.choices} onChange={(e) => handlePageChange(index, e)} />
+                            <input type="text" placeholder="Choices" name="choices" value={page.choices} onChange={(e) => handlePageChange(index, e)} />
                         </label>
                         <label>
-                            Upload Image:
-                            <input type="file" name="image" onChange={(e) => handlePageChange(index, e)} />
+                
+                            <input type="file" placeholder="Add Image" name="image" onChange={(e) => handlePageChange(index, e)} />
                                 {page.imagePreview && (
-                                    <img src={page.imagePreview} alt="Page Preview" style={{ maxWidth: '100%', height: 'auto' }} />
+                                    <img src={page.imagePreview} alt="Img Preview" />
                                 )}
                         </label>
                         <button type="button" onClick={() => removePage(index)}>Remove Page</button>
@@ -151,12 +151,13 @@ function AddGame({ onBack }) {
                     </form>
                     ))}
             </section>
-            <footer>
+            <footer className='add-game-foot'>
                 <form className='d-flex' onSubmit={handleSubmit}>
-                    <button type="submit">Add Game</button>
+                    <button type="submit">Create Game</button>
                     <button type="button" onClick={onBack}>Cancel</button>
-                    {/* Temp */}
+                    {/* Temp 
                     <button type="button" onClick={addPage}>Add Page</button>
+                    */}
                 </form>
             </footer>
             
