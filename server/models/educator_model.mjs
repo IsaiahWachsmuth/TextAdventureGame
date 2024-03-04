@@ -1,4 +1,4 @@
-// EducatorModel.mjs
+// server/models/educator_model.mjs
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 const { Schema } = mongoose;

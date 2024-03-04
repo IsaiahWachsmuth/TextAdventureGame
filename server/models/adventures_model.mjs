@@ -1,4 +1,4 @@
-// server/adventures_model.mjs
+// server/models/adventures_model.mjs
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 // mongoose.connect(
@@ -64,6 +64,7 @@ const findGameByClassCode = async (class_code) => {
     return await Game.findOne({ class_code });
 };
 
+/*
 // Method to update a game
 const updateGame = async (game_id, title, description, author, pages, image) => {
     const updateData = { title, description, author, pages }; // Change variable name to updateData
@@ -72,6 +73,26 @@ const updateGame = async (game_id, title, description, author, pages, image) => 
     }
     const updatedGame = await Game.findOneAndUpdate({ game_id }, updateData, { new: true });
     return updatedGame;
+};
+*/
+
+// Method to update a game
+const updateGame = async (game_id, updateData) => {
+    try {
+        if ('image' in updateData && !updateData.image) {
+            delete updateData.image;
+        }
+
+        if ('pages' in updateData) {
+            updateData.pages = JSON.parse(updateData.pages);
+        }
+
+        const updatedGame = await Game.findOneAndUpdate({ _id: game_id }, updateData, { new: true });
+        return updatedGame;
+    } catch (error) {
+        console.error("Failed to update game:", error);
+        throw error;
+    }
 };
 
 

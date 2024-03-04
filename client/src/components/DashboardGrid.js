@@ -1,7 +1,6 @@
 // client/src/components/DashboardGrid.js
 import React from 'react';
 
-// Add onEditGame to the list of props received by DashboardGrid
 const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
   const getImageSrc = (image) => {
     if (image && !image.startsWith('http')) {
@@ -10,10 +9,16 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
     return image;
   };
 
+  // Prevents click event from bubbling up to the parent when buttons are clicked
+  const handleClick = (e, game) => {
+    e.stopPropagation(); // Prevents the event from propagating up to the game card click
+    onEditGame(game);
+  };
+
   return (
     <section className='game-dash'>
       {games.map((game) => (
-        <div className='game-card' key={game.game_id}>
+        <div className='game-card' key={game.game_id} onClick={() => onGameSelect(game)}>
           <h5>{game.title}</h5>
           <p>{game.description}</p>
           {game.image && (
@@ -23,8 +28,10 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
               style={{ maxWidth: '100%', height: '240px' }}
             />
           )}
-          <button onClick={() => onEditGame(game)}>Edit</button>
-          <button onClick={() => {}}>Play Game</button> {/* Needs to be hooked */}
+          <div onClick={(e) => e.stopPropagation()}> {/* Stops the click event from reaching the game card */}
+            <button onClick={(e) => handleClick(e, game)}>Edit</button>
+            <button onClick={(e) => e.stopPropagation()}>Play Game</button>
+          </div>
         </div>
       ))}
       <div className='game-card add-game' onClick={onAddGame}>

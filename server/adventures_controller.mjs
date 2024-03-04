@@ -1,4 +1,8 @@
 // server/adventures_controller.mjs
+
+// THIS FILE IS DEPRECATED AND WILL BE REMOVED IN A FUTURE UPDATE
+
+/*
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
@@ -175,6 +179,7 @@ app.put('/games/:game_id', upload.single('image'), (req, res) => {
         });
 });
 
+
 // Delete a game
 app.delete('/games/:game_id', (req, res) => {
     games.deleteGame(req.params.game_id)
@@ -227,3 +232,4 @@ app.post('/games/:game_id/pages', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
 });
+*/

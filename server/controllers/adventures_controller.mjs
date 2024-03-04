@@ -1,4 +1,4 @@
-// controllers/adventures_controller.mjs
+// server/controllers/adventures_controller.mjs
 import fs from 'fs';
 import * as games from '../models/adventures_model.mjs';
 
@@ -52,6 +52,7 @@ export const findGameById = async (req, res) => {
     }
 };
 
+/* SAVE
 // Update a game
 export const updateGame = async (req, res) => {
     try {
@@ -68,6 +69,28 @@ export const updateGame = async (req, res) => {
         res.status(500).json({ Error: 'Request failed' });
     }
 };
+*/
+// Update a game
+export const updateGame = async (req, res) => {
+    try {
+        const { game_id } = req.params;
+        let updateData = {
+            title: req.body.title,
+            description: req.body.description,
+            author: req.body.author,
+        };
+
+        if (req.file) {
+        }
+
+        const updatedGame = await games.updateGame(game_id, updateData);
+        res.json(updatedGame);
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating game', error });
+    }
+};
+
+
 
 // Delete a game
 export const deleteGame = async (req, res) => {
