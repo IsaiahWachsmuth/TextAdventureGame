@@ -1,3 +1,4 @@
+// server/server.js
 const {MongoClient} = require('mongodb');
 const fs = require('fs');
 

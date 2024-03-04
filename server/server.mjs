@@ -1,3 +1,4 @@
+// server/server.mjs
 // app.mjs
 import express from 'express';
 import mongoose from 'mongoose';
