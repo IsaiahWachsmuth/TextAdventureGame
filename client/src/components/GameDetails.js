@@ -58,7 +58,13 @@ function GameDetails({ game, onBack }) {
                         <p><strong>Page ID:</strong> {game.pages[currentPageIndex].page_id}</p>
                         <p><strong>Content:</strong> {game.pages[currentPageIndex].content}</p>
                         <p><strong>Question:</strong> {game.pages[currentPageIndex].question}</p>
-                        <p><strong>Choices:</strong> {game.pages[currentPageIndex].choices.join(', ')}</p>
+                        <p><strong>Choices:</strong>
+                            <div>
+                                {game.pages[currentPageIndex].choices.map((choice, index) => (
+                                    <div key={index}>{index + 1}. {choice}</div>
+                                ))}
+                            </div>
+                        </p>
                         {/* Render image if available */}
                         {game.pages[currentPageIndex].image && (
                             <p>

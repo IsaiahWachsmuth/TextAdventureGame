@@ -1,12 +1,10 @@
-// client/src/components/AddGame.js
 import React, { useState, useEffect } from 'react';
 
 function AddGame({ onBack }) {
-    const [game, setGame] = useState({ title: '', description: '', author: '', pages: [] }); // Initialize pages as an array
-    const [image, setImage] = useState(null); // State for the image
-    const [imagePreview, setImagePreview] = useState(null); // State for the image preview
+    const [game, setGame] = useState({ title: '', description: '', author: '', pages: [] });
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
-    // useEffect hook can handle image preview
     useEffect(() => {
         if (image) {
             const previewUrl = URL.createObjectURL(image);
@@ -17,9 +15,9 @@ function AddGame({ onBack }) {
 
     const handleChange = (event) => {
         if (event.target.name === 'image') {
-            setImage(event.target.files[0]); // Handle image file
+            setImage(event.target.files[0]);
         } else {
-            setGame({ ...game, [event.target.name]: event.target.value }); // Handle other inputs
+            setGame({ ...game, [event.target.name]: event.target.value });
         }
     };
 
@@ -33,24 +31,41 @@ function AddGame({ onBack }) {
 
             reader.onloadend = () => {
                 const imageData = reader.result;
-                pages[index][name] = imageData; // Store image data as Base64
-                pages[index]['imagePreview'] = URL.createObjectURL(file); // Create a preview URL
+                pages[index][name] = imageData;
+                pages[index]['imagePreview'] = URL.createObjectURL(file);
                 setGame({ ...game, pages });
             };
 
             if (file) {
-                reader.readAsDataURL(file); // Read the file as Data URL
+                reader.readAsDataURL(file);
             }
+        } else if (name.startsWith('choices')) {
+            // Assuming a naming convention of 'choices-<pageIndex>-<choiceIndex>'
+            let choiceIndex = parseInt(name.split('-')[2], 10);
+            pages[index].choices[choiceIndex] = value;
         } else {
             pages[index][name] = value;
-            setGame({ ...game, pages });
         }
+        setGame({ ...game, pages });
     };
 
-
-
     const addPage = () => {
-        setGame({ ...game, pages: [...game.pages, { page_id: '', content: '', question: '', choices: '', image: '' }] });
+        setGame({
+            ...game,
+            pages: [...game.pages, { page_id: '', content: '', question: '', choices: [''], image: '' }]
+        });
+    };
+
+    const addChoice = (pageIndex) => {
+        const newPages = [...game.pages];
+        newPages[pageIndex].choices.push('');
+        setGame({ ...game, pages: newPages });
+    };
+
+    const removeChoice = (pageIndex, choiceIndex) => {
+        const newPages = [...game.pages];
+        newPages[pageIndex].choices.splice(choiceIndex, 1);
+        setGame({ ...game, pages: newPages });
     };
 
     const removePage = (index) => {
@@ -61,18 +76,23 @@ function AddGame({ onBack }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
-        const formData = new FormData(); // Use FormData to handle file upload
+
+        const formData = new FormData();
         formData.append('title', game.title);
         formData.append('description', game.description);
         formData.append('author', game.author);
         game.pages.forEach((page, index) => {
             Object.entries(page).forEach(([key, value]) => {
-                formData.append(`pages[${index}][${key}]`, value);
+                if (key !== 'choices') {
+                    formData.append(`pages[${index}][${key}]`, value);
+                } else {
+                    page.choices.forEach((choice, choiceIndex) => {
+                        formData.append(`pages[${index}][choices][${choiceIndex}]`, choice);
+                    });
+                }
             });
         });
-        // Append other game fields as needed
-        if (image) formData.append('image', image); // Append the image file if present
+        if (image) formData.append('image', image);
     
         try {
             const response = await fetch('http://localhost:3001/games', {
@@ -124,7 +144,6 @@ function AddGame({ onBack }) {
                 <p>Add pages to your game to create an adventure.</p>
                 
                 {game.pages.map((page, index) => (
-                    
                     <form key={index} className='d-flex' onSubmit={handleSubmit}>
                         
                         <label>
@@ -136,8 +155,21 @@ function AddGame({ onBack }) {
                         <label>
                             <input type="text" placeholder="Question" name="question" value={page.question} onChange={(e) => handlePageChange(index, e)} />
                         </label>
-                        <label>
-                            <input type="text" placeholder="Choices" name="choices" value={page.choices} onChange={(e) => handlePageChange(index, e)} />
+                        <label className='d-flex add-game-form'>
+                            {page.choices.map((choice, choiceIndex) => (
+                                <input
+                                    key={`choice-${index}-${choiceIndex}`}
+                                    type="text"
+                                    placeholder={`Choice ${choiceIndex + 1}`}
+                                    name={`choices-${index}-${choiceIndex}`}
+                                    value={choice}
+                                    onChange={(e) => handlePageChange(index, e)}
+                                />
+                            ))}
+                            <button type="button" onClick={() => addChoice(index)}>Add Choice</button>
+                            {page.choices.length > 1 && (
+                                <button type="button" onClick={() => removeChoice(index, page.choices.length - 1)}>Remove Choice</button>
+                            )}
                         </label>
                         <label>
                 
