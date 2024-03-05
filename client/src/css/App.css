@@ -403,3 +403,9 @@
   .elements-grid button:hover {
   background-color: #d4d4d4;
   }
+
+  /* Game Display */
+
+  #temp-game-display {
+    height: 100vh;
+  }
