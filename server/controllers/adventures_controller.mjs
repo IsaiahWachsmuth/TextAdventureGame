@@ -72,23 +72,43 @@ export const updateGame = async (req, res) => {
 */
 // Update a game
 export const updateGame = async (req, res) => {
-    try {
-        const { game_id } = req.params;
-        let updateData = {
-            title: req.body.title,
-            description: req.body.description,
-            author: req.body.author,
-        };
+    const game_id = req.params.game_id;
+    console.log("Attempting to update game with game_id:", game_id); // log
 
-        if (req.file) {
+    let updateData = { ...req.body };
+
+    if (updateData.pages && typeof updateData.pages === 'string') {
+        try {
+            updateData.pages = JSON.parse(updateData.pages);
+        } catch (error) {
+            console.error("Error parsing pages:", error);
+            return res.status(400).json({ message: "Invalid format for pages" });
+        }
+    }
+
+    try {
+        const updatedGame = await games.Game.findOneAndUpdate(
+            { game_id: game_id }, // Use the custom field for matching
+            updateData,
+            { new: true }
+        );
+
+        if (!updatedGame) {
+            console.log(`Game with game_id ${game_id} not found.`);
+            return res.status(404).json({ message: "Game not found" });
         }
 
-        const updatedGame = await games.updateGame(game_id, updateData);
+        console.log(`Game with game_id ${game_id} successfully updated.`);
         res.json(updatedGame);
     } catch (error) {
-        res.status(500).json({ message: 'Error updating game', error });
+        console.error("Failed to update game:", error);
+        res.status(500).json({ message: "Error updating game" });
     }
 };
+
+
+
+
 
 
 

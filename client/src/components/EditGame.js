@@ -1,3 +1,4 @@
+// client/src/components/EditGame.js
 import React, { useState } from 'react';
 
 function EditGame({ game, onBack }) {
@@ -6,10 +7,9 @@ function EditGame({ game, onBack }) {
         description: game.description || '',
         author: game.author || '',
         pages: game.pages || [],
-        image: game.image || null,
     });
 
-    // This will handle the preview for both existing images and new uploads
+    const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(game.image ? `data:image/jpeg;base64,${game.image}` : null);
 
     const handleChange = (event) => {
@@ -21,7 +21,7 @@ function EditGame({ game, onBack }) {
         const file = event.target.files[0];
         if (file) {
             setImagePreview(URL.createObjectURL(file));
-            setGameDetails({ ...gameDetails, image: file });
+            setImage(file);
         }
     };
 
@@ -50,21 +50,24 @@ function EditGame({ game, onBack }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
+        
+        // Append simple fields directly
         formData.append('title', gameDetails.title);
         formData.append('description', gameDetails.description);
         formData.append('author', gameDetails.author);
-        // Handling image upload if a new image was selected
-        if (gameDetails.image instanceof File) {
-            formData.append('image', gameDetails.image);
-        } else {
-            // If no new image was selected, but there's an existing one, send its info
-            if(gameDetails.image) formData.append('existingImage', gameDetails.image);
-        }
-        // Stringify each page object to handle complex structures
+        
+        // Append each page as a JSON string
         gameDetails.pages.forEach((page, index) => {
-            formData.append(`pages[${index}]`, JSON.stringify(page));
+            formData.append(`pages[${index}]`, JSON.stringify(page)); // Modified to append each page as a string
         });
-
+    
+        // Handling image upload if a new image was selected
+        if (image instanceof File) {
+            formData.append('image', image);
+        } else {
+            if(gameDetails.image) formData.append('keepExistingImage', 'true');
+        }
+    
         try {
             const response = await fetch(`http://localhost:3001/games/${game.game_id}`, {
                 method: 'PUT',
@@ -72,7 +75,6 @@ function EditGame({ game, onBack }) {
                 credentials: 'include',
             });
             if (response.ok) {
-                // Handle success scenario, maybe refresh the list or go back
                 onBack();
             } else {
                 throw new Error('Failed to update the game');
@@ -81,6 +83,7 @@ function EditGame({ game, onBack }) {
             console.error('Error updating the game:', error);
         }
     };
+    
 
     return (
         <div>
@@ -103,6 +106,7 @@ function EditGame({ game, onBack }) {
                     <input type="file" name="image" onChange={handleImageChange} />
                     {imagePreview && <img src={imagePreview} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px' }} />}
                 </label>
+                {/* Reincorporated functionality for displaying and editing pages */}
                 {gameDetails.pages.map((page, index) => (
                     <div key={index}>
                         <h4>Page {index + 1}</h4>
