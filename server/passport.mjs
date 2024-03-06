@@ -15,7 +15,7 @@ const cookieExtractor = req => {
 passport.use(new JwtStrategy({
     jwtFromRequest: cookieExtractor,
     secretOrKey: "testing"
-}, async (payload, done) => {
+    }, async (payload, done) => {
     try {
         const educator = await Educator.findById(payload.sub); // Ensure correct ID reference
         if (educator) {
@@ -50,18 +50,20 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, passwor
 
 // Serialize user to the session
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+    console.log("SERIALIZING USER")
+    done(null, user.id);
 });
 
 // Deserialize user from the session
 passport.deserializeUser(async (id, done) => {
     try {
       const user = await Educator.findById(id);
+      console.log(user)
       done(null, user);
     } catch (err) {
       done(err);
     }
-  });
+});
   
 
 export default passport;

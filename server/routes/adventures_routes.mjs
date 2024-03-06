@@ -1,4 +1,4 @@
-// routes/adventuresRoutes.mjs
+// routes/adventures_routes.mjs
 import express from 'express';
 import { upload } from '../middleware/uploadMiddleware.mjs';
 import { 
@@ -9,6 +9,7 @@ import {
   deleteGame, 
   addPageToGame 
 } from '../controllers/adventures_controller.mjs';
+import passport from 'passport';
 
 const router = express.Router();
 

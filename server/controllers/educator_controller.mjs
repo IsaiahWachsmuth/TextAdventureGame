@@ -1,4 +1,4 @@
-// src/api/controllers/educatorController.mjs
+// controllers/educator_controller.mjs
 import Educator from '../models/educator_model.mjs';
 import passport from 'passport';
 import JWT from 'jsonwebtoken';
@@ -24,7 +24,6 @@ export const createEducator = async (req, res) => {
 
 // Handle educator login
 export const loginEducator = (req, res, next) => {
-    console.log("LOGIN EDUCATOR");
     passport.authenticate('local', (err, user, info) => {
         if (err) return next(err);
         if (!user) {
@@ -53,6 +52,23 @@ export const createSession = async (req, res) => {
         const token = signToken(_id);
         res.cookie('access_token', token, { httpOnly: true, sameSite: true });
         res.status(200).json({ isAuthenticated: true, user: { name, email } });
+    }
+};
+
+// Method to add a game to an educator's list of adventures
+export const addGameToEducator = async (educatorId, gameId) => {
+    try {
+        // Add the game to the educator's list of adventures
+        const updatedEducator = await Educator.findByIdAndUpdate(
+            educatorId,
+            { $addToSet: { adventures: gameId } }, // Use $addToSet to avoid duplicates
+            { new: true } // Return the updated document
+        );
+
+        return updatedEducator;
+    } catch (error) {
+        console.error('Error adding game to educator:', error);
+        throw error; // Rethrow the error to be handled by the caller
     }
 };
 

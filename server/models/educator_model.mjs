@@ -2,6 +2,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 const { Schema } = mongoose;
+import { Game } from './adventures_model.mjs';
 
 const educatorSchema = new Schema({
   _id: { type: Schema.Types.ObjectId, required: true, auto: true },
@@ -9,7 +10,7 @@ const educatorSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   students: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
-  adventures: [{ type: Schema.Types.ObjectId, ref: 'Adventure' }]
+  adventures: [{ type: Schema.Types.ObjectId, ref: 'Game' }]
 });
 
 educatorSchema.pre('save', function(next) {

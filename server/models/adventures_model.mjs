@@ -1,15 +1,6 @@
-// server/models/adventures_model.mjs
+// models/adventures_model.mjs
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-// mongoose.connect(
-//     "mongodb+srv://adam:zydLJNZ86Ppkbz4B@textadventurecluster.fpuqlbf.mongodb.net/TextAdventures?retryWrites=true&w=majority",
-//     { useNewUrlParser: true, useUnifiedTopology: true }
-// );
-
-// const db = mongoose.connection;
-// db.once("open", () => {
-//     console.log("Successfully connected to MongoDB using Mongoose!");
-// });
 
 const pageSchema = mongoose.Schema({
     page_id: { type: String, required: true },
@@ -40,6 +31,16 @@ const findAllGames = async () => {
         throw error;
     }
 };
+
+const findGamesByUser = async (user_id) => {
+    try {
+        const games = await Game.find({ author: user_id });
+        return games;
+    } catch (error) {
+        console.error("Failed to find games:", error);
+        throw error;
+    }
+}
 
 // Method to create a new game
 const createGame = async (classCode, title, description, author, pages, image) => {

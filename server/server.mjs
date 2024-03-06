@@ -1,5 +1,4 @@
-// server/server.mjs
-// app.mjs
+// server.mjs
 import express from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
@@ -7,6 +6,7 @@ import cors from 'cors';
 import passport from 'passport';
 import educatorRoutes from './routes/educator_routes.mjs';
 import adventuresRoutes from './routes/adventures_routes.mjs';
+import cookieParser from 'cookie-parser';
 import './passport.mjs';
 
 const PORT = 3001;
@@ -24,12 +24,13 @@ const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
 };
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(session({
   secret: 'testing',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, httpOnly: true },
+  cookie: { secure: false, httpOnly: false },
 }));
 app.use(passport.initialize());
 app.use(passport.session());

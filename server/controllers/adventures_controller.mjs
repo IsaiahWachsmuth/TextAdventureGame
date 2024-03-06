@@ -1,7 +1,7 @@
 // server/controllers/adventures_controller.mjs
 import fs from 'fs';
 import * as games from '../models/adventures_model.mjs';
-
+import { addGameToEducator } from './educator_controller.mjs';
 
 // Create a new game
 export const createGame = async (req, res) => {
@@ -19,7 +19,15 @@ export const createGame = async (req, res) => {
         }
 
         const game = await games.createGame(classCode, title, description, author, pages, imageBase64 );
+        
+
+        // Add the game to the educator's list of adventures
+        console.log(req.user)
+        await addGameToEducator(req.user._id, game.game_id);
+        // res.status(201).json({ message: 'Game created and added to educator', game: newGame });
         res.status(201).json(game);
+        
+        
     } catch (error) {
         console.error('Error creating new game:', error);
         res.status(500).json({ message: 'Error creating new game' });

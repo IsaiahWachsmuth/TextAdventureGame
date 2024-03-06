@@ -206,7 +206,7 @@ const Sidebar = () => {
                                 
                             {isLogin ? (
                                 <div className='login-register-submit'>
-                                    <button type="button" onClick={() => attemptLogin()}>Login</button>
+                                    <button type="submit" onClick={() => attemptLogin()}>Login</button>
                                 </div>
                                 
                                 ) : (

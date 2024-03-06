@@ -98,6 +98,7 @@ function AddGame({ onBack }) {
             const response = await fetch('http://localhost:3001/games', {
                 method: 'POST',
                 body: formData, // Send formData instead of JSON
+                credentials: 'include',
             });
             if (response.ok) {
                 // Call onBack to switch back to the game listing view instead of navigating
