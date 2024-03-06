@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Sidebar = () => {
     const [isLogin, setIsLogin] = useState(true);
 
+    // const history = useHistory();
 
     const toggleForm = () => {
         setIsLogin(!isLogin);

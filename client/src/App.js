@@ -16,21 +16,28 @@ import PlayGamePage from './pages/PlayGame';
 // ... other imports
 
 function App() {
-    return (
-        <Router>
-            <div>
-              <div className="App">
-                {/* Initialize with the LandingPage component */}
-                  <LandingPage />
-                  <Dashboard />
-                {/* <GameEditorPage /> */}
-              </div>
-                
-                
-            </div>
-        </Router>
-    );
+  return (
+    <Router>
+        <div className="App">
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/play/:classCode" element={<PlayGamePage />} />
+                {/* Add more routes as necessary */}
+            </Routes>
+        </div>
+    </Router>
+);
 }
+
+function Home() {
+return (
+    <div>
+        <LandingPage />
+        <Dashboard />
+    </div>
+);
+}
+
 /*
 temp save
 
