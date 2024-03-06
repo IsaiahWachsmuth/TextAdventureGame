@@ -7,7 +7,8 @@ import {
   findGameById, 
   updateGame, 
   deleteGame, 
-  addPageToGame 
+  addPageToGame,
+  checkClassCode, 
 } from '../controllers/adventures_controller.mjs';
 import passport from 'passport';
 
@@ -20,5 +21,6 @@ router.get('/:game_id', findGameById);
 router.put('/:game_id', upload.single('image'), updateGame);
 router.delete('/:game_id', deleteGame);
 router.post('/:game_id/pages', addPageToGame);
+router.post('/checkClassCode', checkClassCode);
 
 export default router;

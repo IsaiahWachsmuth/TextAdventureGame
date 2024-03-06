@@ -1,6 +1,7 @@
 // server/controllers/adventures_controller.mjs
 import fs from 'fs';
 import * as games from '../models/adventures_model.mjs';
+import Game from '../models/adventures_model.mjs';
 import { addGameToEducator } from './educator_controller.mjs';
 
 // Create a new game
@@ -33,6 +34,37 @@ export const createGame = async (req, res) => {
         res.status(500).json({ message: 'Error creating new game' });
     }
 };
+
+export const checkClassCode = async (req, res) => {
+        try {
+
+            const { code } = req.body; // Assuming class code is sent in the request body
+
+        // Find the game with the provided class code
+        let game;
+
+        try {
+            game = await Game.findOne({ class_code: code });
+        }
+        catch(error) {
+            console.error('Error executing findOne:', error);
+        }
+        
+        if (game) {
+            // Matching class code found
+            console.log("FOUND")
+            res.status(200).json({ message: 'Matching class code found', game });
+        } else {
+            // No matching class code found
+            console.log("NOT FOUND")
+            res.status(404).json({ message: 'No matching class code found' });
+        }
+    } catch (error) {
+        console.error('Error checking class code:', error);
+        res.status(500).json({ message: 'Error checking class code' });
+    }
+};
+
 
 // List all games
 export const findAllGames = async (req, res) => {

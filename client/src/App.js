@@ -10,6 +10,8 @@ import LandingPage from './pages/LandingPage'; // main landing page
 // import { Link } from 'react-router-dom';
 // import EditGame from './pages/EditGame'; 
 import GameEditorPage from './pages/GameEditorPage';
+import PlayGamePage from './pages/PlayGame';
+
 
 // ... other imports
 

@@ -105,3 +105,4 @@ const deleteGame = async (game_id) => {
 
 // Export the functions for use in the controller
 export { Game, findAllGames, createGame, findGameById, findGameByClassCode, updateGame, deleteGame };
+export default mongoose.model('Game', gameSchema);

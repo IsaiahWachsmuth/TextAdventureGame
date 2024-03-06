@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -95,9 +96,8 @@ const Sidebar = () => {
         try {
     
             const code = document.getElementById("code").value;
-            const url = 'http://localhost:3001/studentlogin';
+            const url = 'http://localhost:3001/games/checkClassCode';
             
-            alert(code);
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -106,14 +106,14 @@ const Sidebar = () => {
                 body: JSON.stringify({
                     code: code,}),
             });
-            
+        
+
             if (response.ok) {
-                console.log("Game Found!");
                 const data = await response.json();
                 setResponseMessage(`Game Found!`);
                 // Clear input fields
-                document.getElementById("email").value = '';
-                document.getElementById("password").value = '';
+                document.getElementById("name").value = '';
+                document.getElementById("code").value = '';
             } 
             
             else {
@@ -237,7 +237,7 @@ const Sidebar = () => {
                             </div>
 
                             <div className='login-register-submit'>
-                                    <button type="button" onClick={() => studentLogin()} >Login</button>
+                                <button type="button" onClick={() => studentLogin()} >Login</button>
                             </div>
                         </form>
                     </div>
