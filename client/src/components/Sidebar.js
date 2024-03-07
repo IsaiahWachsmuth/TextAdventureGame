@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { Link , UseParams} from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 const Sidebar = () => {
+    // const history = useHistory();
     const [isLogin, setIsLogin] = useState(true);
 
-    // const history = useHistory();
 
     const toggleForm = () => {
         setIsLogin(!isLogin);
     };
-
+    
     // this is to control the user type toggle
     const [activeView, setActiveView] = useState('educator');
     const userTypeToggle = (view) => {
@@ -96,7 +96,6 @@ const Sidebar = () => {
     
     const studentLogin = async () => {
         try {
-    
             const code = document.getElementById("code").value;
             const url = 'http://localhost:3001/games/checkClassCode';
             
@@ -113,6 +112,7 @@ const Sidebar = () => {
             if (response.ok) {
                 const data = await response.json();
                 setResponseMessage(`Game Found!`);
+                window.location.href = '/play/' + code;
                 // Clear input fields
                 document.getElementById("name").value = '';
                 document.getElementById("code").value = '';
