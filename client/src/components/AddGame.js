@@ -21,46 +21,51 @@ function AddGame({ onBack }) {
         }
     };
 
-    const handlePageChange = (index, event) => {
+    const handlePageChange = (pageIndex, event) => {
         const { name, value, type } = event.target;
         const pages = [...game.pages];
-
+    
         if (type === 'file') {
             const reader = new FileReader();
             const file = event.target.files[0];
-
+    
             reader.onloadend = () => {
                 const imageData = reader.result;
-                pages[index][name] = imageData;
-                pages[index]['imagePreview'] = URL.createObjectURL(file);
+                pages[pageIndex]['image'] = imageData;
+                pages[pageIndex]['imagePreview'] = URL.createObjectURL(file);
                 setGame({ ...game, pages });
             };
-
+    
             if (file) {
                 reader.readAsDataURL(file);
             }
-        } else if (name.startsWith('choices')) {
-            // Assuming a naming convention of 'choices-<pageIndex>-<choiceIndex>'
-            let choiceIndex = parseInt(name.split('-')[2], 10);
-            pages[index].choices[choiceIndex] = value;
+        } else if (name.startsWith('choices-text')) {
+            const choiceIndex = parseInt(name.split('-')[3], 10);
+            pages[pageIndex].choices[choiceIndex].text = value;
+        } else if (name.startsWith('choices-correct')) {
+            // Reset all choices isCorrect to false
+            pages[pageIndex].choices.forEach(choice => choice.isCorrect = false);
+            // Set the selected choice as correct
+            const selectedChoiceIndex = parseInt(value, 10);
+            pages[pageIndex].choices[selectedChoiceIndex].isCorrect = true;
         } else {
-            pages[index][name] = value;
+            pages[pageIndex][name] = value;
         }
         setGame({ ...game, pages });
     };
-
+    
     const addPage = () => {
         setGame({
             ...game,
-            pages: [...game.pages, { page_id: '', content: '', question: '', choices: [''], image: '' }]
+            pages: [...game.pages, { page_id: '', content: '', question: '', choices: [{ text: '', isCorrect: false }], image: '' }]
         });
     };
 
     const addChoice = (pageIndex) => {
         const newPages = [...game.pages];
-        newPages[pageIndex].choices.push('');
+        newPages[pageIndex].choices.push({ text: '', isCorrect: false });
         setGame({ ...game, pages: newPages });
-    };
+    };    
 
     const removeChoice = (pageIndex, choiceIndex) => {
         const newPages = [...game.pages];
@@ -87,7 +92,8 @@ function AddGame({ onBack }) {
                     formData.append(`pages[${index}][${key}]`, value);
                 } else {
                     page.choices.forEach((choice, choiceIndex) => {
-                        formData.append(`pages[${index}][choices][${choiceIndex}]`, choice);
+                        formData.append(`pages[${index}][choices][${choiceIndex}][text]`, choice.text);
+                        formData.append(`pages[${index}][choices][${choiceIndex}][isCorrect]`, choice.isCorrect);
                     });
                 }
             });
@@ -158,14 +164,24 @@ function AddGame({ onBack }) {
                         </label>
                         <label className='d-flex add-game-form'>
                             {page.choices.map((choice, choiceIndex) => (
-                                <input
-                                    key={`choice-${index}-${choiceIndex}`}
-                                    type="text"
-                                    placeholder={`Choice ${choiceIndex + 1}`}
-                                    name={`choices-${index}-${choiceIndex}`}
-                                    value={choice}
-                                    onChange={(e) => handlePageChange(index, e)}
-                                />
+                                <div key={`choice-${index}-${choiceIndex}`}>
+                                    <input
+                                        type="text"
+                                        placeholder={`Choice ${choiceIndex + 1}`}
+                                        name={`choices-text-${index}-${choiceIndex}`}
+                                        value={choice.text}
+                                        onChange={(e) => handlePageChange(index, e)}
+                                    />
+                                    <label className='d-flex'>
+                                        <input
+                                            type="radio"
+                                            name={`choices-correct-${index}`}
+                                            value={choiceIndex}
+                                            checked={choice.isCorrect}
+                                            onChange={(e) => handlePageChange(index, e)}
+                                        /> Correct
+                                    </label>
+                                </div>
                             ))}
                             <button type="button" onClick={() => addChoice(index)}>Add Choice</button>
                             {page.choices.length > 1 && (

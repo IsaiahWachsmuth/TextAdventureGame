@@ -1,9 +1,8 @@
-// client/src/components/GameDetails.js
 import React, { useState } from 'react';
 
 function GameDetails({ game, onBack }) {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
-    const hasPages = game.pages && game.pages.length > 0; // Check if pages exist and are not empty
+    const hasPages = game.pages && game.pages.length > 0;
 
     const goToNextPage = () => {
         if (hasPages) {
@@ -61,11 +60,10 @@ function GameDetails({ game, onBack }) {
                         <p><strong>Choices:</strong>
                             <div>
                                 {game.pages[currentPageIndex].choices.map((choice, index) => (
-                                    <div key={index}>{index + 1}. {choice}</div>
+                                    <div key={index}>{index + 1}. {choice.text} {choice.isCorrect ? "(Correct Answer)" : ""}</div>
                                 ))}
                             </div>
                         </p>
-                        {/* Render image if available */}
                         {game.pages[currentPageIndex].image && (
                             <p>
                                 <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" style={{ maxWidth: '100%', height: '240px' }} />
