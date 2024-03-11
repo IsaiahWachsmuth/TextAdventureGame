@@ -2,11 +2,17 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
+
+const choiceSchema = mongoose.Schema({
+    text: { type: String, required: true },
+    isCorrect: { type: Boolean, required: true, default: false } // Indicates if this choice is correct
+});
+
 const pageSchema = mongoose.Schema({
     page_id: { type: String, required: true },
     content: { type: String, required: true },
     question: { type: String, required: true },
-    choices: { type: [String], required: true }, // Array of strings or another schema if choices are complex
+    choices: {type: [choiceSchema], required: true},
     image: { type: String, required: false }  // Optional image URL for pages
 });
 
