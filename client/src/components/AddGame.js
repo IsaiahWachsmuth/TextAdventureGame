@@ -1,9 +1,13 @@
+// client/src/components/AddGame.js
 import React, { useState, useEffect } from 'react';
+//import { useNavigate } from 'react-router-dom';
 
 function AddGame({ onBack }) {
     const [game, setGame] = useState({ title: '', description: '', author: '', pages: [] });
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+
+    // const navigate = useNavigate(); // was using, keeping for reference for later
 
     useEffect(() => {
         if (image) {
@@ -110,13 +114,13 @@ function AddGame({ onBack }) {
                 // Call onBack to switch back to the game listing view instead of navigating
                 onBack();
             } else {
-                throw new Error('Failed to create game');
+                console.error('Error, returning anyway');
+                onBack();
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
-    
 
     return (
         <section className='d-flex add-game-wrap'>

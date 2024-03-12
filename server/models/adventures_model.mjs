@@ -4,17 +4,18 @@ const { Schema } = mongoose;
 
 
 const choiceSchema = mongoose.Schema({
-    text: { type: String, required: true },
-    isCorrect: { type: Boolean, required: true, default: false } // Indicates if this choice is correct
+    text: { type: String, required: false }, // Make text optional
+    isCorrect: { type: Boolean, default: false } // Keep as is, default to false
 });
 
 const pageSchema = mongoose.Schema({
     page_id: { type: String, required: true },
     content: { type: String, required: true },
-    question: { type: String, required: true },
-    choices: {type: [choiceSchema], required: true},
+    question: { type: String, required: false }, // Make question optional
+    choices: { type: [choiceSchema], required: false }, // Choices themselves can be optional
     image: { type: String, required: false }  // Optional image URL for pages
 });
+
 
 const gameSchema = mongoose.Schema({
     game_id: { type: String, required: true },
