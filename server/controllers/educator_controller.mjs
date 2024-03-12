@@ -1,4 +1,4 @@
-// controllers/educator_controller.mjs
+// server/controllers/educator_controller.mjs
 import Educator from '../models/educator_model.mjs';
 import passport from 'passport';
 import JWT from 'jsonwebtoken';

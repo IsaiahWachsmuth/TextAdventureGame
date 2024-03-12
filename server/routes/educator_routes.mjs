@@ -1,4 +1,4 @@
-// routes/educatorRoutes.mjs
+// server/routes/educatorRoutes.mjs
 import express from 'express';
 import { 
     createEducator, 
