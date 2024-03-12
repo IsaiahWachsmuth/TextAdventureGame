@@ -409,3 +409,38 @@
   #temp-game-display {
     height: 100vh;
   }
+
+  /* Game Details */
+
+  .game-detail-wrapper {
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+    height: 100%;
+  }
+
+  .game-detail-info, .game-detail-pages {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    padding: 0 1rem;
+  }
+
+  .game-detail-info {
+    width: 35%;
+    border-right: 1px solid black;
+  }
+
+  .game-detail-image-wrapper {
+    padding: 1rem;
+  }
+
+  .game-detail-description {
+    padding: 1rem 0;
+    align-items: flex-start;
+  }
+
+  .game-detail-description p {
+    text-align: left;
+  }

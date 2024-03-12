@@ -1,3 +1,4 @@
+// src/components/GameDetails.js
 import React, { useState } from 'react';
 
 function GameDetails({ game, onBack }) {
@@ -40,16 +41,23 @@ function GameDetails({ game, onBack }) {
     };
 
     return (
-        <div>
-            <h2>Game Details</h2>
-            <p><strong>Title:</strong> {game.title}</p>
-            <p><strong>Description:</strong> {game.description}</p>
-            <p><strong>Author:</strong> {game.author}</p>
-            <p>
-                {game.image && (
-                    <img src={`data:image/jpeg;base64,${game.image}`} alt="Game Image" style={{ maxWidth: '100%', height: '480px' }} />
-                )}
-            </p>
+        <section className='d-flex game-detail-wrapper'>
+            <div className='game-detail-info'>
+                <h2>Details for: <strong>{game.title}</strong></h2>
+                <p>Author: {game.author}</p>
+
+                <div className='game-detail-image-wrapper'>
+
+                    {game.image && (
+                        <img src={`data:image/jpeg;base64,${game.image}`} alt="Game Image" style={{ maxWidth: '100%', height: '480px' }} />
+                    )}
+                </div>
+                <div className='game-detail-description'>
+                <p>{game.description}</p>
+                </div>
+            </div>
+            
+            <div className='game-detail-pages'>
             {hasPages ? (
                 <>
                     <div>
@@ -76,11 +84,14 @@ function GameDetails({ game, onBack }) {
                     </div>
                 </>
             ) : (
-                <p>No pages available for this game.</p>
+                <h3>No pages available for this game.</h3>
             )}
-            <button onClick={() => deleteGame(game.game_id)}>Delete Game</button>
-            <button onClick={onBack}>Back to List</button>
-        </div>
+            </div>
+            <footer>
+                <button onClick={() => deleteGame(game.game_id)}>Delete Game</button>
+                <button onClick={onBack}>Back to List</button>
+            </footer>
+        </section>
     );
 }
 
