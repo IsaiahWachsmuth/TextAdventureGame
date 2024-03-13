@@ -251,7 +251,7 @@
   height: max-content;
 }
 
-.add-game-form, .edit-game-details, .edit-game-pages, .edit-page-form {
+.add-game-form, .edit-game-details, .edit-game-pages {
   flex-direction: column;
   align-items: flex-start;
   padding: 1rem;
@@ -271,11 +271,17 @@
   max-height: max-content;
 }
 
-.add-game-form form, .edit-game-details form, .edit-page-form form {
+.add-game-form form, .edit-game-details form {
   flex-direction: column;
   align-items: flex-start;
   /* padding: 1rem;
   border: 1px solid black; */
+}
+
+.edit-page-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .add-game-form form label, .edit-game-details form label {
@@ -286,7 +292,7 @@
 
 .add-game-form form input, .add-game-form form textarea, 
 .edit-game-details form input, .edit-game-details form textarea, 
-.edit-page-form form input, .edit-page-form form textarea{
+.edit-page-form input, .edit-page-form textarea{
   border: none;
   border-bottom: #282c34 solid 1px;
   width: 500px;

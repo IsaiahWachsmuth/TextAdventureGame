@@ -144,12 +144,10 @@ function EditGame({ game, onBack }) {
                     <div key={index} className='edit-page-form'>
                         <h4>Page {index + 1}</h4>
                         <label>
-                            Content:
-                            <textarea name="content" value={page.content || ''} onChange={(e) => handlePageChange(index, 'content', e.target.value)}></textarea>
+                            <textarea name="content" placeholder='Contnet' value={page.content || ''} onChange={(e) => handlePageChange(index, 'content', e.target.value)}></textarea>
                         </label>
                         <label>
-                            Question:
-                            <input type="text" name="question" value={page.question || ''} onChange={(e) => handlePageChange(index, 'question', e.target.value)} />
+                            <input type="text" name="question" placeholder='Question' value={page.question || ''} onChange={(e) => handlePageChange(index, 'question', e.target.value)} />
                         </label>
 
                         {page.choices.map((choice, choiceIndex) => (
@@ -158,6 +156,7 @@ function EditGame({ game, onBack }) {
                                     Choice {choiceIndex + 1}:
                                     <input
                                         type="text"
+                                        placeholder='Choice Text'
                                         name={`choice-${choiceIndex}`}
                                         value={choice.text || ''}
                                         onChange={(e) => handlePageChange(index, `choices-${choiceIndex}`, e.target.value)}
