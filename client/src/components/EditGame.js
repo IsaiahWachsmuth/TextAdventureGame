@@ -48,6 +48,29 @@ function EditGame({ game, onBack }) {
         setGameDetails({ ...gameDetails, pages: filteredPages });
     };
 
+    const addChoiceToPage = (pageIndex) => {
+        const newGameDetails = { ...gameDetails };
+        const newPage = { ...newGameDetails.pages[pageIndex] };
+        if (!newPage.choices) {
+            newPage.choices = []; // Ensure there's a choices array to push to
+        }
+        newPage.choices.push({ text: '', isCorrect: false }); // Add a new choice object
+        newGameDetails.pages[pageIndex] = newPage;
+        setGameDetails(newGameDetails);
+    };
+    
+    const removeChoiceFromPage = (pageIndex, choiceIndex) => {
+        const newGameDetails = { ...gameDetails };
+        const newPage = { ...newGameDetails.pages[pageIndex] };
+        if (newPage.choices && newPage.choices.length > 1) { // Ensure there are choices to remove
+            newPage.choices.splice(choiceIndex, 1); // Remove the choice at choiceIndex
+            newGameDetails.pages[pageIndex] = newPage;
+            setGameDetails(newGameDetails);
+        } else {
+            console.warn("Cannot remove the last choice.");
+        }
+    };
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -87,46 +110,80 @@ function EditGame({ game, onBack }) {
     
 
     return (
-        <div>
-            <h2>Edit Game</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Title:
-                    <input type="text" name="title" value={gameDetails.title} onChange={handleChange} />
-                </label>
-                <label>
-                    Description:
-                    <textarea name="description" value={gameDetails.description} onChange={handleChange}></textarea>
-                </label>
-                <label>
-                    Author:
-                    <input type="text" name="author" value={gameDetails.author} onChange={handleChange} />
-                </label>
-                <div>
-                    Class Code: {gameDetails.classCode}
-                </div>
-                <label>
-                    Image:
-                    <input type="file" name="image" onChange={handleImageChange} />
-                    {imagePreview && <img src={imagePreview} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px' }} />}
-                </label>
-                {/* Reincorporated functionality for displaying and editing pages */}
+        <section className='d-flex edit-game-wrap'>
+    
+            <section className='d-flex edit-game-details' id='edit-game-sec'>
+                <h2>Edit Game Info</h2>
+                <form className='d-flex' onSubmit={handleSubmit}>
+                    <label>
+                        <input type="text" placeholder='Title' name="title" value={gameDetails.title} onChange={handleChange} />
+                    </label>
+                    <label>
+                        <input type="text" placeholder='Author' name="author" value={gameDetails.author} onChange={handleChange} />
+                    </label>
+                    <span>
+                        Class Code: {gameDetails.classCode}
+                    </span>
+                    <label>
+                        <textarea name="description" placeholder='Description' value={gameDetails.description} onChange={handleChange}></textarea>
+                    </label>
+                    <label>
+                        Image:
+                        <input type="file" name="image" onChange={handleImageChange} />
+                        {imagePreview && <img src={imagePreview} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px' }} />}
+                    </label>
+                    <button type="button" onClick={addNewPage}>Add Page</button>
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onClick={onBack}>Cancel</button>
+                </form>
+            </section>
+    
+            <section className='d-flex edit-game-pages' id='edit-page-sec'>
+                <h2>Edit Pages</h2>
                 {gameDetails.pages.map((page, index) => (
-                    <div key={index}>
+                    <div key={index} className='edit-page-form'>
                         <h4>Page {index + 1}</h4>
                         <label>
                             Content:
-                            <input type="text" name="content" value={page.content || ''} onChange={(e) => handlePageChange(index, 'content', e.target.value)} />
+                            <textarea name="content" value={page.content || ''} onChange={(e) => handlePageChange(index, 'content', e.target.value)}></textarea>
                         </label>
-                        {/* Include fields for question, choices, etc., as needed */}
+                        <label>
+                            Question:
+                            <input type="text" name="question" value={page.question || ''} onChange={(e) => handlePageChange(index, 'question', e.target.value)} />
+                        </label>
+
+                        {page.choices.map((choice, choiceIndex) => (
+                            <div key={choiceIndex} className='edit-choice-form'>
+                                <label>
+                                    Choice {choiceIndex + 1}:
+                                    <input
+                                        type="text"
+                                        name={`choice-${choiceIndex}`}
+                                        value={choice.text || ''}
+                                        onChange={(e) => handlePageChange(index, `choices-${choiceIndex}`, e.target.value)}
+                                    />
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name={`choice-correct-${choiceIndex}`}
+                                        checked={choice.isCorrect || false}
+                                        onChange={(e) => handlePageChange(index, `choices-correct-${choiceIndex}`, e.target.checked)}
+                                    /> Correct
+                                </label>
+                                {page.choices.length > 1 && (
+                                    <button type="button" onClick={() => removeChoiceFromPage(index, choiceIndex)}>Remove Choice</button>
+                                )}
+                            </div>
+                        ))}
+                        <button type="button" onClick={() => addChoiceToPage(index)}>Add Choice</button>
                         <button type="button" onClick={() => removePage(index)}>Remove Page</button>
                     </div>
                 ))}
-                <button type="button" onClick={addNewPage}>Add New Page</button>
-                <button type="submit">Save Changes</button>
-                <button type="button" onClick={onBack}>Cancel</button>
-            </form>
-        </div>
+                
+            </section>
+    
+        </section>
     );
 }
 

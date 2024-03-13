@@ -242,58 +242,63 @@
 }
 
 /* add game component */
-.add-game-wrap {
+/* edit game component is also here*/
+
+.add-game-wrap, .edit-game-wrap {
   flex-direction: row;
   flex-wrap: wrap;
   /*height: calc(100vh - 6.48vh);  6.48vh is the calc height of the nav header */
   height: max-content;
 }
 
-.add-game-form {
+.add-game-form, .edit-game-details, .edit-game-pages, .edit-page-form {
   flex-direction: column;
   align-items: flex-start;
   padding: 1rem;
  
 }
 
-#add-game-sec {
+#add-game-sec, #edit-game-sec {
   width: 30%;
   min-height: 100%;
   max-height: max-content;
   border-right: #282c34 1px solid;
 }
 
-#add-page-sec {
+#add-page-sec, #edit-page-sec {
   width: 70%;
   min-height: 100%;
   max-height: max-content;
 }
 
-.add-game-form form {
+.add-game-form form, .edit-game-details form, .edit-page-form form {
   flex-direction: column;
   align-items: flex-start;
   /* padding: 1rem;
   border: 1px solid black; */
 }
 
-.add-game-form form label {
+.add-game-form form label, .edit-game-details form label {
   padding: 0.5rem 0;
   /* border: red 1px solid; */
 }
 
 
-.add-game-form form input, .add-game-form form textarea {
+.add-game-form form input, .add-game-form form textarea, 
+.edit-game-details form input, .edit-game-details form textarea, 
+.edit-page-form form input, .edit-page-form form textarea{
   border: none;
   border-bottom: #282c34 solid 1px;
   width: 500px;
 }
 
-.add-game-form form textarea {
+.add-game-form form textarea, .edit-game-details form textarea,
+.edit-page-form form textarea {
   height: 300px;
   border: #282c34 solid 1px;
   border-radius: 0.5rem;
 }
-.add-game-form form label img {
+.add-game-form form label img, .edit-game-details form label img {
   width: 300px;
   margin: 0 0.5rem;
   cursor: pointer;
