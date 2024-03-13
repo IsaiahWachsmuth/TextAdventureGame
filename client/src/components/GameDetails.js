@@ -42,8 +42,12 @@ function GameDetails({ game, onBack }) {
 
     return (
         <section className='d-flex game-detail-wrapper'>
+            <header className='game-detail-header'>
+                <button onClick={onBack}>Back to List</button>
+                <button onClick={() => deleteGame(game.game_id)}>Delete Game</button>
+            </header>
             <div className='game-detail-info'>
-                <h2>Details for: <strong>{game.title}</strong></h2>
+                <h1>Game Info for <strong>{game.title}</strong></h1>
                 <p>Author: {game.author}</p>
 
                 <div className='game-detail-image-wrapper'>
@@ -53,11 +57,12 @@ function GameDetails({ game, onBack }) {
                     )}
                 </div>
                 <div className='game-detail-description'>
-                <p>{game.description}</p>
+                    <p>{game.description}</p>
                 </div>
             </div>
             
             <div className='game-detail-pages'>
+                <h1>Game Pages for <strong>{game.title}</strong></h1>
             {hasPages ? (
                 <>
                     <div>
@@ -87,10 +92,6 @@ function GameDetails({ game, onBack }) {
                 <h3>No pages available for this game.</h3>
             )}
             </div>
-            <footer>
-                <button onClick={() => deleteGame(game.game_id)}>Delete Game</button>
-                <button onClick={onBack}>Back to List</button>
-            </footer>
         </section>
     );
 }
