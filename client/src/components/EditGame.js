@@ -6,6 +6,7 @@ function EditGame({ game, onBack }) {
         title: game.title || '',
         description: game.description || '',
         author: game.author || '',
+        classCode: game.class_code || '',
         pages: game.pages || [],
     });
 
@@ -101,6 +102,9 @@ function EditGame({ game, onBack }) {
                     Author:
                     <input type="text" name="author" value={gameDetails.author} onChange={handleChange} />
                 </label>
+                <div>
+                    Class Code: {gameDetails.classCode}
+                </div>
                 <label>
                     Image:
                     <input type="file" name="image" onChange={handleImageChange} />
