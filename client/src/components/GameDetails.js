@@ -49,7 +49,9 @@ function GameDetails({ game, onBack }) {
             <div className='game-detail-info'>
                 <h1>Game Info for <strong>{game.title}</strong></h1>
                 <p>Author: {game.author}</p>
-
+                <p>
+                    Class Code: {game.class_code}
+                </p>
                 <div className='game-detail-image-wrapper'>
 
                     {game.image && (
