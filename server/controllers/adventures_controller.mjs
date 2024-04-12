@@ -21,7 +21,6 @@ export const createGame = async (req, res) => {
 
         const game = await games.createGame(classCode, title, description, author, pages, imageBase64 );
         
-
         // Add the game to the educator's list of adventures
         console.log(req.user)
         await addGameToEducator(req.user._id, game.game_id);
