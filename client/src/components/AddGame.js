@@ -47,16 +47,21 @@ function AddGame({ onBack }) {
             const choiceIndex = parseInt(name.split('-')[3], 10);
             pages[pageIndex].choices[choiceIndex].text = value;
         } else if (name.startsWith('choices-correct')) {
-            // Reset all choices isCorrect to false
             pages[pageIndex].choices.forEach(choice => choice.isCorrect = false);
-            // Set the selected choice as correct
             const selectedChoiceIndex = parseInt(value, 10);
             pages[pageIndex].choices[selectedChoiceIndex].isCorrect = true;
+        } else if (name.startsWith('choices-nav')) {
+            const choiceIndex = parseInt(name.split('-')[3], 10);
+            if (value.trim() === '') { // Checks if the input field is cleared
+                pages[pageIndex].choices[choiceIndex].pageNav = null; // Set to null for default behavior
+            } else {
+                pages[pageIndex].choices[choiceIndex].pageNav = parseInt(value, 10);
+            }
         } else {
             pages[pageIndex][name] = value;
         }
         setGame({ ...game, pages });
-    };
+    };    
     
     const addPage = () => {
         setGame({
@@ -85,7 +90,7 @@ function AddGame({ onBack }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         const formData = new FormData();
         formData.append('title', game.title);
         formData.append('description', game.description);
@@ -98,6 +103,7 @@ function AddGame({ onBack }) {
                     page.choices.forEach((choice, choiceIndex) => {
                         formData.append(`pages[${index}][choices][${choiceIndex}][text]`, choice.text);
                         formData.append(`pages[${index}][choices][${choiceIndex}][isCorrect]`, choice.isCorrect);
+                        formData.append(`pages[${index}][choices][${choiceIndex}][pageNav]`, choice.pageNav ? choice.pageNav : '');
                     });
                 }
             });
@@ -107,12 +113,11 @@ function AddGame({ onBack }) {
         try {
             const response = await fetch('http://localhost:3001/games', {
                 method: 'POST',
-                body: formData, // Send formData instead of JSON
+                body: formData,
                 credentials: 'include',
             });
             if (response.ok) {
-                // Call onBack to switch back to the game listing view instead of navigating
-                onBack();
+                onBack();  // Call onBack to switch back to the game listing view instead of navigating
             } else {
                 console.error('Error, returning anyway');
                 onBack();
@@ -121,10 +126,11 @@ function AddGame({ onBack }) {
             console.error('Error:', error);
         }
     };
+    
 
     return (
         <section className='d-flex add-game-wrap'>
-            {/* Split this into wo sections */}
+            {/* Split this into two sections */}
             <section className='d-flex add-game-form' id='add-game-sec'>
                 <h2>Game Info</h2>
                 <p>Fill in the details of the game you want to create, including an image.</p>
@@ -176,6 +182,16 @@ function AddGame({ onBack }) {
                                         value={choice.text}
                                         onChange={(e) => handlePageChange(index, e)}
                                     />
+                                    <label className='d-flex'>
+                                        <input
+                                            type="number"
+                                            placeholder="Page Nav ID"
+                                            name={`choices-nav-${index}-${choiceIndex}`}
+                                            value={choice.pageNav || ''}
+                                            onChange={(e) => handlePageChange(index, e)}
+                                            min="1" 
+                                        />
+                                    </label>
                                     <label className='d-flex'>
                                         <input
                                             type="radio"

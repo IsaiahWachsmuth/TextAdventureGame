@@ -75,7 +75,9 @@ function GameDetails({ game, onBack }) {
                         <p><strong>Choices:</strong>
                             <div>
                                 {game.pages[currentPageIndex].choices.map((choice, index) => (
-                                    <div key={index}>{index + 1}. {choice.text} {choice.isCorrect ? "(Correct Answer)" : ""}</div>
+                                    <div key={index}>{index + 1}. {choice.text} {choice.isCorrect ? "(Correct Answer)" : ""} 
+                                        <p>{choice.pageNav ? `This choice navigates to room: ${choice.pageNav}` : ""}</p>
+                                    </div>
                                 ))}
                             </div>
                         </p>
