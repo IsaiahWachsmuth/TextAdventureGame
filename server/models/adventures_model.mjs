@@ -5,7 +5,8 @@ const { Schema } = mongoose;
 
 const choiceSchema = mongoose.Schema({
     text: { type: String, required: false }, // Make text optional
-    isCorrect: { type: Boolean, default: false } // Keep as is, default to false
+    isCorrect: { type: Boolean, default: false }, // Keep as is, default to false
+    pageNav: { type: Number, required: false }
 });
 
 const pageSchema = mongoose.Schema({
