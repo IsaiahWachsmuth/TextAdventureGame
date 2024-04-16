@@ -59,8 +59,8 @@ const PlayGamePage = () => {
             console.log("DOESN'T EXIST");
         }
 
-        // Scroll to the top of the history
-        historyRef.current.scrollTop = 0;
+        // Scroll to the bottom of the history
+        historyRef.current.scrollTop = historyRef.current.scrollHeight;
     };
 
     return (
@@ -68,10 +68,11 @@ const PlayGamePage = () => {
             <h3 className="playgame-title">{gameInfo && gameInfo.title}</h3>
 
             <div className="playgame-history-container" ref={historyRef}>
-                {history.reverse().map((page, index) => (
+                {history.map((page, index) => (
                     <div key={index} className="playgame-history-page">
                         <h3>{page.content}</h3>
                         <h3>{page.question}</h3>
+                        {page.choiceText && <p>Chosen Option: {page.choiceText}</p>}
                     </div>
                 ))}
             </div>
@@ -99,4 +100,3 @@ const PlayGamePage = () => {
 };
 
 export default PlayGamePage;
-
