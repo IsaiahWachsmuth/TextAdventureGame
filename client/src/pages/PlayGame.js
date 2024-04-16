@@ -42,6 +42,13 @@ const PlayGamePage = () => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        // Scroll to the bottom of the history whenever it updates
+        if (historyRef.current) {
+            historyRef.current.scrollTop = historyRef.current.scrollHeight;
+        }
+    }, [history]);
+
     const handleOptionClick = (choice) => {
         let nextPage = null;
 
@@ -58,9 +65,6 @@ const PlayGamePage = () => {
         } else {
             console.log("DOESN'T EXIST");
         }
-
-        // Scroll to the bottom of the history
-        historyRef.current.scrollTop = historyRef.current.scrollHeight;
     };
 
     return (
