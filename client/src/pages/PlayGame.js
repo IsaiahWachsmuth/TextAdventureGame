@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const PlayGamePage = () => {
     const [gameInfo, setGameInfo] = useState(null);
     const [currentPage, setCurrentPage] = useState(null);
+    const [history, setHistory] = useState([]);
+    const historyRef = useRef(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,7 +27,7 @@ const PlayGamePage = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setGameInfo(data.game);
-                    setCurrentPage(data.game.pages[0]); // Set initial page
+                    setCurrentPage(data.game.pages[0]);
 
                 } else {
                     setGameInfo("No such game exists!");
@@ -34,7 +36,6 @@ const PlayGamePage = () => {
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setGameInfo("Error fetching data");
-                
             }
         };
 
@@ -42,58 +43,55 @@ const PlayGamePage = () => {
     }, []);
 
     const handleOptionClick = (choice) => {
-
         let nextPage = null;
 
-
         for (let i = 0; i < gameInfo.pages.length; i++) {
-
-            if(parseInt(gameInfo.pages[i].page_id, 10) === parseInt(choice.pageNav, 10))
-            {
+            if (parseInt(gameInfo.pages[i].page_id, 10) === parseInt(choice.pageNav, 10)) {
                 nextPage = gameInfo.pages[i];
                 break;
             }
         }
-        
-
-
-        // gameInfo.pages.forEach(page => {
-        //     const foundChoice = page.choices.find(ch => ch.pageNav === choice.pageNav);
-        //     console.log(page.choices[0].pageNav)
-        //     if (foundChoice) {
-        //         nextPage = gameInfo.pages.find(p => p.page_id === foundChoice.pageNav);
-        //     }
-        // });
-
 
         if (nextPage) {
+            setHistory([...history, currentPage]);
             setCurrentPage(nextPage);
-            console.log("CurrentPage");
+        } else {
+            console.log("DOESN'T EXIST");
         }
-        
-        else{
-            console.log("DOESNT EXIST");
-        }
+
+        // Scroll to the top of the history
+        historyRef.current.scrollTop = 0;
     };
 
     return (
-        <div>
-            {currentPage && (
-                <div>
-                    <h3> {gameInfo.title} </h3>
-                    <h3> {currentPage.content} </h3>
-                    <h3> {currentPage.question} </h3>
-                    {currentPage.choices && currentPage.choices[0].text.length > 0 ? (
-                    <div>
-                        {currentPage.choices.map((choice, index) => (
-                            <button key={index} onClick={() => handleOptionClick(choice)}>
-                                {choice.text}
-                            </button>
-                        ))}
+        <div className="playgame-container">
+            <h3 className="playgame-title">{gameInfo && gameInfo.title}</h3>
+
+            <div className="playgame-history-container" ref={historyRef}>
+                {history.reverse().map((page, index) => (
+                    <div key={index} className="playgame-history-page">
+                        <h3>{page.content}</h3>
+                        <h3>{page.question}</h3>
                     </div>
-                ) : (
-                    <p>No options available.</p>
-                )}
+                ))}
+            </div>
+
+            {currentPage && (
+                <div className="playgame-current-page">
+                    <h4>Current Page</h4>
+                    <h3>{currentPage.content}</h3>
+                    <h3>{currentPage.question}</h3>
+                    {currentPage.choices && currentPage.choices.length > 0 ? (
+                        <div>
+                            {currentPage.choices.map((choice, index) => (
+                                <button key={index} onClick={() => handleOptionClick(choice)}>
+                                    {choice.text}
+                                </button>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>No options available.</p>
+                    )}
                 </div>
             )}
         </div>
@@ -101,4 +99,4 @@ const PlayGamePage = () => {
 };
 
 export default PlayGamePage;
-    
+
