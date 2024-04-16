@@ -4,6 +4,7 @@ const PlayGamePage = () => {
     const [gameInfo, setGameInfo] = useState(null);
     const [currentPage, setCurrentPage] = useState(null);
     const [history, setHistory] = useState([]);
+    const [displayText, setDisplayText] = useState('');
     const historyRef = useRef(null);
 
     useEffect(() => {
@@ -49,6 +50,24 @@ const PlayGamePage = () => {
         }
     }, [history]);
 
+    const displayProgressively = (text) => {
+        let index = 0;
+        const interval = setInterval(() => {
+            if (index <= text.length) {
+                setDisplayText(text.slice(0, index));
+                index++;
+            } else {
+                clearInterval(interval);
+            }
+        }, 50);
+    };
+
+    useEffect(() => {
+        if (currentPage) {
+            displayProgressively(`${currentPage.content}\n${currentPage.question}`);
+        }
+    }, [currentPage]);
+
     const handleOptionClick = (choice) => {
         let nextPage = null;
 
@@ -84,8 +103,7 @@ const PlayGamePage = () => {
             {currentPage && (
                 <div className="playgame-current-page">
                     <h4>Current Page</h4>
-                    <h3>{currentPage.content}</h3>
-                    <h3>{currentPage.question}</h3>
+                    <h3>{displayText}</h3>
                     {currentPage.choices && currentPage.choices.length > 0 ? (
                         <div>
                             {currentPage.choices.map((choice, index) => (
