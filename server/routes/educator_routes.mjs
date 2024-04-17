@@ -3,17 +3,24 @@ import express from 'express';
 import { 
     createEducator, 
     loginEducator, 
-    checkAuthenticated, 
     createSession, 
     addGameToEducator
 } from '../controllers/educator_controller.mjs';
+import { checkAuthenticated } from '../middleware/authMiddleware.mjs';
 
 const router = express.Router();
 
+// Public routes
 router.post('/create-educator', createEducator);
 router.post('/login', loginEducator);
-router.get('/protected', checkAuthenticated);
-router.post('/createSession', createSession);
-router.post('/addGame', addGameToEducator);
+
+// Protected routes
+router.get('/protected', checkAuthenticated); // wut dis do?
+
+router.get('/dashboard', checkAuthenticated, (req, res) => {
+    res.status(200).json({ message: 'Hello', user: req.user });
+});
+router.post('/createSession', checkAuthenticated, createSession);
+router.post('/addGame', checkAuthenticated, addGameToEducator);
 
 export default router;

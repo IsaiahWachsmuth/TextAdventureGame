@@ -9,14 +9,14 @@ export const checkAuthenticated = (req, res, next) => {
             return res.status(500).json({ message: "Error in authentication", err });
         }
         if (!user) {
-            return res.status(401).json({ message: "Unauthorized access: No user found" });
+            return res.status(401).json({ message: "No user found" });
         }
         req.user = user; // Attach user to the request object
         next();
     })(req, res, next);
 };
 
-// MCheck if the user is logged in (session-based)
+// Check if the user is logged in (session-based)
 export const checkLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
