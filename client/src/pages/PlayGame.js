@@ -79,7 +79,7 @@ const PlayGamePage = () => {
         }
 
         if (nextPage) {
-            setHistory([...history, { content: currentPage.content, question: currentPage.question, choiceText: choice.text }]);
+            setHistory([...history, { content: currentPage.content, question: currentPage.question, choiceText: choice.text, image: currentPage.image }]);
             setCurrentPage(nextPage);
         } else {
             console.log("DOESN'T EXIST");
@@ -95,6 +95,7 @@ const PlayGamePage = () => {
                     <div key={index} className="playgame-history-page">
                         <h3>{entry.content}</h3>
                         <h3>{entry.question}</h3>
+                        {entry.image && <img src={entry.image} alt="History" />}
                         {entry.choiceText && <p>Chosen Option: {entry.choiceText}</p>}
                     </div>
                 ))}
@@ -104,6 +105,7 @@ const PlayGamePage = () => {
                 <div className="playgame-current-page">
                     <h4>Current Page</h4>
                     <h3>{displayText}</h3>
+                    {currentPage.image && <img src={currentPage.image} alt="Current" />}
                     {currentPage.choices && currentPage.choices.length > 0 ? (
                         <div>
                             {currentPage.choices.map((choice, index) => (
