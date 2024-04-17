@@ -1,4 +1,4 @@
-// server.mjs
+// server/server.mjs
 import express from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
