@@ -13,36 +13,37 @@ const Sidebar = () => {
     const userTypeToggle = (view) => setActiveView(view);
     const [responseMessage, setResponseMessage] = useState('');
 
+    
     const attemptLogin = async () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
         try {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
             const response = await fetch('http://localhost:3001/educator/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'include', // Necessary for cookies to be sent and received
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
+                credentials: 'include',
+                body: JSON.stringify({ email, password }),
             });
 
+            const data = await response.json();
             if (response.ok) {
-                login(); // Update AuthContext state
-                navigate('/dashboard'); // Adjust the path to your dashboard or preferred route
+                login(data.user);
+                navigate('/dashboard');
                 setResponseMessage('Logged In!');
             } else {
-                const errorMessage = await response.text();
-                setResponseMessage(`Failed to login: ${errorMessage}`);
-                alert("The username or password does not match!");
+                //logout(); // for later
+                setResponseMessage(`Login failed: ${data.message}`);
+                alert(`Login failed: ${data.message}`);
             }
         } catch (error) {
-            console.error(`Error during login: ${error.message}`);
-            setResponseMessage(`Error during login: ${error.message}`);
+            console.error(`Login error: ${error}`);
+            setResponseMessage(`Login error: ${error}`);
         }
     };
+
 
     const handleCreateEducator = async () => {
         try {

@@ -24,14 +24,22 @@ export const createEducator = async (req, res) => {
 
 // Handle educator login
 export const loginEducator = (req, res, next) => {
+    if (!req.body.email || !req.body.password) {
+        return res.status(400).json({ message: "Missing credentials" });
+    }
+
     passport.authenticate('local', (err, user, info) => {
-        if (err) return next(err);
-        if (!user) {
-            return res.status(400).json({ message: info.message });
+        if (err) {
+            return res.status(500).json({ message: err.message });
         }
-        req.logIn(user, (err) => {
-            if (err) return next(err);
-            return res.json({ message: 'Logged in successfully' });
+        if (!user) {
+            return res.status(401).json({ message: info.message || 'Login failed' });
+        }
+        req.logIn(user, err => {
+            if (err) {
+                return res.status(500).json({ message: err.message });
+            }
+            return res.json({ message: 'Logged in successfully', user: { id: user._id, email: user.email } });
         });
     })(req, res, next);
 };
