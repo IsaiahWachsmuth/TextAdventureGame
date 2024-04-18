@@ -13,11 +13,12 @@ function AddGame() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/games', {
+            const response = await fetch('https://textadventuregameforeducation.online:3001/games', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(game),
             });
             if (response.ok) {

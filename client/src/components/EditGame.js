@@ -93,7 +93,7 @@ function EditGame({ game, onBack }) {
         }
     
         try {
-            const response = await fetch(`http://localhost:3001/games/${game.game_id}`, {
+            const response = await fetch(`https://textadventuregameforeducation.online:3001/games/${game.game_id}`, {
                 method: 'PUT',
                 body: formData,
                 credentials: 'include',

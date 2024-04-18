@@ -17,7 +17,7 @@ passport.use(new JwtStrategy({
     secretOrKey: "testing"
     }, async (payload, done) => {
     try {
-        const educator = await Educator.findById(payload.sub); // Ensure correct ID reference
+        const educator = await Educator.findById(payload.sub);
         if (educator) {
             done(null, educator);
         } else {

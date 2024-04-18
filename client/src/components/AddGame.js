@@ -105,7 +105,7 @@ function AddGame({ onBack }) {
         if (image) formData.append('image', image);
     
         try {
-            const response = await fetch('http://localhost:3001/games', {
+            const response = await fetch('https://textadventuregameforeducation.online:3001/games', {
                 method: 'POST',
                 body: formData, // Send formData instead of JSON
                 credentials: 'include',

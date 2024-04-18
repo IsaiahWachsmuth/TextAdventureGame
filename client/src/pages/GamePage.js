@@ -8,7 +8,7 @@ function GamePage({ setGameToEdit }) {
     const navigate = useNavigate();
 
     const onDelete = async game_id => {
-        const response = await fetch(`http://localhost:3001/games/${game_id}`, { method: 'DELETE' });
+        const response = await fetch(`https://textadventuregameforeducation.online:3001/games/${game_id}`, { method: 'DELETE' ,credentials: 'include',});
         if (response.status === 204) {
             const newGames = games.filter(game => game.game_id !== game_id);
             setGames(newGames);
@@ -22,7 +22,7 @@ function GamePage({ setGameToEdit }) {
     };    
 
     const loadGames = async () => {
-        const response = await fetch('http://localhost:3001/games');
+        const response = await fetch('https://textadventuregameforeducation.online:3001/games', { credentials: 'include' });
         const data = await response.json();
         setGames(data);
     };

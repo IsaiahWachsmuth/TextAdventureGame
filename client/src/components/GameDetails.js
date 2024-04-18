@@ -24,8 +24,9 @@ function GameDetails({ game, onBack }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:3001/games/${gameId}`, {
+            const response = await fetch(`https://textadventuregameforeducation.online:3001/games/${gameId}`, {
                 method: 'DELETE',
+                credentials: 'include',
             });
 
             if (response.ok) {

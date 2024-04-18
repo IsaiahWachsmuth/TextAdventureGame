@@ -17,7 +17,7 @@ const Sidebar = () => {
         try {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            const response = await fetch('http://localhost:3001/educator/login', {
+            const response = await fetch('https://textadventuregameforeducation.online:3001/educator/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const Sidebar = () => {
         try {
             const username = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            const response = await fetch('http://localhost:3001/educator/create-educator', {
+            const response = await fetch('https://textadventuregameforeducation.online:3001/educator/create-educator', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -137,13 +137,14 @@ const Sidebar = () => {
     const studentLogin = async () => {
         try {
             const code = document.getElementById("code").value;
-            const url = 'http://localhost:3001/games/checkClassCode';
+            const url = 'https://textadventuregameforeducation.online:3001/games/checkClassCode';
             
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     code: code,}),
             });

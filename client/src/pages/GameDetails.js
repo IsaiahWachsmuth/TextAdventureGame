@@ -12,7 +12,7 @@ function GameDetailsPage() {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch(`http://localhost:3001/games/${gameId}`);
+                const response = await fetch(`https://textadventuregameforeducation.online:3001/games/${gameId}`,{credentials: 'include',});
                 if (!response.ok) {
                     throw new Error('Failed to fetch game details');
                 }

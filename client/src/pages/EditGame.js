@@ -10,7 +10,7 @@ function EditGame() {
     useEffect(() => {
         const fetchGame = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/games/${gameId}`);
+                const response = await fetch(`https://textadventuregameforeducation.online:3001/games/${gameId}`,{credentials: 'include',});
                 if (!response.ok) {
                     throw new Error('Failed to fetch game details');
                 }
@@ -33,12 +33,13 @@ function EditGame() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:3001/games/${gameId}`, {
+            const response = await fetch(`https://textadventuregameforeducation.online:3001/games/${gameId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(game),
+                credentials: 'include',
             });
             if (response.ok) {
                 // Handle successful update, perhaps navigate back to the game list or details page

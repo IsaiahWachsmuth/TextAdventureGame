@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 const PlayGamePage = () => {
+
+    console.log("HI FROM PLAYGAMEPAGE")
     const [gameInfo, setGameInfo] = useState(null);
 
     useEffect(() => {
@@ -10,12 +12,13 @@ const PlayGamePage = () => {
             const classcode = pathParts[pathParts.length - 1];
 
             try {
-                const url = 'http://localhost:3001/games/checkClassCode';
+                const url = 'https://textadventuregameforeducation.online:3001/games/checkClassCode';
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                     body: JSON.stringify({
                         code: classcode,
                     }),

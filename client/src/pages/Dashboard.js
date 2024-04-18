@@ -16,7 +16,7 @@ const Dashboard = () => {
         if (currentView === 'list') {
             const fetchGames = async () => {
                 try {
-                    const response = await fetch('http://localhost:3001/games', {
+                    const response = await fetch('https://textadventuregameforeducation.online:3001/games', {
                         credentials: 'include',
                     });
                     const data = await response.json();
