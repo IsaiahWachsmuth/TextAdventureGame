@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css'; // basic bootstrap styles
 import './css/App.css'; // custom general styles - keep at the end to override bootstrap
 import './css/media.css'; // custom media queries for responsive design
+import './css/fa-all.css'; // fa icons
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
