@@ -8,11 +8,14 @@ const Sidebar = () => {
     const navigate = useNavigate(); // Used for redirecting after login
     const { login } = useAuth(); // Use the login function from AuthContext
     const [isLogin, setIsLogin] = useState(true);
-    const toggleForm = () => setIsLogin(!isLogin);
     const [activeView, setActiveView] = useState('educator');
     const userTypeToggle = (view) => setActiveView(view);
     const [responseMessage, setResponseMessage] = useState('');
 
+    const toggleForm = () => {
+        setIsLogin(!isLogin);
+        setResponseMessage('');
+    };
     
     const attemptLogin = async () => {
         const email = document.getElementById("email").value;
@@ -44,7 +47,7 @@ const Sidebar = () => {
         }
     };
 
-
+    
     const handleCreateEducator = async () => {
         try {
             const username = document.getElementById("email").value;
@@ -63,7 +66,7 @@ const Sidebar = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setResponseMessage(`Educator created: ${data.educator.name}`);
+                setResponseMessage(`Account created. You may login now!`);
                 const usernameInput = document.getElementById("email");
                 const passwordInput = document.getElementById("password");
                 const pword2Input = document.getElementById("confirmPassword")
@@ -71,11 +74,13 @@ const Sidebar = () => {
                 usernameInput.value = '';
                 passwordInput.value = '';
                 pword2Input.value = '';
+                console.log(`Message set: ${responseMessage}`);
 
             } else {
                 const errorMessage = await response.text();
                 setResponseMessage(`Failed to create educator: ${errorMessage}`);
                 alert("This username is already in use!");
+                console.log(`Message set: ${responseMessage}`);
             }
         } 
         
@@ -179,6 +184,7 @@ const Sidebar = () => {
                     <button id='student-button' className={`button ${activeView === 'student' ? 'active' : ''}`} onClick={() => userTypeToggle("student")}>Student</button>
                 </div>
                 <div id='educator-logReg' style={{ display: activeView === 'educator' ? "flex" : "none" }}>
+                {responseMessage && <div id='response-message'><p>{responseMessage}</p></div>}
                     <form onSubmit={(e) => e.preventDefault()}>
                         <div>
                             <input type="email" id="email" name="email" placeholder="Email" required />

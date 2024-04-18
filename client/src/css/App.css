@@ -139,7 +139,7 @@
 }
 
 .login-wrapper #top > button:hover {
-  box-shadow: inset 0 100px salmon;
+  box-shadow: inset 0 100px rgb(250, 128, 114);
   transition: 0.3s ease-out;
 }
 
@@ -156,6 +156,15 @@
 #educator-logReg, #student-log {
   flex-direction: column;
   padding-top: 2rem;
+}
+
+
+#response-message p {
+  font-weight: 700;
+    padding: 0 0 0.75rem;
+    border-bottom: 2px solid rgb(250, 128, 114);
+    font-size: 1.3rem;
+    color: rgb(250, 128, 114);
 }
 
 #login-toggle button {
