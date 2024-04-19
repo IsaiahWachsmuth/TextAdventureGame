@@ -28,6 +28,17 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
     onEditGame(game);
   };
 
+  function PlayGameButton({class_code}) {
+    const navigate = () => {
+      window.location.href = `http://localhost:3000/play/${class_code}`
+    };
+    return (
+      <button className='card-play-game-btn' onClick={navigate}> 
+        <i className="fal fa-play-circle"></i> Play Game
+      </button>
+    )
+  }
+
   return (
     <section className='game-dash'>
       {games.map((game) => (
@@ -42,7 +53,7 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
           </div>
           <div className="game-card-buttons">
             <button onClick={(e) => handleClick(e, game)}>Edit Game</button>
-            <button className='card-play-game-btn' onClick={(e) => e.stopPropagation()}> <i className="fal fa-play-circle"></i> Play Game</button>
+            <PlayGameButton class_code={game.class_code} />
           </div>
         </div>
       ))}
