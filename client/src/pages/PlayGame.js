@@ -72,7 +72,7 @@ const PlayGamePage = () => {
         let nextPage = null;
 
         for (let i = 0; i < gameInfo.pages.length; i++) {
-            if (parseInt(gameInfo.pages[i].page_id, 10) === parseInt(choice.pageNav, 10)) {
+            if (gameInfo.pages[i].page_id === choice.pageNav) {
                 nextPage = gameInfo.pages[i];
                 break;
             }

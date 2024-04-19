@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 const choiceSchema = mongoose.Schema({
     text: { type: String, required: false }, // Make text optional
     isCorrect: { type: Boolean, default: false }, // Keep as is, default to false
-    pageNav: { type: Number, required: false }
+    pageNav: { type: String, required: false }
 });
 
 const pageSchema = mongoose.Schema({
@@ -112,5 +112,5 @@ const deleteGame = async (game_id) => {
 };
 
 // Export the functions for use in the controller
-export { Game, findAllGames, createGame, findGameById, findGameByClassCode, updateGame, deleteGame };
+export { Game, findAllGames, createGame, findGameById, findGameByClassCode, updateGame, deleteGame, findGamesByUser };
 export default mongoose.model('Game', gameSchema);

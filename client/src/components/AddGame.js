@@ -53,10 +53,10 @@ function AddGame({ onBack }) {
         } else if (name.startsWith('choices-nav')) {
             const choiceIndex = parseInt(name.split('-')[3], 10);
             if (value.trim() === '') { // Checks if the input field is cleared
-                pages[pageIndex].choices[choiceIndex].pageNav = null; // Set to null for default behavior
-            } else {
-                pages[pageIndex].choices[choiceIndex].pageNav = parseInt(value, 10);
+                value = null;
             }
+            pages[pageIndex].choices[choiceIndex].pageNav = value;
+            
         } else {
             pages[pageIndex][name] = value;
         }
@@ -183,14 +183,24 @@ function AddGame({ onBack }) {
                                         onChange={(e) => handlePageChange(index, e)}
                                     />
                                     <label className='d-flex'>
-                                        <input
+                                        {/* <input
                                             type="number"
                                             placeholder="Page Nav ID"
                                             name={`choices-nav-${index}-${choiceIndex}`}
                                             value={choice.pageNav || ''}
                                             onChange={(e) => handlePageChange(index, e)}
                                             min="1" 
-                                        />
+                                        /> */}
+                                        <select
+                                            name={`choices-nav-${index}-${choiceIndex}`}
+                                            value={choice.pageNav || ''}
+                                            onChange={(e) => handlePageChange(index, e)}
+                                        >
+                                            <option value="">Select Page</option>
+                                            {game.pages.map((p, idx) => (
+                                                <option key={idx} value={p.page_id}>{p.page_id}</option>
+                                            ))}
+                                        </select>
                                     </label>
                                     <label className='d-flex'>
                                         <input
