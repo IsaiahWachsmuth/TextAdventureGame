@@ -5,6 +5,8 @@ const PlayGamePage = () => {
     const [currentPage, setCurrentPage] = useState(null);
     const [history, setHistory] = useState([]);
     const [displayText, setDisplayText] = useState('');
+    const [username, setUsername] = useState('');
+    const [isUsernameEntered, setIsUsernameEntered] = useState(false);
     const historyRef = useRef(null);
 
     useEffect(() => {
@@ -86,38 +88,62 @@ const PlayGamePage = () => {
         }
     };
 
+    const handleUsernameSubmit = () => {
+        if (username.trim() !== '') {
+            setIsUsernameEntered(true);
+        }
+    };
+
     return (
         <div className="playgame-container">
-            <h3 className="playgame-title">{gameInfo && gameInfo.title}</h3>
-
-            <div className="playgame-history-container" ref={historyRef}>
-                {history.map((entry, index) => (
-                    <div key={index} className="playgame-history-page">
-                        <h3>{entry.content}</h3>
-                        <h3>{entry.question}</h3>
-                        {entry.image && <img src={entry.image} alt="History" />}
-                        {entry.choiceText && <p>Chosen Option: {entry.choiceText}</p>}
-                    </div>
-                ))}
-            </div>
-
-            {currentPage && (
-                <div className="playgame-current-page">
-                    <h4>Current Page</h4>
-                    <h3>{displayText}</h3>
-                    {currentPage.image && <img src={currentPage.image} alt="Current" />}
-                    {currentPage.choices && currentPage.choices.length > 0 ? (
-                        <div>
-                            {currentPage.choices.map((choice, index) => (
-                                <button key={index} onClick={() => handleOptionClick(choice)}>
-                                    {choice.text}
-                                </button>
-                            ))}
-                        </div>
-                    ) : (
-                        <p>No options available.</p>
-                    )}
+            {!isUsernameEntered && (
+                <div className="username-popup">
+                    <input
+                        type="text"
+                        placeholder="Enter your username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <button onClick={handleUsernameSubmit}>Submit</button>
                 </div>
+            )}
+
+            {isUsernameEntered && (
+                <>
+                    <h3 className="playgame-title">{gameInfo && gameInfo.title}</h3>
+
+                    <div className="playgame-history-container" ref={historyRef}>
+                        {history.map((entry, index) => (
+                            <div key={index} className="playgame-history-page">
+                                <h3>{entry.content}</h3>
+                                <h3>{entry.question}</h3>
+                                {entry.image && <img src={entry.image} alt="History" />}
+                                {entry.choiceText && <p>Chosen Option: {entry.choiceText}</p>}
+                            </div>
+                        ))}
+                    </div>
+
+                    <button className="back-button" onClick={() => window.history.back()}>Back</button>
+
+                    {currentPage && (
+                        <div className="playgame-current-page">
+                            <h4>Current Page</h4>
+                            <h3>{displayText}</h3>
+                            {currentPage.image && <img src={currentPage.image} alt="Current" />}
+                            {currentPage.choices && currentPage.choices.length > 0 ? (
+                                <div>
+                                    {currentPage.choices.map((choice, index) => (
+                                        <button key={index} onClick={() => handleOptionClick(choice)}>
+                                            {choice.text}
+                                        </button>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No options available.</p>
+                            )}
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

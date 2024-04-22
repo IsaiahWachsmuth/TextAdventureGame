@@ -590,11 +590,6 @@ button.card-play-game-btn {
   overflow-y: auto;
 }
 
-.playgame-history-inner {
-  display: flex;
-  flex-direction: column-reverse; /* Reverse the order so the newest entry is at the bottom */
-}
-
 .playgame-history-page {
   margin-bottom: 10px;
 }
@@ -629,3 +624,44 @@ button.card-play-game-btn {
   }
 }
 
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+      background-color: #0056b3;
+  }
+}
+
+.username-popup {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.username-popup input {
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.username-popup button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+      background-color: #0056b3;
+  }
+}
