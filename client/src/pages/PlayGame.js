@@ -47,7 +47,6 @@ const PlayGamePage = () => {
     }, []);
 
     useEffect(() => {
-        // Scroll to the bottom of the history whenever it updates
         if (historyRef.current) {
             historyRef.current.scrollTop = historyRef.current.scrollHeight;
         }
@@ -105,7 +104,7 @@ const PlayGamePage = () => {
     return (
         <div className="playgame-container">
             {!isUsernameEntered && (
-                <div className="username-popup">
+                <div className="playgame-username-popup">
                     <input
                         type="text"
                         placeholder="Enter your username"
@@ -132,7 +131,7 @@ const PlayGamePage = () => {
                         ))}
                     </div>
 
-                    <button className="back-button" onClick={() => window.history.back()}>Back</button>
+                    <button className="playgame-back-button" onClick={() => window.history.back()}>Back</button>
 
                     {currentPage && (
                         <div className="playgame-current-page">
