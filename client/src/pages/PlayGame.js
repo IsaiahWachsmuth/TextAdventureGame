@@ -7,6 +7,7 @@ const PlayGamePage = () => {
     const [displayText, setDisplayText] = useState('');
     const [username, setUsername] = useState('');
     const [isUsernameEntered, setIsUsernameEntered] = useState(false);
+    const [isTextDisplaying, setIsTextDisplaying] = useState(false);
     const historyRef = useRef(null);
 
     useEffect(() => {
@@ -61,14 +62,14 @@ const PlayGamePage = () => {
             } else {
                 clearInterval(interval);
             }
-        }, 50);
+        }, 20);
     };
 
     useEffect(() => {
-        if (currentPage) {
+        if (isTextDisplaying && currentPage) {
             displayProgressively(`${currentPage.content}\n${currentPage.question}`);
         }
-    }, [currentPage]);
+    }, [isTextDisplaying, currentPage]);
 
     const handleOptionClick = (choice) => {
         let nextPage = null;
@@ -91,6 +92,13 @@ const PlayGamePage = () => {
     const handleUsernameSubmit = () => {
         if (username.trim() !== '') {
             setIsUsernameEntered(true);
+            setIsTextDisplaying(true); // Start displaying text progressively
+        }
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleUsernameSubmit();
         }
     };
 
@@ -103,6 +111,7 @@ const PlayGamePage = () => {
                         placeholder="Enter your username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        onKeyPress={handleKeyPress}
                     />
                     <button onClick={handleUsernameSubmit}>Submit</button>
                 </div>

@@ -160,7 +160,6 @@ const Sidebar = () => {
                 setResponseMessage(`Game Found!`);
                 window.location.href = '/play/' + code;
                 // Clear input fields
-                document.getElementById("name").value = '';
                 document.getElementById("code").value = '';
             } 
             
@@ -213,9 +212,6 @@ const Sidebar = () => {
                 </div>
                 <div id='student-log' style={{ display: activeView === 'student' ? "flex" : "none" }}>
                     <form onSubmit={(e) => e.preventDefault()}>
-                        <div>
-                            <input type="text" id="name" name="name" placeholder='Name' required />
-                        </div>
                         <div>
                             <input type="text" id="code" name="code" placeholder='Class Code' required />
                         </div>

@@ -572,96 +572,96 @@ button.card-play-game-btn {
 }
 
 .playgame-container {
-  font-family: Arial, sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .playgame-title {
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .playgame-history-container {
-  border: 1px solid #ccc;
-  padding: 10px;
-  max-height: 300px;
-  overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .playgame-history-page {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .playgame-current-page {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .playgame-current-page h4 {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .playgame-current-page button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-  &:hover {
-      background-color: #0056b3;
-  }
+    &:hover {
+        background-color: #0056b3;
+    }
 
-  &:last-child {
-      margin-bottom: 0;
-  }
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-  &:hover {
-      background-color: #0056b3;
-  }
+    &:hover {
+        background-color: #0056b3;
+    }
 }
 
 .username-popup {
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .username-popup input {
-  padding: 10px;
-  margin-right: 10px;
+    padding: 10px;
+    margin-right: 10px;
 }
 
 .username-popup button {
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-  &:hover {
-      background-color: #0056b3;
-  }
+    &:hover {
+        background-color: #0056b3;
+    }
 }
