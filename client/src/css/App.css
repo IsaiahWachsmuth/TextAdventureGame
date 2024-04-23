@@ -578,7 +578,6 @@ button.card-play-game-btn {
 
 
 
-
 .playgame-container {
   font-family: Arial, sans-serif;
   max-width: 800px;
@@ -636,6 +635,24 @@ button.card-play-game-btn {
   position: absolute;
   top: 20px;
   left: 20px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+      background-color: #0056b3;
+  }
+}
+
+.playgame-finish-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   padding: 10px;
   font-size: 16px;
   background-color: #007bff;

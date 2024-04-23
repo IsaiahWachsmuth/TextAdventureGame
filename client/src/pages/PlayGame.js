@@ -101,6 +101,11 @@ const PlayGamePage = () => {
         }
     };
 
+    const saveTranscript = () => {
+        const transcript = JSON.stringify(history);
+        alert(`Saving transcript:\n${transcript}`);
+    };
+
     return (
         <div className="playgame-container">
             {!isUsernameEntered && (
@@ -131,7 +136,9 @@ const PlayGamePage = () => {
                         ))}
                     </div>
 
-                    <button className="playgame-back-button" onClick={() => window.history.back()}>Back</button>
+                    <button className="playgame-back-button" onClick={() => { saveTranscript(); window.history.back(); }}>Back</button>
+
+                    <button className="playgame-finish-button" onClick={saveTranscript}>Finish</button>
 
                     {currentPage && (
                         <div className="playgame-current-page">
