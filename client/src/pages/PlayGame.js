@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from '../contexts/AuthContext.js';
+import { useNavigate } from 'react-router-dom';
 
 const PlayGamePage = () => {
     const [gameInfo, setGameInfo] = useState(null);
@@ -8,6 +10,8 @@ const PlayGamePage = () => {
     const [username, setUsername] = useState('');
     const [isUsernameEntered, setIsUsernameEntered] = useState(false);
     const [isTextDisplaying, setIsTextDisplaying] = useState(false);
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
     const historyRef = useRef(null);
 
     useEffect(() => {
@@ -124,7 +128,6 @@ const PlayGamePage = () => {
             });
     
             if (response.status === 201) {
-                alert('Transcript saved successfully!');
             } else {
                 const data = await response.json();  // <-- Add this line to parse error response
                 console.error('Error response:', data);  // <-- Log error response
@@ -135,7 +138,6 @@ const PlayGamePage = () => {
             alert('An error occurred while saving the transcript.');
         }
     };
-    
 
     return (
         <div className="playgame-container">
@@ -167,7 +169,14 @@ const PlayGamePage = () => {
                         ))}
                     </div>
 
-                    <button className="playgame-back-button" onClick={() => window.history.back()}>Back</button>
+                    <button 
+                        className="playgame-back-button" 
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    >
+                        Back
+                    </button>
                     <button className="playgame-finish-button" onClick={handleFinishClick}>Finish</button>
 
                     {currentPage && (

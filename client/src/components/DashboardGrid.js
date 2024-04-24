@@ -1,5 +1,5 @@
-// client/src/components/DashboardGrid.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
   const defaultImages = [
@@ -8,6 +8,8 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
     '/img/d-img-03.webp',
     '/img/d-img-04.webp'
   ];
+
+  const navigate = useNavigate();
 
   const getRandomImage = () => {
     const index = Math.floor(Math.random() * defaultImages.length);
@@ -28,15 +30,15 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
     onEditGame(game);
   };
 
-  function PlayGameButton({class_code}) {
-    const navigate = () => {
-      window.location.href = `http://localhost:3000/play/${class_code}`
+  function PlayGameButton({ class_code }) {
+    const navigateToPlay = () => {
+      navigate(`/play/${class_code}`);
     };
     return (
-      <button className='card-play-game-btn' onClick={navigate}> 
+      <button className='card-play-game-btn' onClick={navigateToPlay}> 
         <i className="fal fa-play-circle"></i> Play Game
       </button>
-    )
+    );
   }
 
   return (
@@ -58,7 +60,7 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
         </div>
       ))}
       <div className='game-card add-game' onClick={onAddGame}>
-      <i className="fas fa-plus"></i>
+        <i className="fas fa-plus"></i>
         <h5>Create Game</h5>
       </div>
     </section>
@@ -66,5 +68,3 @@ const DashboardGrid = ({ games, onAddGame, onGameSelect, onEditGame }) => {
 };
 
 export default DashboardGrid;
-
-
