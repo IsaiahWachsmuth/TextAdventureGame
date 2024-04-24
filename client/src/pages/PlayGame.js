@@ -32,7 +32,6 @@ const PlayGamePage = () => {
                     const data = await response.json();
                     setGameInfo(data.game);
                     setCurrentPage(data.game.pages[0]);
-
                 } else {
                     setGameInfo("No such game exists!");
                     alert("NO SUCH GAME EXISTS");
@@ -91,7 +90,7 @@ const PlayGamePage = () => {
     const handleUsernameSubmit = () => {
         if (username.trim() !== '') {
             setIsUsernameEntered(true);
-            setIsTextDisplaying(true); // Start displaying text progressively
+            setIsTextDisplaying(true);
         }
     };
 
@@ -101,10 +100,42 @@ const PlayGamePage = () => {
         }
     };
 
-    const saveTranscript = () => {
-        const transcript = JSON.stringify(history);
-        alert(`Saving transcript:\n${transcript}`);
+    const handleFinishClick = async () => {
+        const transcriptData = {
+            gameId: gameInfo.game_id,
+            studentName: username,
+            playhistory: history.map(entry => ({
+                content: entry.content,
+                question: entry.question,
+                choiceText: entry.choiceText,
+                image: entry.image 
+            })),
+        };
+
+        console.log(transcriptData);
+    
+        try {
+            const response = await fetch('http://localhost:3001/transcripts/createTranscript', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(transcriptData),
+            });
+    
+            if (response.status === 201) {
+                alert('Transcript saved successfully!');
+            } else {
+                const data = await response.json();  // <-- Add this line to parse error response
+                console.error('Error response:', data);  // <-- Log error response
+                alert('Failed to save transcript.');
+            }
+        } catch (error) {
+            console.error('Error saving transcript:', error);
+            alert('An error occurred while saving the transcript.');
+        }
     };
+    
 
     return (
         <div className="playgame-container">
@@ -136,9 +167,8 @@ const PlayGamePage = () => {
                         ))}
                     </div>
 
-                    <button className="playgame-back-button" onClick={() => { saveTranscript(); window.history.back(); }}>Back</button>
-
-                    <button className="playgame-finish-button" onClick={saveTranscript}>Finish</button>
+                    <button className="playgame-back-button" onClick={() => window.history.back()}>Back</button>
+                    <button className="playgame-finish-button" onClick={handleFinishClick}>Finish</button>
 
                     {currentPage && (
                         <div className="playgame-current-page">

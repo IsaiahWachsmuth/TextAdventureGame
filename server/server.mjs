@@ -6,6 +6,7 @@ import cors from 'cors';
 import passport from 'passport';
 import educatorRoutes from './routes/educator_routes.mjs';
 import adventuresRoutes from './routes/adventures_routes.mjs';
+import transcriptRoutes from './routes/transcript_routes.mjs'
 import cookieParser from 'cookie-parser';
 import './passport.mjs';
 
@@ -37,6 +38,7 @@ app.use(passport.session());
 
 app.use('/educator', educatorRoutes);
 app.use('/games', adventuresRoutes);
+app.use('/transcripts', transcriptRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
