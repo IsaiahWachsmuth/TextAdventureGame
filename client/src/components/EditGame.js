@@ -1,7 +1,9 @@
-// client/src/components/EditGame.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function EditGame({ game, onBack }) {
+    const navigate = useNavigate(); // Get the navigate function
+
     const [gameDetails, setGameDetails] = useState({
         title: game.title || '',
         description: game.description || '',
@@ -58,7 +60,7 @@ function EditGame({ game, onBack }) {
         newGameDetails.pages[pageIndex] = newPage;
         setGameDetails(newGameDetails);
     };
-    
+
     const removeChoiceFromPage = (pageIndex, choiceIndex) => {
         const newGameDetails = { ...gameDetails };
         const newPage = { ...newGameDetails.pages[pageIndex] };
@@ -70,7 +72,30 @@ function EditGame({ game, onBack }) {
             console.warn("Cannot remove the last choice.");
         }
     };
-    
+
+    const deleteGame = async (gameId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this game?");
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3001/games/${gameId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                // alert("Game deleted successfully.");
+                navigate(-1); // Navigate back to the previous page
+            } else {
+                alert("Failed to delete the game.");
+            }
+        } catch (error) {
+            console.error("There was an error deleting the game:", error);
+            alert("An error occurred while deleting the game.");
+        }
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -107,7 +132,6 @@ function EditGame({ game, onBack }) {
             console.error('Error updating the game:', error);
         }
     };
-    
 
     return (
         <section className='d-flex edit-game-wrap'>
@@ -135,6 +159,7 @@ function EditGame({ game, onBack }) {
                     <button type="button" onClick={addNewPage}>Add Page</button>
                     <button type="submit">Save Changes</button>
                     <button type="button" onClick={onBack}>Cancel</button>
+                    <button type="button" onClick={() => deleteGame(game.game_id)}>Delete Game</button>
                 </form>
             </section>
     
