@@ -3,8 +3,7 @@ import React from 'react';
 
 function AddEditSidebar({ game, addPage, onBack, handleSubmit }) {
     return (
-        <aside className="sidebar">
-            <button onClick={onBack}>Back</button>
+        <aside className="add-edit-sidebar">
             <ul>
                 <li onClick={() => document.getElementById('game-info-form').scrollIntoView()}>Game Info</li>
                 {game.pages.map((page, index) => (
@@ -13,7 +12,7 @@ function AddEditSidebar({ game, addPage, onBack, handleSubmit }) {
                     </li>
                 ))}
                 <li onClick={addPage}>Add Page</li>
-                <li onClick={handleSubmit}>Create Game</li>  {/* Added "Create Game" button */}
+                <li onClick={handleSubmit}>Create Game</li>
                 <li onClick={onBack}>Cancel</li>
             </ul>
         </aside>

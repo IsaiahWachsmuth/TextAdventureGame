@@ -77,50 +77,7 @@ function AddGame({ onBack }) {
         setGame({ ...game, pages: newPages });
     };
 
-    /* Known good handleSubmit function
     // Handle form submission
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('title', game.title);
-        formData.append('description', game.description);
-        formData.append('author', game.author);
-        if (image) {
-            formData.append('image', image);
-        }
-    
-        game.pages.forEach((page, index) => {
-            formData.append(`pages[${index}][page_id]`, page.page_id);
-            formData.append(`pages[${index}][content]`, page.content);
-            formData.append(`pages[${index}][question]`, page.question);
-            if (page.image && page.image instanceof File) { // Ensure the object is a File
-                formData.append(`pages[${index}][image]`, page.image, page.image.name);
-            }
-            page.choices.forEach((choice, choiceIndex) => {
-                formData.append(`pages[${index}][choices][${choiceIndex}][text]`, choice.text);
-                formData.append(`pages[${index}][choices][${choiceIndex}][isCorrect]`, choice.isCorrect);
-                formData.append(`pages[${index}][choices][${choiceIndex}][pageNav]`, choice.pageNav);
-            });
-        });
-    
-        try {
-            const response = await fetch('http://localhost:3001/games', {
-                method: 'POST',
-                body: formData,
-                credentials: 'include',
-            });
-            if (response.ok) {
-                onBack();
-            } else {
-                console.error('Error, returning anyway');
-                onBack();
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-   */ 
-
     const handleSubmit = async (event) => {
         event.preventDefault();
     
@@ -172,7 +129,7 @@ function AddGame({ onBack }) {
     
 
     return (
-        <div className='add-game-wrap'>
+        <div className='add-edit-game-wrap'>
             <AddEditSidebar game={game} addPage={addPage} onBack={onBack} handleSubmit={handleSubmit} /> {/* Passing handleSubmit here */}
             <div className="main-content">
                 <AddEditGameInfo game={game} image={image} setImage={setImage} handleChange={handleChange} handleSubmit={handleSubmit} />

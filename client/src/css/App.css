@@ -324,6 +324,47 @@ button.card-play-game-btn {
   height: max-content;
 }
 
+.add-edit-game-wrap {
+  display: flex;
+  height: 100vh;
+}
+
+.add-edit-sidebar {
+  width: 10%;
+  background-color: antiquewhite;
+  border-right: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.add-edit-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.add-edit-sidebar ul li {
+  padding: 10px;
+  margin: 5px 0; 
+  border: none; 
+  background-color: #007BFF; 
+  color: white; 
+  text-align: center; 
+  display: block;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 80%;
+  align-self: center;
+
+}
+
 .add-game-form, .edit-game-details, .edit-game-pages {
   flex-direction: column;
   align-items: flex-start;
