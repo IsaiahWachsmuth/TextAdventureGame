@@ -328,10 +328,18 @@ button.card-play-game-btn {
   display: flex;
   height: 100vh;
 }
+/*
+colors to test:
+#3b3d8c - lighter but still dark blue
+#272961 - dark blue
+#5a445f - purple/lav
+#f8f6ed - light yellow
+*/
 
+/* NEW ADD-EDIT-SIDEBAR STYLES */
 .add-edit-sidebar {
   width: 10%;
-  background-color: antiquewhite;
+  background-color: #272961;
   border-right: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -350,20 +358,70 @@ button.card-play-game-btn {
 }
 
 .add-edit-sidebar ul li {
-  padding: 10px;
+  padding: 0.5rem 0.75rem;
   margin: 5px 0; 
   border: none; 
-  background-color: #007BFF; 
   color: white; 
   text-align: center; 
-  display: block;
+  display: flex;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
-  width: 80%;
+  width: 90%;
   align-self: center;
 
 }
+
+.add-edit-sidebar ul li:hover {
+  background-color: #3b3d8c;
+}
+
+.add-edit-sidebar ul li span i {
+  padding: 0 0.5rem 0 0;
+}
+
+.add-edit-sidebar ul li.aes-heading {
+  text-transform: uppercase;
+  padding: 0 0 0 0.75rem;
+  margin: 1rem 0 0;
+  border-radius: 0;
+  cursor: default;
+  transition: none;
+}
+
+.add-edit-sidebar ul li.aes-heading:hover {
+  background-color: transparent;
+}
+
+li#bar {
+  border-top: 1px solid white;
+  padding: 0.5rem 0 0 0.75rem;
+}
+
+
+/* END NEW ADD-EDIT-SIDEBAR STYLES */
+
+/* NEW ADD-EDIT-MAIN STYLES */
+
+.main-content {
+  width: 90%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.add-edit-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+
+/* END NEW ADD-EDIT-MAIN STYLES */
+
+
 
 .add-game-form, .edit-game-details, .edit-game-pages {
   flex-direction: column;

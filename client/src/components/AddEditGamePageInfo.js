@@ -15,7 +15,7 @@ function AddEditGamePageInfo({ index, page, game, setGame, handlePageChange, rem
     };
 
     return (
-        <form id={`page-form-${index}`} className="page-info-form" onSubmit={(e) => e.preventDefault()}>
+        <form id={`page-form-${index}`} className="add-edit-form" onSubmit={(e) => e.preventDefault()}>
             <h3>{`Page ${index + 1}`}</h3>
             <input type="text" placeholder="Page ID" name="page_id" value={page.page_id} onChange={(e) => handlePageChange(index, e)} />
             <textarea name="content" placeholder="Content" value={page.content} onChange={(e) => handlePageChange(index, e)}></textarea>
@@ -56,7 +56,7 @@ function AddEditGamePageInfo({ index, page, game, setGame, handlePageChange, rem
             {page.imagePreview && (
                 <img src={page.imagePreview} alt="Img Preview" style={{ maxWidth: '100%', height: 'auto' }} />
             )}
-            <button type="button" onClick={() => removePage(index)}>Remove Page</button> // Use `removePage` here
+            <button type="button" onClick={() => removePage(index)}>Remove Page</button>
         </form>
     );
 }

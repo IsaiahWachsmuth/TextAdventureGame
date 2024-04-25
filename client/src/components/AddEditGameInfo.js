@@ -27,7 +27,7 @@ function AddEditGameInfo({ game, setImage, handleChange, handleSubmit }) {
     };
 
     return (
-        <form id="game-info-form" className="game-info-form" onSubmit={handleSubmit}>
+        <form id="game-info-form" className="add-edit-form" onSubmit={handleSubmit}>
             <h2>Game Info</h2>
             <input type="text" placeholder='Title' name="title" value={game.title} onChange={handleChange} />
             <input type="text" placeholder='Author' name="author" value={game.author} onChange={handleChange} />
