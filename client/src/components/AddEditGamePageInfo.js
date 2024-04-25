@@ -60,7 +60,7 @@ function AddEditGamePageInfo({ index, page, game, setGame, handlePageChange, rem
             <span>Image:</span>
             <input type="file" placeholder="Add Image" name="image" onChange={(e) => handlePageChange(index, e)} />
             {page.imagePreview && (
-                <img src={page.imagePreview} alt="Img Preview" style={{ maxWidth: '100%', height: 'auto' }} />
+                <img src={page.imagePreview} alt="Img Preview" />
             )}
             <span>Page Option:</span>
             <button type="button" onClick={() => removePage(index)}>Remove {`Page ${index + 1}`}</button>

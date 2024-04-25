@@ -38,7 +38,7 @@ function AddEditGameInfo({ game, setImage, handleChange, handleSubmit }) {
             <textarea placeholder='Description' name="description" value={game.description} onChange={handleChange}></textarea>
             <span>Cover Image:</span>
             <input type="file" name="image" onChange={handleImageChange} />
-            {imagePreview && <img src={imagePreview} alt="Game preview" style={{ maxWidth: '100%', height: 'auto' }} />}
+            {imagePreview && <img src={imagePreview} alt="Game preview" />}
         </form>
     );
 }
