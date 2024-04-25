@@ -26,10 +26,22 @@ function AddGame({ onBack }) {
     
         if (type === 'file' && files[0]) {
             const file = files[0];
+            const maxFileSize = 2.5 * 1024 * 1024; // 2.5MB limit
+    
+            if (file.size > maxFileSize) {
+                alert('The image is too large. Please select an image smaller than 2.5MB.');
+                // Clearing the image data to prevent any chance the person thinks this large image is happening.
+                event.target.value = ""; 
+                page.image = null;
+                page.imagePreview = null;
+                setGame({ ...game, pages });
+                return; // Stay on the same page
+            }
+    
             const reader = new FileReader();
             reader.onload = (e) => {
-                page.image = e.target.result; // Store Base64 string
-                page.imagePreview = URL.createObjectURL(file); // Update preview for display
+                page.image = e.target.result; // Base64 string
+                page.imagePreview = URL.createObjectURL(file); // Update preview
                 setGame({ ...game, pages });
             };
             reader.readAsDataURL(file);
@@ -126,7 +138,6 @@ function AddGame({ onBack }) {
             formData.append(`pages[${index}][content]`, page.content);
             formData.append(`pages[${index}][question]`, page.question);
     
-            // Append the image if it's a file
             if (page.image) {
                 formData.append(`pages[${index}][image]`, page.image); // Assuming this is now a Base64 string
             }
@@ -150,8 +161,9 @@ function AddGame({ onBack }) {
             if (response.ok) {
                 onBack(); // Navigate back or handle success
             } else {
-                console.error('Error, returning anyway');
-                onBack();
+                console.error('Error. Probably because an image is too large.');
+                alert('Error. Probably because an image is too large.');
+                return
             }
         } catch (error) {
             console.error('Error:', error);
