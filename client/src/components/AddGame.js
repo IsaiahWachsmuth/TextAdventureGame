@@ -20,23 +20,19 @@ function AddGame({ onBack }) {
 
     // Handle changes in the page fields, including dynamic choices
     const handlePageChange = (pageIndex, event) => {
-        const { name, value, type } = event.target;
+        const { name, value, type, files } = event.target;
         const pages = [...game.pages];
         const page = pages[pageIndex];
-
-        if (type === 'file') {
+    
+        if (type === 'file' && files[0]) {
+            const file = files[0];
             const reader = new FileReader();
-            const file = event.target.files[0];
-
-            reader.onloadend = () => {
-                page.image = reader.result;
-                page.imagePreview = URL.createObjectURL(file);
+            reader.onload = (e) => {
+                page.image = e.target.result; // Store Base64 string
+                page.imagePreview = URL.createObjectURL(file); // Update preview for display
                 setGame({ ...game, pages });
             };
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+            reader.readAsDataURL(file);
         } else if (name.startsWith('choices-')) {
             const choiceIndex = parseInt(name.split('-')[3], 10);
             if (name.includes('text')) {
@@ -131,8 +127,8 @@ function AddGame({ onBack }) {
             formData.append(`pages[${index}][question]`, page.question);
     
             // Append the image if it's a file
-            if (page.image && page.image instanceof File) {
-                formData.append(`pages[${index}][image]`, page.image);
+            if (page.image) {
+                formData.append(`pages[${index}][image]`, page.image); // Assuming this is now a Base64 string
             }
     
             // Handle choices array
