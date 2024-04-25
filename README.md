@@ -2,13 +2,13 @@ CLIENT:\
 Open Terminal:\
 Change directory to client.\
 npm i\
-npm start\
+npm start
 
 SERVER:\
 Open new terminal:\
 Change directory to server.\
 npm i \
-npm start\
+npm start
 
 MONGODB:\
 mongoose.connect(\
