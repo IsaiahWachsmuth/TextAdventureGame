@@ -339,7 +339,7 @@ button.card-play-game-btn {
 }
 
 #add-page-sec, #edit-page-sec {
-  width: 70%;
+  /*width: 70%;*/
   min-height: 100%;
   max-height: max-content;
 }
