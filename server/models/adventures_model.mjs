@@ -21,7 +21,6 @@ const pageSchema = mongoose.Schema({
 
 
 const gameSchema = mongoose.Schema({
-    // game_id: { type: String, required: true },
     class_code: {type: String, required: true},
     title: { type: String, required: true },
     description: { type: String, required: true },
@@ -45,7 +44,7 @@ const findAllGames = async () => {
 
 const findGamesByEducator = async (educatorId) => {
     try {
-        const games = await Game.find({ author: educatorId });
+        const games = await Game.find({ educator: educatorId });
         return games;
     } catch (error) {
         console.error("Failed to find games by educator:", error);
@@ -95,8 +94,7 @@ const deleteGame = async (_id) => {
         const game = await Game.findById(_id).populate('educator');
         
         if (!game) {
-            console.log("No game found with that ID.")
-            console.log(_id)
+            console.log(`No game found with ID. ${_id}`)
             return { deletedCount: 0, message: "No game found with that ID." };  // No game found
         }
 

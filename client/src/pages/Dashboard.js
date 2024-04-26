@@ -12,15 +12,26 @@ const Dashboard = () => {
     const [selectedGame, setSelectedGame] = useState(null);
 
     useEffect(() => {
+        console.log(`currentView changed to: ${currentView}`);
         // Re-fetch games when the view changes back to 'list', ensuring that any updates or additions are reflected
         if (currentView === 'list') {
             const fetchGames = async () => {
+                console.log('fetching games');
                 try {
-                    const response = await fetch('http://localhost:3001/games', {
+                    const response = await fetch('http://localhost:3001/educator/adventures', {
+                        method: 'GET',
                         credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
                     });
                     const data = await response.json();
-                    setGames(data); // Update state with fetched games
+                    if (!Array.isArray(data)) {
+                        console.error('Expected games to be an array but received:', data);
+                        setGames([]);
+                    } else {
+                        setGames(data);
+                    }
                 } catch (error) {
                     console.error("Failed to fetch games:", error);
                 }

@@ -22,6 +22,7 @@ function GamePage({ setGameToEdit }) {
     };    
 
     const loadGames = async () => {
+        console.log("Loading games from GamePage.js");
         const response = await fetch('http://localhost:3001/games');
         const data = await response.json();
         setGames(data);

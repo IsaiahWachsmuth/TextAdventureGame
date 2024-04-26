@@ -5,7 +5,7 @@ import {
     loginEducator, 
     createSession, 
     addGameToEducator,
-    getAdventuresByEducator
+    getEducatorAdventures
 } from '../controllers/educator_controller.mjs';
 
 import { checkAuthenticated } from '../middleware/authMiddleware.mjs';
@@ -19,11 +19,11 @@ router.post('/login', loginEducator);
 // Protected routes
 router.get('/protected', checkAuthenticated); // wut dis do?
 
-router.get('/dashboard', checkAuthenticated, (req, res) => {
-    res.status(200).json({ message: 'Hello', user: req.user });
-});
+// router.get('/dashboard', checkAuthenticated, (req, res) => {
+//     res.status(200).json({ message: 'Hello', user: req.user });
+// });
 router.post('/createSession', checkAuthenticated, createSession);
 router.post('/addGame', checkAuthenticated, addGameToEducator);
 
-router.get('/:id/adventures', checkAuthenticated, getAdventuresByEducator);
+router.get('/adventures', checkAuthenticated, getEducatorAdventures);
 export default router;

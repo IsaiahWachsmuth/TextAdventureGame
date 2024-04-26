@@ -4,11 +4,17 @@ import passport from 'passport';
 
 // Check if the user is authenticated
 export const checkAuthenticated = (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if (req.isAuthenticated()) {
+        console.log("NEXT")
+        next();
+        return;
+    }
+    passport.authenticate('local', { session: true }, (err, user, info) => {
         if (err) {
             return res.status(500).json({ message: "Error in authentication", err });
         }
         if (!user) {
+            console.log("NO USER FOUND")
             return res.status(401).json({ message: "No user found" });
         }
         req.user = user; // Attach user to the request object

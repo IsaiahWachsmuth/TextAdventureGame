@@ -2,7 +2,6 @@
 import Educator from '../models/educator_model.mjs';
 import passport from 'passport';
 import JWT from 'jsonwebtoken';
-import { findGamesByEducator } from '../models/adventures_model.mjs';
 
 // Create a new educator
 export const createEducator = async (req, res) => {
@@ -23,20 +22,25 @@ export const createEducator = async (req, res) => {
     }
 };
 
-export const getAdventuresByEducator = async (req, res) => {
-    const educatorId = req.params.id; // Get the educator ID from the route parameter
-
+export const getEducatorAdventures = async (req, res) => {
     try {
-        const games = await findGamesByEducator(educatorId);
-        if (games.length === 0) {
-            return res.status(404).json({ message: 'No games found for this educator' });
+        const educatorId = req.user._id;
+        console.log(`educatorId: ${req.user.id}`);
+        const educator = await Educator.findById(educatorId).populate('adventures');
+        if (!educator) {
+            return res.status(404).json({ message: 'Educator not found' });
         }
-        res.json(games); // Send the games back in the response
+        console.log(educator.adventures)
+        res.json(educator.adventures);
     } catch (error) {
-        console.error('Error fetching games by educator:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error fetching educator adventures:', error);
+        if (!res.headersSent) {
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
     }
 };
+
+
 
 // Handle educator login
 export const loginEducator = (req, res, next) => {
@@ -55,6 +59,7 @@ export const loginEducator = (req, res, next) => {
             if (err) {
                 return res.status(500).json({ message: err.message });
             }
+            console.log("LOGGED IN SUCCESSFULLY")
             return res.json({ message: 'Logged in successfully', user: { id: user._id, email: user.email } });
         });
     })(req, res, next);
@@ -93,20 +98,6 @@ export const addGameToEducator = async (educatorId, gameId) => {
     } catch (error) {
         console.error('Error adding game to educator:', error);
         throw error; // Rethrow the error to be handled by the caller
-    }
-};
-
-export const getEducatorAdventures = async (req, res) => {
-    try {
-        const educatorId = req.params.id;
-        const educator = await Educator.findById(educatorId).populate('adventures');
-        if (!educator) {
-            return res.status(404).json({ message: 'Educator not found' });
-        }
-        res.json(educator.adventures);
-    } catch (error) {
-        console.error('Error fetching educator adventures:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
