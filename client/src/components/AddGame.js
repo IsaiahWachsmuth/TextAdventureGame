@@ -52,9 +52,9 @@ function AddGame({ onBack }) {
             } else if (name.includes('nav')) {
                 page.choices[choiceIndex].pageNav = value;
             } else if (name.includes('correct')) {
-                page.choices.forEach((choice, idx) => {
-                    choice.isCorrect = (idx === choiceIndex);
-                });
+                pages[pageIndex].choices.forEach(choice => choice.isCorrect = false);
+                const selectedChoiceIndex = parseInt(value, 10);
+                pages[pageIndex].choices[selectedChoiceIndex].isCorrect = true;
             }
         } else {
             page[name] = value;

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import AddEditSidebar from './AddEditSidebar';
+import AddEditGameInfo from './AddEditGameInfo';
+import AddEditGamePageInfo from './AddEditGamePageInfo';
 
 function EditGame({ game, onBack }) {
-    const navigate = useNavigate(); // Get the navigate function
 
     const [gameDetails, setGameDetails] = useState({
+        game: game._id,
         title: game.title || '',
         description: game.description || '',
         author: game.author || '',
-        classCode: game.class_code || '',
         pages: game.pages || [],
     });
 
@@ -17,7 +18,11 @@ function EditGame({ game, onBack }) {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setGameDetails({ ...gameDetails, [name]: value });
+        if (name === 'image') {
+            setImage(event.target.files[0]);
+        } else {
+            setGameDetails({ ...gameDetails, [name]: value });
+        }
     };
 
     const handleImageChange = (event) => {
@@ -28,186 +33,116 @@ function EditGame({ game, onBack }) {
         }
     };
 
-    const handlePageChange = (index, name, value) => {
-        const updatedPages = gameDetails.pages.map((page, pageIndex) => {
-            if (index === pageIndex) {
-                return { ...page, [name]: value };
+    const handlePageChange = (pageIndex, event) => {
+        const { name, value, type, files } = event.target;
+        const newPages = [...gameDetails.pages];
+        const page = newPages[pageIndex];
+    
+        if (type === 'file' && files[0]) {
+            const file = files[0];
+            const maxFileSize = 2.5 * 1024 * 1024; // 2.5MB limit
+    
+            if (file.size > maxFileSize) {
+                alert('The image is too large. Please select an image smaller than 2.5MB.');
+                event.target.value = ""; 
+                return;
             }
-            return page;
-        });
-        setGameDetails({ ...gameDetails, pages: updatedPages });
+    
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                page.image = e.target.result; // Base64 string
+                page.imagePreview = URL.createObjectURL(file); // Update preview
+                setGameDetails({ ...gameDetails, pages: newPages });
+            };
+            reader.readAsDataURL(file);
+        } else if (name.startsWith('choices-')) {
+            const choiceIndex = parseInt(name.split('-')[3], 10);
+            if (name.includes('text')) {
+                page.choices[choiceIndex].text = value;
+            } else if (name.includes('nav')) {
+                page.choices[choiceIndex].pageNav = value;
+            } else if (name.includes('correct')) {
+                page.choices.forEach(choice => choice.isCorrect = false);
+                const selectedChoiceIndex = parseInt(value, 10);
+                page.choices[selectedChoiceIndex].isCorrect = true;
+            }
+        } else {
+            page[name] = value;
+        }
+        setGameDetails({ ...gameDetails, pages: newPages });
     };
 
-    const addNewPage = () => {
+    const addPage = () => {
         setGameDetails({
             ...gameDetails,
-            pages: [...gameDetails.pages, { content: '', question: '', choices: [''] }],
+            pages: [...gameDetails.pages, { page_id: '', content: '', question: '', choices: [{ text: '', isCorrect: false, pageNav: '' }], image: null, imagePreview: null }]
         });
     };
 
-    const removePage = (index) => {
-        const filteredPages = gameDetails.pages.filter((_, pageIndex) => index !== pageIndex);
-        setGameDetails({ ...gameDetails, pages: filteredPages });
-    };
-
-    const addChoiceToPage = (pageIndex) => {
-        const newGameDetails = { ...gameDetails };
-        const newPage = { ...newGameDetails.pages[pageIndex] };
-        if (!newPage.choices) {
-            newPage.choices = []; // Ensure there's a choices array to push to
-        }
-        newPage.choices.push({ text: '', isCorrect: false }); // Add a new choice object
-        newGameDetails.pages[pageIndex] = newPage;
-        setGameDetails(newGameDetails);
-    };
-
-    const removeChoiceFromPage = (pageIndex, choiceIndex) => {
-        const newGameDetails = { ...gameDetails };
-        const newPage = { ...newGameDetails.pages[pageIndex] };
-        if (newPage.choices && newPage.choices.length > 1) { // Ensure there are choices to remove
-            newPage.choices.splice(choiceIndex, 1); // Remove the choice at choiceIndex
-            newGameDetails.pages[pageIndex] = newPage;
-            setGameDetails(newGameDetails);
-        } else {
-            console.warn("Cannot remove the last choice.");
-        }
-    };
-
-    const deleteGame = async (gameId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this game?");
-        if (!confirmDelete) {
-            return;
-        }
-
-        try {
-            const response = await fetch(`http://localhost:3001/games/${gameId}`, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                // alert("Game deleted successfully.");
-                navigate(-1); // Navigate back to the previous page
-            } else {
-                alert("Failed to delete the game.");
-            }
-        } catch (error) {
-            console.error("There was an error deleting the game:", error);
-            alert("An error occurred while deleting the game.");
-        }
+    // Remove a page from the game
+    const removePage = (pageIndex) => {
+        const newPages = [...gameDetails.pages];
+        newPages.splice(pageIndex, 1);
+        setGameDetails({ ...gameDetails, pages: newPages });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+    
         const formData = new FormData();
-        
-        // Append simple fields directly
         formData.append('title', gameDetails.title);
         formData.append('description', gameDetails.description);
         formData.append('author', gameDetails.author);
-        
-        // Append each page as a JSON string
-        gameDetails.pages.forEach((page, index) => {
-            formData.append(`pages[${index}]`, JSON.stringify(page)); // Modified to append each page as a string
-        });
-    
-        // Handling image upload if a new image was selected
-        if (image instanceof File) {
+        if (image && image instanceof File) {
             formData.append('image', image);
-        } else {
-            if(gameDetails.image) formData.append('keepExistingImage', 'true');
         }
     
+        gameDetails.pages.forEach((page, index) => {
+            formData.append(`pages[${index}][page_id]`, page.page_id);
+            formData.append(`pages[${index}][content]`, page.content);
+            formData.append(`pages[${index}][question]`, page.question);
+    
+            if (page.image) {
+                formData.append(`pages[${index}][image]`, page.image);
+            }
+    
+            page.choices.forEach((choice, choiceIndex) => {
+                formData.append(`pages[${index}][choices][${choiceIndex}][text]`, choice.text);
+                formData.append(`pages[${index}][choices][${choiceIndex}][isCorrect]`, choice.isCorrect.toString());
+                if (choice.pageNav) {
+                    formData.append(`pages[${index}][choices][${choiceIndex}][pageNav]`, choice.pageNav);
+                }
+            });
+        });
+    
         try {
-            const response = await fetch(`http://localhost:3001/games/${game.game_id}`, {
+            const response = await fetch(`http://localhost:3001/games/${game._id}`, {
                 method: 'PUT',
                 body: formData,
                 credentials: 'include',
             });
             if (response.ok) {
-                onBack();
+                onBack(); // Navigate back or handle success
             } else {
-                throw new Error('Failed to update the game');
+                console.error('Error. Probably because an image is too large.');
+                alert('Error. Probably because an image is too large.');
+                return
             }
         } catch (error) {
-            console.error('Error updating the game:', error);
+            console.error('Error:', error);
         }
     };
 
     return (
-        <section className='d-flex edit-game-wrap'>
-    
-            <section className='d-flex edit-game-details' id='edit-game-sec'>
-                <h2>Edit Game Info</h2>
-                <form className='d-flex' onSubmit={handleSubmit}>
-                    <label>
-                        <input type="text" placeholder='Title' name="title" value={gameDetails.title} onChange={handleChange} />
-                    </label>
-                    <label>
-                        <input type="text" placeholder='Author' name="author" value={gameDetails.author} onChange={handleChange} />
-                    </label>
-                    <span>
-                        Class Code: {gameDetails.classCode}
-                    </span>
-                    <label>
-                        <textarea name="description" placeholder='Description' value={gameDetails.description} onChange={handleChange}></textarea>
-                    </label>
-                    <label>
-                        Image:
-                        <input type="file" name="image" onChange={handleImageChange} />
-                        {imagePreview && <img src={imagePreview} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px' }} />}
-                    </label>
-                    <button type="button" onClick={addNewPage}>Add Page</button>
-                    <button type="submit">Save Changes</button>
-                    <button type="button" onClick={onBack}>Cancel</button>
-                    <button type="button" onClick={() => deleteGame(game.game_id)}>Delete Game</button>
-                </form>
-            </section>
-    
-            <section className='d-flex edit-game-pages' id='edit-page-sec'>
-                <h2>Edit Pages</h2>
+        <div className='add-edit-game-wrap'>
+            <AddEditSidebar game={game} addPage={addPage} onBack={onBack} handleSubmit={handleSubmit} />
+            <div className="main-content">
+                <AddEditGameInfo game={gameDetails} image={image} setImage={setImage} handleChange={handleChange} handleSubmit={handleSubmit} />
                 {gameDetails.pages.map((page, index) => (
-                    <div key={index} className='edit-page-form'>
-                        <h4>Page {index + 1}</h4>
-                        <label>
-                            <textarea name="content" placeholder='Contnet' value={page.content || ''} onChange={(e) => handlePageChange(index, 'content', e.target.value)}></textarea>
-                        </label>
-                        <label>
-                            <input type="text" name="question" placeholder='Question' value={page.question || ''} onChange={(e) => handlePageChange(index, 'question', e.target.value)} />
-                        </label>
-
-                        {page.choices.map((choice, choiceIndex) => (
-                            <div key={choiceIndex} className='edit-choice-form'>
-                                <label>
-                                    Choice {choiceIndex + 1}:
-                                    <input
-                                        type="text"
-                                        placeholder='Choice Text'
-                                        name={`choice-${choiceIndex}`}
-                                        value={choice.text || ''}
-                                        onChange={(e) => handlePageChange(index, `choices-${choiceIndex}`, e.target.value)}
-                                    />
-                                </label>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name={`choice-correct-${choiceIndex}`}
-                                        checked={choice.isCorrect || false}
-                                        onChange={(e) => handlePageChange(index, `choices-correct-${choiceIndex}`, e.target.checked)}
-                                    /> Correct
-                                </label>
-                                {page.choices.length > 1 && (
-                                    <button type="button" onClick={() => removeChoiceFromPage(index, choiceIndex)}>Remove Choice</button>
-                                )}
-                            </div>
-                        ))}
-                        <button type="button" onClick={() => addChoiceToPage(index)}>Add Choice</button>
-                        <button type="button" onClick={() => removePage(index)}>Remove Page</button>
-                    </div>
+                    <AddEditGamePageInfo key={index} index={index} page={page} game={gameDetails} setGameDetails={setGameDetails} handlePageChange={handlePageChange} removePage={removePage} />
                 ))}
-                
-            </section>
-    
-        </section>
+            </div>
+        </div>
     );
 }
 
