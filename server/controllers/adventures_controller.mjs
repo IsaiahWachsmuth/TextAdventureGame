@@ -116,18 +116,9 @@ export const updateGame = async (req, res) => {
 
     let updateData = { ...req.body };
 
-    if (updateData.pages && typeof updateData.pages === 'string') {
-        try {
-            updateData.pages = JSON.parse(updateData.pages);
-        } catch (error) {
-            console.error("Error parsing pages:", error);
-            return res.status(400).json({ message: "Invalid format for pages" });
-        }
-    }
-
     try {
-        const updatedGame = await games.Game.findOneAndUpdate(
-            { game_id: game_id }, // Use the custom field for matching
+        const updatedGame = await Game.findOneAndUpdate(
+            { _id: game_id },  // Change this to _id if using MongoDB's default
             updateData,
             { new: true }
         );
@@ -144,12 +135,6 @@ export const updateGame = async (req, res) => {
         res.status(500).json({ message: "Error updating game" });
     }
 };
-
-
-
-
-
-
 
 // Delete a game
 export const deleteGame = async (req, res) => {
