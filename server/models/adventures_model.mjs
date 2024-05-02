@@ -96,14 +96,13 @@ const updateGame = async (game_id, updateData) => {
             updateData.pages = JSON.parse(updateData.pages);
         }
 
-        const updatedGame = await Game.findOneAndUpdate({ _id: game_id }, updateData, { new: true });
+        const updatedGame = await Game.findOneAndUpdate({ game_id }, updateData, { new: true });
         return updatedGame;
     } catch (error) {
         console.error("Failed to update game:", error);
         throw error;
     }
 };
-
 
 // Method to delete a game
 const deleteGame = async (game_id) => {
