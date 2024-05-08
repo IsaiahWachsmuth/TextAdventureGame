@@ -21,3 +21,13 @@ export const createTranscript = async (req, res) => {
     }
 };
 
+export const findTranscriptsByGameIdController = async (req, res) => {
+    try {
+        const { gameId } = req.query;
+        const transcripts = await findTranscriptsByGameId(gameId);
+        res.json(transcripts);
+    } catch (error) {
+        console.error('Error fetching transcripts by game ID:', error);
+        res.status(500).json({ message: 'Error fetching transcripts by game ID' });
+    }
+};

@@ -27,4 +27,8 @@ export const createGameTranscript = async (gameId, studentName, playhistory) => 
   return newTranscript;
 };
 
+export const findTranscriptsByGameId = async (gameId) => {
+  return await GameTranscript.find({ gameId });
+};
+
 export default GameTranscript;
