@@ -58,7 +58,7 @@ function GameDetails({ game, onBack }) {
 
             if (response.ok) {
                 alert("Game deleted successfully.");
-                onBack();
+                onBack(); // Navigate back or refresh the list
             } else {
                 alert("Failed to delete the game.");
             }
@@ -91,8 +91,39 @@ function GameDetails({ game, onBack }) {
 
                 <div className='game-detail-pages'>
                     <h1>Game Pages for <strong>{game.title}</strong></h1>
+                    {hasPages ? (
+                        <>
+                            <div>
+                                <h3>Page {currentPageIndex + 1}</h3>
+                                <p><strong>Page ID:</strong> {game.pages[currentPageIndex].page_id}</p>
+                                <p><strong>Content:</strong> {game.pages[currentPageIndex].content}</p>
+                                <p><strong>Question:</strong> {game.pages[currentPageIndex].question}</p>
+                                <p><strong>Choices:</strong>
+                                    <div>
+                                        {game.pages[currentPageIndex].choices.map((choice, index) => (
+                                            <div key={index}>{index + 1}. {choice.text} {choice.isCorrect ? "(Correct Answer)" : ""} 
+                                                <p>{choice.pageNav ? `This choice navigates to room: ${choice.pageNav}` : ""}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </p>
+                                {game.pages[currentPageIndex].image && (
+                                    <p>
+                                        <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" style={{ maxWidth: '100%', height: '240px' }} />
+                                    </p>
+                                )}
+                            </div>
+                            <div>
+                                <button onClick={goToPreviousPage} disabled={currentPageIndex === 0}>Previous Page</button>
+                                <button onClick={goToNextPage} disabled={currentPageIndex === game.pages.length - 1}>Next Page</button>
+                            </div>
+                        </>
+                    ) : (
+                        <h3>No pages available for this game.</h3>
+                    )}
                 </div>
 
+                {/* New section for recent playthroughs */}
                 <RecentPlaythroughs game={game} />
             </section>
         </div>

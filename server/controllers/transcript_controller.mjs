@@ -1,4 +1,5 @@
 import { createGameTranscript } from '../models/transcript_model.mjs';
+import { findTranscriptsByGameId } from '../models/transcript_model.mjs';
 
 export const createTranscript = async (req, res) => {
     try {
