@@ -32,3 +32,5 @@ export const findTranscriptsByGameIdController = async (req, res) => {
         res.status(500).json({ message: 'Error fetching transcripts by game ID' });
     }
 };
+
+//github test
