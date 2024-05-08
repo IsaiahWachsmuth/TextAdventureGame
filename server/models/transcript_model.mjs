@@ -17,6 +17,8 @@ const gameTranscriptSchema = new Schema({
     ],
     required: true
   }
+}, {
+  timestamps: true
 });
 
 const GameTranscript = mongoose.model("GameTranscript", gameTranscriptSchema, 'GameTranscripts');

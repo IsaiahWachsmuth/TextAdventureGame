@@ -17,12 +17,18 @@ function RecentPlaythroughs({ game }) {
         fetchPlaythroughs();
     }, [game]);
 
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: true };
+        return date.toLocaleString('en-US', options);
+    };
+
     return (
         <div className="recent-playthroughs">
             <h2>Recent Playthroughs</h2>
             {Array.isArray(playthroughs) && playthroughs.map((playthrough, index) => (
                 <div key={index}>
-                    <p>{playthrough.studentName}: {playthrough.playhistory.length} pages played</p>
+                    <p><strong>{playthrough.studentName}:</strong> {formatDate(playthrough.createdAt)}</p>
                 </div>
             ))}
         </div>
