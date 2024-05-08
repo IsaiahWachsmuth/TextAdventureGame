@@ -128,6 +128,7 @@ const PlayGamePage = () => {
             });
     
             if (response.status === 201) {
+                navigate(-1);
             } else {
                 const data = await response.json();  // <-- Add this line to parse error response
                 console.error('Error response:', data);  // <-- Log error response
