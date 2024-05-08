@@ -1,7 +1,6 @@
-// src/components/GameDetails.js
 import React, { useState } from 'react';
 
-function GameDetails({ game, onBack }) {
+function GameDetails({ game, onBack, onViewTranscripts }) {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const hasPages = game.pages && game.pages.length > 0;
 
@@ -45,15 +44,13 @@ function GameDetails({ game, onBack }) {
             <header className='game-detail-header'>
                 <button onClick={onBack}>Back to List</button>
                 <button onClick={() => deleteGame(game.game_id)}>Delete Game</button>
+                <button onClick={onViewTranscripts}>View Transcripts</button>
             </header>
             <div className='game-detail-info'>
                 <h1>Game Info for <strong>{game.title}</strong></h1>
                 <p>Author: {game.author}</p>
-                <p>
-                    Class Code: {game.class_code}
-                </p>
+                <p>Class Code: {game.class_code}</p>
                 <div className='game-detail-image-wrapper'>
-
                     {game.image && (
                         <img src={`data:image/jpeg;base64,${game.image}`} alt="Game Image" style={{ maxWidth: '100%', height: '480px' }} />
                     )}
@@ -65,39 +62,41 @@ function GameDetails({ game, onBack }) {
             
             <div className='game-detail-pages'>
                 <h1>Game Pages for <strong>{game.title}</strong></h1>
-            {hasPages ? (
-                <>
-                    <div>
-                        <h3>Page {currentPageIndex + 1}</h3>
-                        <p><strong>Page ID:</strong> {game.pages[currentPageIndex].page_id}</p>
-                        <p><strong>Content:</strong> {game.pages[currentPageIndex].content}</p>
-                        <p><strong>Question:</strong> {game.pages[currentPageIndex].question}</p>
-                        <p><strong>Choices:</strong>
-                            <div>
-                                {game.pages[currentPageIndex].choices.map((choice, index) => (
-                                    <div key={index}>{index + 1}. {choice.text} {choice.isCorrect ? "(Correct Answer)" : ""} 
-                                        <p>{choice.pageNav ? `This choice navigates to room: ${choice.pageNav}` : ""}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </p>
-                        {game.pages[currentPageIndex].image && (
-                            <p>
-                                <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" style={{ maxWidth: '100%', height: '240px' }} />
+                {hasPages ? (
+                    <>
+                        <div>
+                            <h3>Page {currentPageIndex + 1}</h3>
+                            <p><strong>Page ID:</strong> {game.pages[currentPageIndex].page_id}</p>
+                            <p><strong>Content:</strong> {game.pages[currentPageIndex].content}</p>
+                            <p><strong>Question:</strong> {game.pages[currentPageIndex].question}</p>
+                            <p><strong>Choices:</strong>
+                                <div>
+                                    {game.pages[currentPageIndex].choices.map((choice, index) => (
+                                        <div key={index}>
+                                            {index + 1}. {choice.text} {choice.isCorrect ? "(Correct Answer)" : ""} 
+                                            <p>{choice.pageNav ? `This choice navigates to room: ${choice.pageNav}` : ""}</p>
+                                        </div>
+                                    ))}
+                                </div>
                             </p>
-                        )}
-                    </div>
-                    <div>
-                        <button onClick={goToPreviousPage} disabled={currentPageIndex === 0}>Previous Page</button>
-                        <button onClick={goToNextPage} disabled={currentPageIndex === game.pages.length - 1}>Next Page</button>
-                    </div>
-                </>
-            ) : (
-                <h3>No pages available for this game.</h3>
-            )}
+                            {game.pages[currentPageIndex].image && (
+                                <p>
+                                    <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" style={{ maxWidth: '100%', height: '240px' }} />
+                                </p>
+                            )}
+                        </div>
+                        <div>
+                            <button onClick={goToPreviousPage} disabled={currentPageIndex === 0}>Previous Page</button>
+                            <button onClick={goToNextPage} disabled={currentPageIndex === game.pages.length - 1}>Next Page</button>
+                        </div>
+                    </>
+                ) : (
+                    <h3>No pages available for this game.</h3>
+                )}
             </div>
         </section>
     );
 }
 
 export default GameDetails;
+
