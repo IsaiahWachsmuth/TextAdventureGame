@@ -75,33 +75,37 @@ function GameDetails({ game, onBack }) {
     };
 
     return (
-        <div>
-            <header className='game-detail-header'>
-                <button onClick={onBack}>Back to List</button>
-                <button onClick={() => deleteGame(game.game_id)}>Delete Game</button>
-            </header>
-            <section className='d-flex game-detail-wrapper'>
+        <div className='game-detail-wrapper'>
+
+            <section className='game-detail'>
                 <div className='game-detail-info'>
-                    <h1>Game Info for <strong>{game.title}</strong></h1>
-                    <p>Author: {game.author}</p>
-                    <p>Class Code: {game.class_code}</p>
+                    <div className='game-detail-info-wrapper'>
+                        <h1>Game Info for <strong>{game.title}</strong></h1>
+                        <p>Author: {game.author}</p>
+                        <p>Class Code: {game.class_code}</p>
+                        <div className='game-detail-description'>
+                            <p>{game.description}</p>
+                        </div>
+                    </div>
                     <div className='game-detail-image-wrapper'>
                         {game.image && (
                             <img src={`data:image/jpeg;base64,${game.image}`} alt="Game Image" style={{ maxWidth: '100%', height: '480px' }} />
                         )}
                     </div>
-                    <div className='game-detail-description'>
-                        <p>{game.description}</p>
-                    </div>
                 </div>
 
                 <div className='game-detail-pages'>
-                    <h1>Game Pages for <strong>{game.title}</strong></h1>
+                    
                     {hasPages ? (
                         <>
                             <div>
-                                <h3>Page {currentPageIndex + 1}</h3>
-                                <p><strong>Page ID:</strong> {game.pages[currentPageIndex].page_id}</p>
+                                <nav>
+                                <h3><strong>Page ID:</strong> {game.pages[currentPageIndex].page_id}</h3>
+                                <p>Page {currentPageIndex + 1}</p>
+                                <button onClick={goToPreviousPage} disabled={currentPageIndex === 0}>Previous Page</button>
+                                <button onClick={goToNextPage} disabled={currentPageIndex === game.pages.length - 1}>Next Page</button>
+                                </nav>
+                                
                                 <p><strong>Content:</strong> {game.pages[currentPageIndex].content}</p>
                                 <p><strong>Question:</strong> {game.pages[currentPageIndex].question}</p>
                                 <p><strong>Choices:</strong>
@@ -119,20 +123,19 @@ function GameDetails({ game, onBack }) {
                                     </p>
                                 )}
                             </div>
-                            <div>
-                                <button onClick={goToPreviousPage} disabled={currentPageIndex === 0}>Previous Page</button>
-                                <button onClick={goToNextPage} disabled={currentPageIndex === game.pages.length - 1}>Next Page</button>
-                            </div>
+                            
                         </>
                     ) : (
                         <h3>No pages available for this game.</h3>
                     )}
                 </div>
-
-                {/* New section for recent playthroughs */}
-                <RecentPlaythroughs game={game} />
             </section>
-        </div>
+
+            <aside className='recent-playthroughs'>
+                    <RecentPlaythroughs game={game} />
+            </aside>
+        
+        </div> 
     );
 }
 

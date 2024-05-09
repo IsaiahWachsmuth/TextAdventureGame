@@ -723,20 +723,52 @@ li#delete {
 /* Game Details */
 .game-detail-wrapper {
   display: flex;
-  align-items: stretch; 
+  justify-content: center;
   height: 100%;
+  width: 100%;
+}
+.game-detail {
+  width: 50%;
+  border-right: 1px solid black;
+  margin: 1rem;
+  padding: 1rem;
 }
 
-.game-detail-info,
+.game-detail-info {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid black;
+}
+
+.game-detail-info-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  width: 60%;
+}
+
+.game-detail-image-wrapper {
+  display: flex;
+  width: 40%;
+  justify-content: center;
+}
+
+.game-detail-image-wrapper img {
+  padding: 1rem;
+}
+
 .game-detail-pages,
 .recent-playthroughs {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0 1rem;
+  text-align: left;
 }
 
-.game-detail-info {
+/*.game-detail-info {
   width: 30%;
   border-right: 1px solid #282c34;
 }
@@ -744,7 +776,7 @@ li#delete {
 .game-detail-pages {
   width: 50%;
   border-right: 1px solid #282c34; 
-}
+}*/
 
 .recent-playthroughs {
   width: 20%;
@@ -757,15 +789,9 @@ li#delete {
   text-align: left;
   padding: 0 0 1rem 0px;
   margin: 1rem 0;
+  border-bottom: 1px solid black;
 }
 
-.game-detail-image-wrapper {
-  width: 100%;
-}
-
-.game-detail-image-wrapper img {
-  padding: 1rem;
-}
 
 .game-detail-description {
   padding: 1rem 0;
