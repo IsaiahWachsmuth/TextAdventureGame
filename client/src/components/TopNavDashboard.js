@@ -13,17 +13,9 @@ const TopNavDashboard = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container">
-        <Link className="navbar-brand" to="/">Dashboard</Link>
-        <div id="basic-navbar-nav">
-          <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <button className="nav-link" style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer' }} onClick={handleLogout}>Logout</button>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <nav className="top-navbar">
+      <Link className="link-dash" to="/"><span>Text Adventure Game for Education:</span> Dashboard</Link>
+      <button onClick={handleLogout}><i class="fas fa-sign-out"></i>Logout</button>
     </nav>
   );
 };

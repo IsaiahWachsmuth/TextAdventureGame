@@ -134,25 +134,24 @@ function EditGame({ game, onBack }) {
     };
 
     const handleDelete = async () => {
-        console.log("Current game ID:", game._id);
-
         const confirmDelete = window.confirm("Are you sure you want to delete this game?");
         if (!confirmDelete) {
             return;
         }
     
+        console.log("Attempting to delete game with ID:", game._id);
+    
         try {
-            // Ensure that you are using game._id directly here
             const response = await fetch(`http://localhost:3001/games/${game._id}`, {
                 method: 'DELETE',
-                credentials: 'include',  // Include credentials if your API requires sessions or authentication tokens
+                credentials: 'include',
             });
     
             if (response.ok) {
                 alert("Game deleted successfully.");
-                onBack(); // Navigate back or refresh the list
+                onBack();
             } else {
-                const respText = await response.text();  // Getting more details about the failure
+                const respText = await response.text(); 
                 alert(`Failed to delete the game: ${respText}`);
             }
         } catch (error) {
@@ -160,6 +159,7 @@ function EditGame({ game, onBack }) {
             alert("An error occurred while deleting the game.");
         }
     };
+    
     
     
     
