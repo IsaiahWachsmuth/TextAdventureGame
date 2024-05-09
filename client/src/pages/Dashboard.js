@@ -43,6 +43,7 @@ const Dashboard = () => {
         setSelectedGame(game);
         setCurrentView('editGame'); // Transition to edit game view
     };
+    
 
     return (
         <div className="d-flex dashboard" id="temp-ed-dash">
@@ -59,7 +60,10 @@ const Dashboard = () => {
                 <AddGame onBack={() => setCurrentView('list')} />
             )}
             {currentView === 'gameDetails' && selectedGame && (
-                <GameDetails game={selectedGame} onBack={() => setCurrentView('list')} />
+                <GameDetails 
+                    game={selectedGame} onBack={() => setCurrentView('list')} 
+                    onEditGame={() => handleEditGameClick(selectedGame)}
+                />
             )}
             {currentView === 'editGame' && selectedGame && (
                 <EditGame game={selectedGame} onBack={() => setCurrentView('list')} />

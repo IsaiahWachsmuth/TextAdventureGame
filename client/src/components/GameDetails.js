@@ -35,7 +35,7 @@ function RecentPlaythroughs({ game }) {
     );
 }
 
-function GameDetails({ game, onBack }) {
+function GameDetails({ game, onBack, onEditGame  }) {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const hasPages = game.pages && game.pages.length > 0;
 
@@ -80,7 +80,13 @@ function GameDetails({ game, onBack }) {
             <section className='game-detail'>
                 <div className='game-detail-info'>
                     <div className='game-detail-info-wrapper'>
-                        <h1>Game Info for <strong>{game.title}</strong></h1>
+                        <nav className='game-detail-info-nav'>
+                            <h1><strong>{game.title}</strong></h1>
+                            <div>
+                                <button onClick={onEditGame}><i class="far fa-edit"></i>Edit Game</button>
+                                <button onClick={() => deleteGame(game.game_id)}><i className="fas fa-trash-alt"></i>Delete Game</button>
+                            </div>
+                        </nav>
                         <p>Author: {game.author}</p>
                         <p>Class Code: {game.class_code}</p>
                         <div className='game-detail-description'>
@@ -94,41 +100,40 @@ function GameDetails({ game, onBack }) {
                     </div>
                 </div>
 
-                <div className='game-detail-pages'>
-                    
+                <div className='game-detail-pages'> 
                     {hasPages ? (
                         <>
-                            <div>
-                                <nav>
+                            <nav className='game-detail-pages-nav'>
                                 <h3><strong>Page ID:</strong> {game.pages[currentPageIndex].page_id}</h3>
                                 <p>Page {currentPageIndex + 1}</p>
-                                <button onClick={goToPreviousPage} disabled={currentPageIndex === 0}>Previous Page</button>
-                                <button onClick={goToNextPage} disabled={currentPageIndex === game.pages.length - 1}>Next Page</button>
-                                </nav>
+                                <div>
+                                    <button onClick={goToPreviousPage} disabled={currentPageIndex === 0}>Previous Page</button>
+                                    <button onClick={goToNextPage} disabled={currentPageIndex === game.pages.length - 1}>Next Page</button>
+                                </div>
+                            </nav>
                                 
-                                <p><strong>Content:</strong> {game.pages[currentPageIndex].content}</p>
-                                <p><strong>Question:</strong> {game.pages[currentPageIndex].question}</p>
-                                <p><strong>Choices:</strong>
-                                    <div>
-                                        {game.pages[currentPageIndex].choices.map((choice, index) => (
-                                            <div key={index}>{index + 1}. {choice.text} {choice.isCorrect ? "(Correct Answer)" : ""} 
-                                                <p>{choice.pageNav ? `This choice navigates to room: ${choice.pageNav}` : ""}</p>
-                                            </div>
-                                        ))}
-                                    </div>
+                            <p><strong>Content:</strong> {game.pages[currentPageIndex].content}</p>
+                            <p><strong>Question:</strong> {game.pages[currentPageIndex].question}</p>
+                            <p><strong>Choices:</strong>
+                                <div>
+                                    {game.pages[currentPageIndex].choices.map((choice, index) => (
+                                        <div key={index}>{index + 1}. {choice.text} {choice.isCorrect ? "(Correct Answer)" : ""} 
+                                            <p>{choice.pageNav ? `This choice navigates to room: ${choice.pageNav}` : ""}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </p>
+                            {game.pages[currentPageIndex].image && (
+                                <p>
+                                    <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" style={{ maxWidth: '100%', height: '240px' }} />
                                 </p>
-                                {game.pages[currentPageIndex].image && (
-                                    <p>
-                                        <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" style={{ maxWidth: '100%', height: '240px' }} />
-                                    </p>
-                                )}
-                            </div>
-                            
+                            )}
                         </>
                     ) : (
                         <h3>No pages available for this game.</h3>
                     )}
                 </div>
+
             </section>
 
             <aside className='recent-playthroughs'>
