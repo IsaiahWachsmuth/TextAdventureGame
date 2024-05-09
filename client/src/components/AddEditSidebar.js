@@ -1,7 +1,7 @@
 // client/src/components/AddEditSidebar.js
 import React from 'react';
 
-function AddEditSidebar({ game, addPage, onBack, handleSubmit }) {
+function AddEditSidebar({ game, addPage, onBack, handleSubmit, isEditing, handleDelete }) {
     return (
         <aside className="add-edit-sidebar">
             <ul>
@@ -19,7 +19,14 @@ function AddEditSidebar({ game, addPage, onBack, handleSubmit }) {
                 <ul>
                     <li className='aes-heading' id='bar'>Actions</li>
                     <li onClick={addPage}><span><i className="far fa-file-plus"></i>Add Page</span></li>
-                    <li onClick={handleSubmit}><span><i className="far fa-game-console-handheld"></i>Create Game</span></li>
+                    {isEditing ? (
+                        <>
+                            <li onClick={handleSubmit}><span><i className="far fa-save"></i>Update Game</span></li>
+                            <li onClick={handleDelete} id='delete'><span><i className="fas fa-trash-alt"></i>Delete Game</span></li>
+                        </>
+                    ) : (
+                        <li onClick={handleSubmit}><span><i className="far fa-game-console-handheld"></i>Create Game</span></li>
+                    )}
                     <li onClick={onBack}><span><i className="fas fa-window-close"></i>Cancel</span></li>
                 </ul>
             </div>

@@ -425,6 +425,11 @@ li#bar {
   width: 100%;
 }
 
+li#delete {
+  background-color: #ff7a68;
+  /*color: #272961;*/
+}
+
 
 /* END NEW ADD-EDIT-SIDEBAR STYLES */
 

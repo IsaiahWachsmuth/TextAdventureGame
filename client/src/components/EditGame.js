@@ -133,9 +133,40 @@ function EditGame({ game, onBack }) {
         }
     };
 
+    const handleDelete = async () => {
+        console.log("Current game ID:", game._id);
+
+        const confirmDelete = window.confirm("Are you sure you want to delete this game?");
+        if (!confirmDelete) {
+            return;
+        }
+    
+        try {
+            // Ensure that you are using game._id directly here
+            const response = await fetch(`http://localhost:3001/games/${game._id}`, {
+                method: 'DELETE',
+                credentials: 'include',  // Include credentials if your API requires sessions or authentication tokens
+            });
+    
+            if (response.ok) {
+                alert("Game deleted successfully.");
+                onBack(); // Navigate back or refresh the list
+            } else {
+                const respText = await response.text();  // Getting more details about the failure
+                alert(`Failed to delete the game: ${respText}`);
+            }
+        } catch (error) {
+            console.error("There was an error deleting the game:", error);
+            alert("An error occurred while deleting the game.");
+        }
+    };
+    
+    
+    
+    
     return (
         <div className='add-edit-game-wrap'>
-            <AddEditSidebar game={game} addPage={addPage} onBack={onBack} handleSubmit={handleSubmit} />
+            <AddEditSidebar game={game} addPage={addPage} onBack={onBack} handleSubmit={handleSubmit} isEditing={true} handleDelete={handleDelete} />
             <div className="main-content">
                 <AddEditGameInfo game={gameDetails} image={image} setImage={setImage} handleChange={handleChange} handleSubmit={handleSubmit} />
                 {gameDetails.pages.map((page, index) => (
