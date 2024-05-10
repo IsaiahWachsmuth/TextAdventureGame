@@ -12,7 +12,6 @@ const Dashboard = () => {
     const [selectedGame, setSelectedGame] = useState(null);
 
     useEffect(() => {
-        console.log(`currentView changed to: ${currentView}`);
         // Re-fetch games when the view changes back to 'list', ensuring that any updates or additions are reflected
         if (currentView === 'list') {
             const fetchGames = async () => {

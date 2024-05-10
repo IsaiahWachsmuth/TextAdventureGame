@@ -25,6 +25,7 @@ export const createEducator = async (req, res) => {
 export const getEducatorAdventures = async (req, res) => {
     try {
         const educatorId = req.user._id;
+        console.log("PRINTING ID");
         console.log(`educatorId: ${req.user.id}`);
         const educator = await Educator.findById(educatorId).populate('adventures');
         if (!educator) {
