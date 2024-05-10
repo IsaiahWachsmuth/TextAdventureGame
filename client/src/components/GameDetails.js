@@ -35,7 +35,7 @@ function RecentPlaythroughs({ game }) {
     );
 }
 
-function GameDetails({ game, onBack, onEditGame  }) {
+function GameDetails({ game, onBack, onEditGame   }) {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const hasPages = game.pages && game.pages.length > 0;
 
