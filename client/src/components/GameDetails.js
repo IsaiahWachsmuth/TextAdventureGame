@@ -6,7 +6,7 @@ function RecentPlaythroughs({ game }) {
     useEffect(() => {
         const fetchPlaythroughs = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/transcripts?gameId=${game.game_id}`);
+                const response = await fetch(`http://localhost:3001/transcripts?gameId=${game._id}`);
                 const data = await response.json();
                 setPlaythroughs(data);
             } catch (error) {

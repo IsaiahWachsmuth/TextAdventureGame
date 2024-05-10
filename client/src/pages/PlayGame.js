@@ -106,7 +106,7 @@ const PlayGamePage = () => {
 
     const handleFinishClick = async () => {
         const transcriptData = {
-            gameId: gameInfo.game_id,
+            gameId: gameInfo._id,
             studentName: username,
             playhistory: history.map(entry => ({
                 content: entry.content,
