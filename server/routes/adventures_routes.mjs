@@ -17,10 +17,10 @@ const router = express.Router();
 // Setup the routes
 router.post('/', upload.single('image'), createGame);
 router.get('/', findAllGames);
-router.get('/:game_id', findGameById);
-router.put('/:game_id', upload.single('image'), updateGame);
-router.delete('/:game_id', deleteGame);
-router.post('/:game_id/pages', addPageToGame);
+router.get('/:_id', findGameById);
+router.put('/:_id', upload.single('image'), updateGame);
+router.delete('/:_id', deleteGame);
+router.post('/:_id/pages', addPageToGame);
 router.post('/checkClassCode', checkClassCode);
 
 export default router;

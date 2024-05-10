@@ -9,7 +9,7 @@ export const createGame = async (req, res) => {
     try {
         const classCode = await generateUniqueClassCode();
         const { title, description, author, pages } = req.body;
-
+        const educator = req.user._id;
         let imageBase64 = null;
         if (req.file) {
             // Convert image to Base64 string
@@ -19,15 +19,11 @@ export const createGame = async (req, res) => {
             fs.unlinkSync(req.file.path);
         }
 
-        const game = await games.createGame(classCode, title, description, author, pages, imageBase64 );
+        const game = await games.createGame(classCode, title, description, author, pages, educator, imageBase64);
         
         // Add the game to the educator's list of adventures
-        console.log(req.user)
-        await addGameToEducator(req.user._id, game.game_id);
-        // res.status(201).json({ message: 'Game created and added to educator', game: newGame });
+        await addGameToEducator(req.user._id, game._id);  // Updated to use _id
         res.status(201).json(game);
-        
-        
     } catch (error) {
         console.error('Error creating new game:', error);
         res.status(500).json({ message: 'Error creating new game' });
@@ -35,27 +31,20 @@ export const createGame = async (req, res) => {
 };
 
 export const checkClassCode = async (req, res) => {
-        try {
-
-            const { code } = req.body; // Assuming class code is sent in the request body
+    try {
+        const { code } = req.body;  // Assuming class code is sent in the request body
 
         // Find the game with the provided class code
         let game;
-
         try {
-            game = await Game.findOne({ class_code: code });
-        }
-        catch(error) {
+            game = await games.findGameByClassCode(code);
+        } catch (error) {
             console.error('Error executing findOne:', error);
         }
         
         if (game) {
-            // Matching class code found
-            console.log("FOUND")
             res.status(200).json({ message: 'Matching class code found', game });
         } else {
-            // No matching class code found
-            console.log("NOT FOUND")
             res.status(404).json({ message: 'No matching class code found' });
         }
     } catch (error) {
@@ -63,7 +52,6 @@ export const checkClassCode = async (req, res) => {
         res.status(500).json({ message: 'Error checking class code' });
     }
 };
-
 
 // List all games
 export const findAllGames = async (req, res) => {
@@ -79,7 +67,7 @@ export const findAllGames = async (req, res) => {
 // Find game by ID
 export const findGameById = async (req, res) => {
     try {
-        const game = await games.findGameById(req.params.game_id);
+        const game = await games.findGameById(req.params._id);  // Use _id for parameter
         if (game) {
             res.json(game);
         } else {
@@ -91,44 +79,17 @@ export const findGameById = async (req, res) => {
     }
 };
 
-/* SAVE
 // Update a game
 export const updateGame = async (req, res) => {
-    try {
-        const { title, description, author, pages } = req.body;
-        const updatedGame = await games.updateGame(req.params.game_id, { title, description, author, pages });
-
-        if (updatedGame) {
-            res.json(updatedGame);
-        } else {
-            res.status(404).json({ Error: 'Game not found' });
-        }
-    } catch (error) {
-        console.error('Error updating game:', error);
-        res.status(500).json({ Error: 'Request failed' });
-    }
-};
-*/
-// Update a game
-export const updateGame = async (req, res) => {
-    const game_id = req.params.game_id;
-    console.log("Attempting to update game with game_id:", game_id); // log
-
+    const _id = req.params._id;  // Use _id for parameter
     let updateData = { ...req.body };
 
     try {
-        const updatedGame = await Game.findOneAndUpdate(
-            { _id: game_id },  // Change this to _id if using MongoDB's default
-            updateData,
-            { new: true }
-        );
+        const updatedGame = await games.updateGame(_id, updateData);  // Use _id for updating
 
         if (!updatedGame) {
-            console.log(`Game with game_id ${game_id} not found.`);
             return res.status(404).json({ message: "Game not found" });
         }
-
-        console.log(`Game with game_id ${game_id} successfully updated.`);
         res.json(updatedGame);
     } catch (error) {
         console.error("Failed to update game:", error);
@@ -139,8 +100,10 @@ export const updateGame = async (req, res) => {
 // Delete a game
 export const deleteGame = async (req, res) => {
     try {
-        const deleted = await games.deleteGame(req.params.game_id);
-        if (deleted) {
+        console.log(`Deleting game with ID: ${req.params._id}`)
+        console.log(req.params)
+        const deleted = await games.deleteGame(req.params._id);  // Use _id for deletion
+        if (deleted.deletedCount > 0) {
             res.status(204).send();
         } else {
             res.status(404).json({ Error: 'Game not found' });
@@ -173,25 +136,24 @@ const generateClassCode = () => {
 
 // Add a page to a game
 export const addPageToGame = async (req, res) => {
-    const { game_id } = req.params;
+    const _id = req.params._id;  // Use _id for parameter
     const { page_id, content, question, choices, image } = req.body;
 
     try {
-        const game = await games.findGameById(game_id);
+        const game = await games.findGameById(_id);  // Use _id for fetching
         if (!game) {
             return res.status(404).json({ message: 'Game not found' });
         }
 
         let imageBase64 = null;
         if (image) {
-            // Assuming 'image' is already a Base64-encoded string
-            imageBase64 = image;
+            imageBase64 = image;  // Assuming 'image' is already a Base64-encoded string
         }
 
         const newPage = { page_id, content, question, choices, image: imageBase64 };
         game.pages.push(newPage);
 
-        const updatedGame = await games.updateGame(game_id, game);
+        const updatedGame = await games.updateGame(_id, game);  // Use _id for updating
         res.status(201).json({ message: 'Page added successfully', game: updatedGame });
     } catch (error) {
         console.error('Error adding page to game:', error);

@@ -76,7 +76,6 @@ function GameDetails({ game, onBack, onEditGame   }) {
 
     return (
         <div className='game-detail-wrapper'>
-
             <section className='game-detail'>
                 <div className='game-detail-info'>
                     <div className='game-detail-info-wrapper'>

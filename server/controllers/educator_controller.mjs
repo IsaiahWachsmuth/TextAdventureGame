@@ -2,6 +2,7 @@
 import Educator from '../models/educator_model.mjs';
 import passport from 'passport';
 import JWT from 'jsonwebtoken';
+import { findGamesByEducator } from '../models/adventures_model.mjs';
 
 // Create a new educator
 export const createEducator = async (req, res) => {
@@ -19,6 +20,21 @@ export const createEducator = async (req, res) => {
     } catch (error) {
         console.error('Error creating educator:', error);
         res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+};
+
+export const getAdventuresByEducator = async (req, res) => {
+    const educatorId = req.params.id; // Get the educator ID from the route parameter
+
+    try {
+        const games = await findGamesByEducator(educatorId);
+        if (games.length === 0) {
+            return res.status(404).json({ message: 'No games found for this educator' });
+        }
+        res.json(games); // Send the games back in the response
+    } catch (error) {
+        console.error('Error fetching games by educator:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
@@ -77,6 +93,20 @@ export const addGameToEducator = async (educatorId, gameId) => {
     } catch (error) {
         console.error('Error adding game to educator:', error);
         throw error; // Rethrow the error to be handled by the caller
+    }
+};
+
+export const getEducatorAdventures = async (req, res) => {
+    try {
+        const educatorId = req.params.id;
+        const educator = await Educator.findById(educatorId).populate('adventures');
+        if (!educator) {
+            return res.status(404).json({ message: 'Educator not found' });
+        }
+        res.json(educator.adventures);
+    } catch (error) {
+        console.error('Error fetching educator adventures:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 

@@ -1,6 +1,8 @@
 // models/adventures_model.mjs
 import mongoose from 'mongoose';
+import Educator from './educator_model.mjs';
 const { Schema } = mongoose;
+
 
 
 const choiceSchema = mongoose.Schema({
@@ -19,12 +21,13 @@ const pageSchema = mongoose.Schema({
 
 
 const gameSchema = mongoose.Schema({
-    game_id: { type: String, required: true },
+    // game_id: { type: String, required: true },
     class_code: {type: String, required: true},
     title: { type: String, required: true },
     description: { type: String, required: true },
     author: { type: String, required: true },
     pages: { type: [pageSchema], required: true },
+    educator: { type: Schema.Types.ObjectId, ref: 'Educator', required: true },
     image: { type: String, required: false }  // Optional image URL for games
 });
 
@@ -33,28 +36,26 @@ const Game = mongoose.model("Game", gameSchema, 'Adventures');
 const findAllGames = async () => {
     try {
         const games = await Game.find({});
-        return games; 
+        return games;
     } catch (error) {
         console.error("Failed to find games:", error);
         throw error;
     }
 };
 
-const findGamesByUser = async (user_id) => {
+const findGamesByEducator = async (educatorId) => {
     try {
-        const games = await Game.find({ author: user_id });
+        const games = await Game.find({ author: educatorId });
         return games;
     } catch (error) {
-        console.error("Failed to find games:", error);
+        console.error("Failed to find games by educator:", error);
         throw error;
     }
-}
+};
 
-// Method to create a new game
-const createGame = async (classCode, title, description, author, pages, image) => {
+const createGame = async (classCode, title, description, author, pages, educator, image) => {
     try {
-        const game_id = new mongoose.Types.ObjectId();
-        const newGame = new Game({ game_id, class_code: classCode, title, description, author, pages, image }); // Notice class_code: classCode
+        const newGame = new Game({ class_code: classCode, title, description, author, pages, educator, image });
         await newGame.save();
         return newGame;
     } catch (error) {
@@ -63,30 +64,15 @@ const createGame = async (classCode, title, description, author, pages, image) =
     }
 };
 
-
-// Method to find a game by ID
-const findGameById = async (game_id) => {
-    return await Game.findOne({ game_id });
+const findGameById = async (_id) => {
+    return await Game.findById(_id);
 };
 
 const findGameByClassCode = async (class_code) => {
     return await Game.findOne({ class_code });
 };
 
-/*
-// Method to update a game
-const updateGame = async (game_id, title, description, author, pages, image) => {
-    const updateData = { title, description, author, pages }; // Change variable name to updateData
-    if (image !== undefined) {
-        updateData.image = image;
-    }
-    const updatedGame = await Game.findOneAndUpdate({ game_id }, updateData, { new: true });
-    return updatedGame;
-};
-*/
-
-// Method to update a game
-const updateGame = async (game_id, updateData) => {
+const updateGame = async (_id, updateData) => {
     try {
         if ('image' in updateData && !updateData.image) {
             delete updateData.image;
@@ -96,7 +82,7 @@ const updateGame = async (game_id, updateData) => {
             updateData.pages = JSON.parse(updateData.pages);
         }
 
-        const updatedGame = await Game.findOneAndUpdate({ game_id }, updateData, { new: true });
+        const updatedGame = await Game.findByIdAndUpdate(_id, updateData, { new: true });
         return updatedGame;
     } catch (error) {
         console.error("Failed to update game:", error);
@@ -104,12 +90,31 @@ const updateGame = async (game_id, updateData) => {
     }
 };
 
-// Method to delete a game
-const deleteGame = async (game_id) => {
-    const result = await Game.deleteOne({ game_id });
-    return result.deletedCount;
+const deleteGame = async (_id) => {
+    try {
+        const game = await Game.findById(_id).populate('educator');
+        
+        if (!game) {
+            console.log("No game found with that ID.")
+            console.log(_id)
+            return { deletedCount: 0, message: "No game found with that ID." };  // No game found
+        }
+
+        const result = await Game.deleteOne({ _id });
+        if (result.deletedCount > 0) {
+            // Remove the game from the educator's adventures list
+            await Educator.findByIdAndUpdate(game.educator, {
+                $pull: { adventures: _id }
+            });
+        }
+
+        return { deletedCount: result.deletedCount, message: "Game deleted successfully." };
+    } catch (error) {
+        console.error('Error deleting game:', error);
+        throw error;
+    }
 };
 
 // Export the functions for use in the controller
-export { Game, findAllGames, createGame, findGameById, findGameByClassCode, updateGame, deleteGame, findGamesByUser };
+export { Game, findAllGames, createGame, findGameById, findGameByClassCode, updateGame, deleteGame, findGamesByEducator };
 export default mongoose.model('Game', gameSchema);
