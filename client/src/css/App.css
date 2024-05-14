@@ -807,6 +807,30 @@ li#delete {
 .recent-playthroughs {
   width: auto;
   padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.playthrough-button {
+  padding: 0.5rem;
+  margin: 0;
+  border: 1px solid rgba(34, 38, 46, 0.6);
+  border-radius: 0.3rem;
+  /* background-color: #fff; */
+  color: black;
+  cursor: pointer;
+  transition: 0.3s;
+  width: auto;
+}
+
+.playthrough-button:hover {
+  background:  rgb(250, 128, 114);
+  color: white;
+}
+
+.playthrough-button p {
+  margin: 0;
+  line-height: 1.5;
 }
 
 

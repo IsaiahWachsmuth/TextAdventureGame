@@ -42,16 +42,19 @@ function RecentPlaythroughs({ game }) {
         <div className="recent-playthroughs">
             <h2>Recent Playthroughs</h2>
             {Array.isArray(playthroughs) && playthroughs.map((playthrough, index) => (
-                <button key={index} onClick={() => handlePlaythroughClick(playthrough)}>
-                    <div>
-                        <p><strong>{playthrough.studentName}:</strong> {formatDate(playthrough.createdAt)}</p>
-                    </div>
-                </button>
+                <React.Fragment key={index}>
+                    <button className="playthrough-button" onClick={() => handlePlaythroughClick(playthrough)}>
+                        <div>
+                            <p><strong>{playthrough.studentName}:</strong> {formatDate(playthrough.createdAt)}</p>
+                        </div>
+                    </button>
+                    &nbsp; {/* Add a space between buttons */}
+                </React.Fragment>
             ))}
             {showPopup && selectedTranscript && (
                 <div className="game-detail-popup">
                     <div className="game-detail-popup-content">
-                        <button className="game-detail-close-button" onClick={closePopup}>X</button>
+                        <button className="game-detail-close-button" onClick={closePopup}>&#x2716;</button>
                         
                         <div style={{ textAlign: 'center' }}><h3>{selectedTranscript.studentName}</h3>
                         <h5>{formatDate(selectedTranscript.createdAt)} </h5> 
@@ -176,7 +179,7 @@ function GameDetails({ game, onBack, onEditGame   }) {
             </section>
 
             <aside className='recent-playthroughs'>
-                    <RecentPlaythroughs game={game} />
+                <RecentPlaythroughs game={game} />
             </aside>
         
         </div> 
