@@ -56,16 +56,18 @@ function RecentPlaythroughs({ game }) {
                         <div style={{ textAlign: 'center' }}><h3>{selectedTranscript.studentName}</h3>
                         <h5>{formatDate(selectedTranscript.createdAt)} </h5> 
                         <p></p><p></p></div>
-                        <ul>
-                            {selectedTranscript.playhistory.map((entry, index) => (
+                        <div className="transcript-scroll-container">
+                            <ul>
+                                {selectedTranscript.playhistory.map((entry, index) => (
                                 <div key={index}>
                                     {entry.content}<br />
                                     {entry.question}<br />
                                     Chosen Option: <strong>{entry.choiceText}</strong><br />
                                     <p></p>
                                 </div>
-                            ))}
-                        </ul>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             )}

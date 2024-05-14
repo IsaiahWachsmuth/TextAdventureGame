@@ -728,7 +728,6 @@ li#delete {
   width: 100%;
 }
 
-/* Add styles for the pop-up */
 .game-detail-popup {
   position: fixed;
   top: 0;
@@ -743,13 +742,12 @@ li#delete {
 }
 
 .game-detail-popup-content {
-  width: 80%;
-  max-width: 600px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
   position: relative;
-  border: 2px solid black; 
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  max-height: 80%;
+  overflow-y: auto;
 }
 
 .game-detail-close-button {
@@ -759,7 +757,7 @@ li#delete {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1.5 rem;
   color: #666;
 }
 
@@ -805,16 +803,6 @@ li#delete {
   align-items: flex-start;
   text-align: left;
 }
-
-/*.game-detail-info {
-  width: 30%;
-  border-right: 1px solid #282c34;
-}
-
-.game-detail-pages {
-  width: 50%;
-  border-right: 1px solid #282c34; 
-}*/
 
 .recent-playthroughs {
   width: auto;
