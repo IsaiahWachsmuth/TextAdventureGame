@@ -11,8 +11,7 @@ const gameTranscriptSchema = new Schema({
       {
         content: { type: String, required: true },
         question: { type: String, required: true },
-        choiceText: { type: String },
-        image: { type: String }
+        choiceText: { type: String }
       }
     ],
     required: true

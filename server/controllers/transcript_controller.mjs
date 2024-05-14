@@ -9,8 +9,7 @@ export const createTranscript = async (req, res) => {
         const formattedTranscript = playhistory.map(entry => ({
             content: entry.content,
             question: entry.question,
-            choiceText: entry.choiceText,
-            image: entry.image
+            choiceText: entry.choiceText
         }));
 
         const newTranscript = await createGameTranscript(gameId, studentName, formattedTranscript);
@@ -32,5 +31,3 @@ export const findTranscriptsByGameIdController = async (req, res) => {
         res.status(500).json({ message: 'Error fetching transcripts by game ID' });
     }
 };
-
-//github test

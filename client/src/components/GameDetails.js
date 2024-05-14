@@ -8,6 +8,7 @@ function RecentPlaythroughs({ game }) {
             try {
                 const response = await fetch(`http://localhost:3001/transcripts?gameId=${game._id}`);
                 const data = await response.json();
+                data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setPlaythroughs(data);
             } catch (error) {
                 console.error("Failed to fetch playthroughs:", error);

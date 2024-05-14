@@ -111,8 +111,7 @@ const PlayGamePage = () => {
             playhistory: history.map(entry => ({
                 content: entry.content,
                 question: entry.question,
-                choiceText: entry.choiceText,
-                image: entry.image 
+                choiceText: entry.choiceText
             })),
         };
 
@@ -164,7 +163,6 @@ const PlayGamePage = () => {
                             <div key={index} className="playgame-history-page">
                                 <h3>{entry.content}</h3>
                                 <h3>{entry.question}</h3>
-                                {entry.image && <img src={entry.image} alt="History" />}
                                 {entry.choiceText && <p>Chosen Option: {entry.choiceText}</p>}
                             </div>
                         ))}
