@@ -1,11 +1,10 @@
-import { createGameTranscript } from '../models/transcript_model.mjs';
-import { findTranscriptsByGameId } from '../models/transcript_model.mjs';
+import { createGameTranscript, findTranscriptsByGameId } from '../models/transcript_model.mjs';
+import { getTranscriptContent } from '../models/transcript_model.mjs';
 
 export const createTranscript = async (req, res) => {
     try {
         const { gameId, studentName, playhistory } = req.body;
-
-        // Ensure transcript matches the expected structure
+        
         const formattedTranscript = playhistory.map(entry => ({
             content: entry.content,
             question: entry.question,
@@ -29,5 +28,16 @@ export const findTranscriptsByGameIdController = async (req, res) => {
     } catch (error) {
         console.error('Error fetching transcripts by game ID:', error);
         res.status(500).json({ message: 'Error fetching transcripts by game ID' });
+    }
+};
+
+export const getTranscriptContentController = async (req, res) => {
+    try {
+        const { transcriptId } = req.params;
+        const content = await getTranscriptContent(transcriptId);
+        res.json(content);
+    } catch (error) {
+        console.error('Error fetching transcript content:', error);
+        res.status(500).json({ message: 'Error fetching transcript content' });
     }
 };

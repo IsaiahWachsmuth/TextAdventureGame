@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 function RecentPlaythroughs({ game }) {
     const [playthroughs, setPlaythroughs] = useState([]);
+    const [selectedTranscript, setSelectedTranscript] = useState(null); // Stores selected transcript
+    const [showPopup, setShowPopup] = useState(false); // Controls popup
 
     useEffect(() => {
         const fetchPlaythroughs = async () => {
@@ -24,14 +26,49 @@ function RecentPlaythroughs({ game }) {
         return date.toLocaleString('en-US', options);
     };
 
+    const handlePlaythroughClick = (transcript) => {
+        // Show the pop-up, set the selected transcript
+        setSelectedTranscript(transcript);
+        setShowPopup(true);
+    };
+
+    const closePopup = () => {
+        // Close the pop-up, reset the selected transcript
+        setSelectedTranscript(null);
+        setShowPopup(false);
+    };
+
     return (
         <div className="recent-playthroughs">
             <h2>Recent Playthroughs</h2>
             {Array.isArray(playthroughs) && playthroughs.map((playthrough, index) => (
-                <div key={index}>
-                    <p><strong>{playthrough.studentName}:</strong> {formatDate(playthrough.createdAt)}</p>
-                </div>
+                <button key={index} onClick={() => handlePlaythroughClick(playthrough)}>
+                    <div>
+                        <p><strong>{playthrough.studentName}:</strong> {formatDate(playthrough.createdAt)}</p>
+                    </div>
+                </button>
             ))}
+            {showPopup && selectedTranscript && (
+                <div className="game-detail-popup">
+                    <div className="game-detail-popup-content">
+                        <button className="game-detail-close-button" onClick={closePopup}>X</button>
+                        
+                        <div style={{ textAlign: 'center' }}><h3>{selectedTranscript.studentName}</h3>
+                        <h5>{formatDate(selectedTranscript.createdAt)} </h5> 
+                        <p></p><p></p></div>
+                        <ul>
+                            {selectedTranscript.playhistory.map((entry, index) => (
+                                <div key={index}>
+                                    {entry.content}<br />
+                                    {entry.question}<br />
+                                    Chosen Option: <strong>{entry.choiceText}</strong><br />
+                                    <p></p>
+                                </div>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
@@ -83,7 +120,7 @@ function GameDetails({ game, onBack, onEditGame   }) {
                         <nav className='game-detail-info-nav'>
                             <h1><strong>{game.title}</strong></h1>
                             <div>
-                                <button onClick={onEditGame}><i class="far fa-edit"></i>Edit Game</button>
+                                <button onClick={onEditGame}><i className="far fa-edit"></i>Edit Game</button>
                                 <button onClick={() => deleteGame(game.game_id)}><i className="fas fa-trash-alt"></i>Delete Game</button>
                             </div>
                         </nav>

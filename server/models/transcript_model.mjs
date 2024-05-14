@@ -32,4 +32,19 @@ export const findTranscriptsByGameId = async (gameId) => {
   return await GameTranscript.find({ gameId });
 };
 
+export const getTranscriptContent = async (transcriptId) => {
+    try {
+        const transcript = await GameTranscript.findById(transcriptId);
+
+        if (transcript) {
+            return transcript.playhistory;
+        } else {
+            throw new Error('Transcript not found');
+        }
+    } catch (error) {
+        console.error('Error fetching transcript content:', error);
+        throw new Error('Error fetching transcript content');
+    }
+};
+
 export default GameTranscript;
