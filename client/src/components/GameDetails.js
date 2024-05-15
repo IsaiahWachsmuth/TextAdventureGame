@@ -27,13 +27,11 @@ function RecentPlaythroughs({ game }) {
     };
 
     const handlePlaythroughClick = (transcript) => {
-        // Show the pop-up, set the selected transcript
         setSelectedTranscript(transcript);
         setShowPopup(true);
     };
 
     const closePopup = () => {
-        // Close the pop-up, reset the selected transcript
         setSelectedTranscript(null);
         setShowPopup(false);
     };
@@ -48,7 +46,7 @@ function RecentPlaythroughs({ game }) {
                             <p><strong>{playthrough.studentName}:</strong> {formatDate(playthrough.createdAt)}</p>
                         </div>
                     </button>
-                    &nbsp; {/* Add a space between buttons */}
+                    &nbsp;
                 </React.Fragment>
             ))}
             {showPopup && selectedTranscript && (
