@@ -135,7 +135,7 @@ function GameDetails({ game, onBack, onEditGame   }) {
                     </div>
                     <div className='game-detail-image-wrapper'>
                         {game.image && (
-                            <img src={`data:image/jpeg;base64,${game.image}`} alt="Game Image" style={{ maxWidth: '100%', height: '480px' }} />
+                            <img src={`data:image/jpeg;base64,${game.image}`} alt="Game Image" />
                         )}
                     </div>
                 </div>
@@ -165,7 +165,7 @@ function GameDetails({ game, onBack, onEditGame   }) {
                             </p>
                             {game.pages[currentPageIndex].image && (
                                 <p>
-                                    <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" style={{ maxWidth: '100%', height: '240px' }} />
+                                    <img src={`${game.pages[currentPageIndex].image}`} alt="Page Image" />
                                 </p>
                             )}
                         </>
@@ -176,9 +176,9 @@ function GameDetails({ game, onBack, onEditGame   }) {
 
             </section>
 
-            <aside className='recent-playthroughs'>
+            
                 <RecentPlaythroughs game={game} />
-            </aside>
+            
         
         </div> 
     );

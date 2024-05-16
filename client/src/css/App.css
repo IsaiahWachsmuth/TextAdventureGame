@@ -1,3 +1,20 @@
+/* Global Set */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+html {
+  font-size: 16px;
+}
+
+
+
+/* End Global Set */
+
 .App {
   text-align: center;
 }
@@ -236,6 +253,10 @@
 
 .link-dash span {
   font-weight: 700;
+}
+
+#ss-nav {
+  display: none;
 }
 
 .top-navbar button {
@@ -793,6 +814,7 @@ li#delete {
 }
 
 .game-detail-image-wrapper img {
+  width: 100%;
   padding: 1rem;
 }
 

@@ -14,7 +14,8 @@ const TopNavDashboard = () => {
 
   return (
     <nav className="top-navbar">
-      <Link className="link-dash" to="/"><span>Text Adventure Game for Education:</span> Dashboard</Link>
+      <Link className="link-dash" to="/" id='ls-nav'><span>Text Adventure Game for Education:</span> Dashboard</Link>
+      <Link className="link-dash" to="/" id='ss-nav'>Dashboard</Link>
       <button onClick={handleLogout}><i class="fas fa-sign-out"></i>Logout</button>
     </nav>
   );
