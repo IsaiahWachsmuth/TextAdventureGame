@@ -1,7 +1,7 @@
 // client/src/components/AddEditGamePageInfo.js
 import React from 'react';
 
-function AddEditGamePageInfo({ index, page, game, setGame, handlePageChange, removePage }) { // Destructure `removePage` here
+function AddEditGamePageInfo({ index, page, game, setGame, handlePageChange, removePage }) {
     const addChoice = () => {
         const newPages = [...game.pages];
         newPages[index].choices.push({ text: '', isCorrect: false, pageNav: '' });
@@ -59,8 +59,8 @@ function AddEditGamePageInfo({ index, page, game, setGame, handlePageChange, rem
             ))}
             <span>Image:</span>
             <input type="file" placeholder="Add Image" name="image" onChange={(e) => handlePageChange(index, e)} />
-            {page.imagePreview && (
-                <img src={page.imagePreview} alt="Img Preview" />
+            {page.image && (
+                <img src={page.image} alt="Img Preview" />
             )}
             <span>Page Option:</span>
             <button type="button" onClick={() => removePage(index)}>Remove {`Page ${index + 1}`}</button>

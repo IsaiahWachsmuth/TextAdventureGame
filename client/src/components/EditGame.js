@@ -1,3 +1,4 @@
+// client/src/components/EditGame.js
 import React, { useState } from 'react';
 import AddEditSidebar from './AddEditSidebar';
 import AddEditGameInfo from './AddEditGameInfo';
@@ -17,19 +18,13 @@ function EditGame({ game, onBack }) {
     const [imagePreview, setImagePreview] = useState(game.image ? `data:image/jpeg;base64,${game.image}` : null);
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        if (name === 'image') {
-            setImage(event.target.files[0]);
+        const { name, value, type, files } = event.target;
+        if (name === 'image' && type === 'file' && files[0]) {
+            const file = files[0];
+            setImage(file);
+            setImagePreview(URL.createObjectURL(file));
         } else {
             setGameDetails({ ...gameDetails, [name]: value });
-        }
-    };
-
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setImagePreview(URL.createObjectURL(file));
-            setImage(file);
         }
     };
 
@@ -88,7 +83,7 @@ function EditGame({ game, onBack }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+        
         const formData = new FormData();
         formData.append('title', gameDetails.title);
         formData.append('description', gameDetails.description);
@@ -97,24 +92,9 @@ function EditGame({ game, onBack }) {
             formData.append('image', image);
         }
     
-        gameDetails.pages.forEach((page, index) => {
-            formData.append(`pages[${index}][page_id]`, page.page_id);
-            formData.append(`pages[${index}][content]`, page.content);
-            formData.append(`pages[${index}][question]`, page.question);
-    
-            if (page.image) {
-                formData.append(`pages[${index}][image]`, page.image);
-            }
-    
-            page.choices.forEach((choice, choiceIndex) => {
-                formData.append(`pages[${index}][choices][${choiceIndex}][text]`, choice.text);
-                formData.append(`pages[${index}][choices][${choiceIndex}][isCorrect]`, choice.isCorrect.toString());
-                if (choice.pageNav) {
-                    formData.append(`pages[${index}][choices][${choiceIndex}][pageNav]`, choice.pageNav);
-                }
-            });
-        });
-    
+        // Serialize pages data
+        formData.append('pages', JSON.stringify(gameDetails.pages));
+        
         try {
             const response = await fetch(`http://localhost:3001/games/${game._id}`, {
                 method: 'PUT',
@@ -126,12 +106,13 @@ function EditGame({ game, onBack }) {
             } else {
                 console.error('Error. Probably because an image is too large.');
                 alert('Error. Probably because an image is too large.');
-                return
+                return;
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
+    
 
     const handleDelete = async () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this game?");
@@ -161,14 +142,11 @@ function EditGame({ game, onBack }) {
     };
     
     
-    
-    
-    
     return (
         <div className='add-edit-game-wrap'>
             <AddEditSidebar game={game} addPage={addPage} onBack={onBack} handleSubmit={handleSubmit} isEditing={true} handleDelete={handleDelete} />
             <div className="main-content">
-                <AddEditGameInfo game={gameDetails} image={image} setImage={setImage} handleChange={handleChange} handleSubmit={handleSubmit} />
+                <AddEditGameInfo game={gameDetails} image={imagePreview} setImage={setImage} handleChange={handleChange} handleSubmit={handleSubmit} />
                 {gameDetails.pages.map((page, index) => (
                     <AddEditGamePageInfo key={index} index={index} page={page} game={gameDetails} setGameDetails={setGameDetails} handlePageChange={handlePageChange} removePage={removePage} />
                 ))}
