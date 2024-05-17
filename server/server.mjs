@@ -9,6 +9,9 @@ import adventuresRoutes from './routes/adventures_routes.mjs';
 import transcriptRoutes from './routes/transcript_routes.mjs'
 import cookieParser from 'cookie-parser';
 import './passport.mjs';
+import fs from 'fs';
+import https from 'https';
+import getFrontendUrl from './middleware/getFrontendUrl.js';
 
 const PORT = 3001;
 const app = express();
@@ -22,17 +25,29 @@ db.once("open", () => {
 
 app.use(express.json());
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: getFrontendUrl(),
   credentials: true,
 };
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use(session({
-  secret: 'testing',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false, httpOnly: false },
-}));
+if (getFrontendUrl() == 'http://localhost:3000' ){
+  app.use(session({
+    secret: 'testing',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, httpOnly: false },
+  }));
+} else {
+  const privateKey = fs.readFileSync('/etc/letsencrypt/live/textadventuregameforeducation.online/privkey.pem', 'utf8');
+  const certificate = fs.readFileSync('/etc/letsencrypt/live/textadventuregameforeducation.online/fullchain.pem', 'utf8');
+  const credentials = {key: privateKey, cert: certificate};
+  app.use(session({
+    secret: 'testing',
+    resave:false,
+    saveUninitialized: true,
+    cookie: {secure: true, httpOnly: true, sameSite: 'Lax'}
+  }))
+}
 app.use(passport.initialize());
 app.use(passport.session());
 

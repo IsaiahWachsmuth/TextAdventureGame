@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import getBackendUrl from '../utils/getBackendUrl';
 function AddGame() {
     const [game, setGame] = useState({ game_id: '', title: '', description: '', author: '', pages: {} });
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ function AddGame() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/games', {
+            const response = await fetch(`${getBackendUrl()}/games`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

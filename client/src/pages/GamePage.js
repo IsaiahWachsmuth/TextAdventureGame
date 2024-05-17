@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import GameList from '../components/GameList';
 import { useNavigate } from 'react-router-dom';
-
+import getBackendUrl from '../utils/getBackendUrl';
 function GamePage({ setGameToEdit }) {
     const [games, setGames] = useState([]);
     const navigate = useNavigate();
 
     const onDelete = async game_id => {
-        const response = await fetch(`http://localhost:3001/games/${game_id}`, { method: 'DELETE' });
+        const response = await fetch(`${getBackendUrl()}/games/${game_id}`, { method: 'DELETE' });
         if (response.status === 204) {
             const newGames = games.filter(game => game.game_id !== game_id);
             setGames(newGames);
@@ -23,7 +23,7 @@ function GamePage({ setGameToEdit }) {
 
     const loadGames = async () => {
         console.log("Loading games from GamePage.js");
-        const response = await fetch('http://localhost:3001/games');
+        const response = await fetch(`${getBackendUrl()}/games`);
         const data = await response.json();
         setGames(data);
     };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AddEditSidebar from './AddEditSidebar';
 import AddEditGameInfo from './AddEditGameInfo';
 import AddEditGamePageInfo from './AddEditGamePageInfo';
+import getBackendUrl from '../utils/getBackendUrl';
 
 function EditGame({ game, onBack }) {
 
@@ -116,7 +117,7 @@ function EditGame({ game, onBack }) {
         });
     
         try {
-            const response = await fetch(`http://localhost:3001/games/${game._id}`, {
+            const response = await fetch(`${getBackendUrl()}/games/${game._id}`, {
                 method: 'PUT',
                 body: formData,
                 credentials: 'include',
@@ -142,7 +143,7 @@ function EditGame({ game, onBack }) {
         console.log("Attempting to delete game with ID:", game._id);
     
         try {
-            const response = await fetch(`http://localhost:3001/games/${game._id}`, {
+            const response = await fetch(`${getBackendUrl()}/games/${game._id}`, {
                 method: 'DELETE',
                 credentials: 'include',
             });

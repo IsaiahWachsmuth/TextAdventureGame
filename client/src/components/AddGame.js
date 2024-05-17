@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import AddEditSidebar from './AddEditSidebar';
 import AddEditGameInfo from './AddEditGameInfo';
 import AddEditGamePageInfo from './AddEditGamePageInfo';
+import getBackendUrl from '../utils/getBackendUrl';
 
 function AddGame({ onBack }) {
     const [game, setGame] = useState({ title: '', description: '', author: '', pages: [] });
@@ -110,7 +111,7 @@ function AddGame({ onBack }) {
         });
     
         try {
-            const response = await fetch('http://localhost:3001/games', {
+            const response = await fetch(`${getBackendUrl()}/games`, {
                 method: 'POST',
                 body: formData,
                 credentials: 'include',

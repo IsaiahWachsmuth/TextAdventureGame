@@ -4,6 +4,7 @@
 
 // client/src/components/AddGame.js
 import React, { useState, useEffect } from 'react';
+import { getBackendUrl } from '../utils/getBackendUrl';
 //import { useNavigate } from 'react-router-dom';
 
 function AddGame({ onBack }) {
@@ -115,7 +116,7 @@ function AddGame({ onBack }) {
         if (image) formData.append('image', image);
     
         try {
-            const response = await fetch('http://localhost:3001/games', {
+            const response = await fetch(`${getBackendUrl()}/games`, {
                 method: 'POST',
                 body: formData,
                 credentials: 'include',

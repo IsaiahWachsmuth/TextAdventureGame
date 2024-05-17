@@ -77,9 +77,9 @@ const updateGame = async (_id, updateData) => {
             delete updateData.image;
         }
 
-        if ('pages' in updateData) {
-            updateData.pages = JSON.parse(updateData.pages);
-        }
+        // if ('pages' in updateData) {
+        //     updateData.pages = JSON.parse(updateData.pages);
+        // }
 
         const updatedGame = await Game.findByIdAndUpdate(_id, updateData, { new: true });
         return updatedGame;

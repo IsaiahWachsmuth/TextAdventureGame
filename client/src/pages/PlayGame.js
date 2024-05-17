@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
-
+import getBackendUrl from '../utils/getBackendUrl.js';
 const PlayGamePage = () => {
     const [gameInfo, setGameInfo] = useState(null);
     const [currentPage, setCurrentPage] = useState(null);
@@ -21,7 +21,7 @@ const PlayGamePage = () => {
             const classcode = pathParts[pathParts.length - 1];
 
             try {
-                const url = 'http://localhost:3001/games/checkClassCode';
+                const url = `${getBackendUrl()}/games/checkClassCode`;
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -118,7 +118,7 @@ const PlayGamePage = () => {
         console.log(transcriptData);
     
         try {
-            const response = await fetch('http://localhost:3001/transcripts/createTranscript', {
+            const response = await fetch(`${getBackendUrl()}/transcripts/createTranscript`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import getBackendUrl from '../utils/getBackendUrl';
 function GameDetailsPage() {
     const { gameId } = useParams(); // Extract gameId from URL parameters
     const [game, setGame] = useState(null);
@@ -12,7 +12,7 @@ function GameDetailsPage() {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch(`http://localhost:3001/games/${gameId}`);
+                const response = await fetch(`${getBackendUrl()}/games/${gameId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch game details');
                 }

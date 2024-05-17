@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import getBackendUrl from '../utils/getBackendUrl';
 
 function RecentPlaythroughs({ game }) {
     const [playthroughs, setPlaythroughs] = useState([]);
@@ -8,7 +9,7 @@ function RecentPlaythroughs({ game }) {
     useEffect(() => {
         const fetchPlaythroughs = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/transcripts?gameId=${game._id}`);
+                const response = await fetch(`${getBackendUrl()}/transcripts?gameId=${game._id}`);
                 const data = await response.json();
                 data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setPlaythroughs(data);
@@ -99,7 +100,8 @@ function GameDetails({ game, onBack, onEditGame   }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:3001/games/${gameId}`, {
+            console.log(`GameID: ${gameId}`);
+            const response = await fetch(`${getBackendUrl()}/games/${gameId}`, {
                 method: 'DELETE',
             });
 
@@ -124,7 +126,7 @@ function GameDetails({ game, onBack, onEditGame   }) {
                             <h1><strong>{game.title}</strong></h1>
                             <div>
                                 <button onClick={onEditGame}><i className="far fa-edit"></i>Edit Game</button>
-                                <button onClick={() => deleteGame(game.game_id)}><i className="fas fa-trash-alt"></i>Delete Game</button>
+                                <button onClick={() => deleteGame(game._id)}><i className="fas fa-trash-alt"></i>Delete Game</button>
                             </div>
                         </nav>
                         <p>Author: {game.author}</p>

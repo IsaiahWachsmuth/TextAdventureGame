@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import getBackendUrl from '../utils/getBackendUrl';
 function EditGame() {
     const { gameId } = useParams(); // Get the gameId from the URL
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ function EditGame() {
     useEffect(() => {
         const fetchGame = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/games/${gameId}`);
+                const response = await fetch(`${getBackendUrl()}/games/${gameId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch game details');
                 }
@@ -33,7 +33,7 @@ function EditGame() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:3001/games/${gameId}`, {
+            const response = await fetch(`${getBackendUrl()}/games/${gameId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

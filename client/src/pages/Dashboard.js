@@ -5,7 +5,7 @@ import DashboardGrid from '../components/DashboardGrid';
 import AddGame from '../components/AddGame';
 import GameDetails from '../components/GameDetails';
 import EditGame from '../components/EditGame'; // Ensure this import is correct based on your file structure
-
+import getBackendUrl from '../utils/getBackendUrl';
 const Dashboard = () => {
     const [games, setGames] = useState([]); // Add a new state for 'gameDetails'
     const [currentView, setCurrentView] = useState('list'); // State to hold the selected game's details
@@ -17,7 +17,7 @@ const Dashboard = () => {
             const fetchGames = async () => {
                 console.log('fetching games');
                 try {
-                    const response = await fetch('http://localhost:3001/educator/adventures', {
+                    const response = await fetch(`${getBackendUrl()}/educator/adventures`, {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
