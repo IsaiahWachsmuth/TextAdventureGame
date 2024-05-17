@@ -11,7 +11,7 @@ import cookieParser from 'cookie-parser';
 import './passport.mjs';
 import fs from 'fs';
 import https from 'https';
-import getFrontendUrl from './middleware/getFrontendUrl.js';
+import getFrontendUrl from './middleware/getFrontendUrl.mjs';
 
 const PORT = 3001;
 const app = express();
