@@ -82,7 +82,25 @@ export const findGameById = async (req, res) => {
 // Update a game
 export const updateGame = async (req, res) => {
     const _id = req.params._id;  // Use _id for parameter
-    let updateData = { ...req.body };
+
+    let { title, description, author, pages } = req.body;
+    try {
+        if (typeof pages === 'string') {
+            pages = JSON.parse(pages);
+        }
+    } catch (error) {
+        return res.status(400).json({ message: 'Invalid pages data' });
+    }
+
+    let updateData = { title, description, author, pages };
+
+    // Handle image update
+    if (req.file) {
+        const imgBuffer = fs.readFileSync(req.file.path);
+        const imageBase64 = imgBuffer.toString('base64');
+        updateData.image = imageBase64;
+        fs.unlinkSync(req.file.path); // Optionally delete the file after conversion
+    }
 
     try {
         const updatedGame = await games.updateGame(_id, updateData);  // Use _id for updating

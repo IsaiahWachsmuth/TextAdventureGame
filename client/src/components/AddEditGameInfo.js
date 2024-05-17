@@ -1,28 +1,20 @@
 // client/src/components/AddEditGameInfo.js
 import React, { useState, useEffect } from 'react';
 
-function AddEditGameInfo({ game, setImage, handleChange, handleSubmit }) {
+function AddEditGameInfo({ game, image, setImage, handleChange, handleSubmit }) {
     const [imagePreview, setImagePreview] = useState(null);
 
     useEffect(() => {
-        if (game.image) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(game.image);
+        if (image) {
+            setImagePreview(image);
         }
-    }, [game.image]);
+    }, [image]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setImage(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(URL.createObjectURL(file));
-            };
-            reader.readAsDataURL(file);
+            setImagePreview(URL.createObjectURL(file));
         }
     };
 
