@@ -55,6 +55,12 @@ app.use('/educator', educatorRoutes);
 app.use('/games', adventuresRoutes);
 app.use('/transcripts', transcriptRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}...`);
-});
+if (privateKey && certificate) {
+  https.createServer(credentials, app).listen(PORT, () => {
+    console.log(`Server listening on port ${PORT} with SSL...`);
+  });
+} else {
+  app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}...`);
+  });
+}
