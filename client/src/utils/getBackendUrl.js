@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const getBackendUrl = () => {
-  const filePath = path.resolve(__dirname, '../../../.production_variables.json');
+  const filePath = path.resolve(__dirname, '../../.production_variables.json');
   try {
     if (fs.existsSync(filePath)) {
       const fileContent = fs.readFileSync(filePath, 'utf-8');
