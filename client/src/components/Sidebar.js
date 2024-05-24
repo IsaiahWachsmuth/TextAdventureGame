@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import getBackendUrl from '../utils/getBackendUrl';
 
 const Sidebar = () => {
+    console.log(getBackendUrl())
     const navigate = useNavigate(); // Used for redirecting after login
     const { login } = useAuth(); // Use the login function from AuthContext
     const [isLogin, setIsLogin] = useState(true);
