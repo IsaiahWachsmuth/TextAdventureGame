@@ -1,4 +1,3 @@
-// server/server.mjs
 import express from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
@@ -30,7 +29,10 @@ const corsOptions = {
 };
 app.use(cookieParser());
 app.use(cors(corsOptions));
-if (getFrontendUrl() == 'http://localhost:3000' ){
+
+let privateKey, certificate, credentials;
+
+if (getFrontendUrl() == 'http://localhost:3000') {
   app.use(session({
     secret: 'testing',
     resave: false,
@@ -38,16 +40,17 @@ if (getFrontendUrl() == 'http://localhost:3000' ){
     cookie: { secure: false, httpOnly: false },
   }));
 } else {
-  const privateKey = fs.readFileSync('/etc/letsencrypt/live/textadventuregameforeducation.online/privkey.pem', 'utf8');
-  const certificate = fs.readFileSync('/etc/letsencrypt/live/textadventuregameforeducation.online/fullchain.pem', 'utf8');
-  const credentials = {key: privateKey, cert: certificate};
+  privateKey = fs.readFileSync('/etc/letsencrypt/live/textadventuregameforeducation.online/privkey.pem', 'utf8');
+  certificate = fs.readFileSync('/etc/letsencrypt/live/textadventuregameforeducation.online/fullchain.pem', 'utf8');
+  credentials = { key: privateKey, cert: certificate };
   app.use(session({
     secret: 'testing',
-    resave:false,
+    resave: false,
     saveUninitialized: true,
-    cookie: {secure: true, httpOnly: true, sameSite: 'Lax'}
-  }))
+    cookie: { secure: true, httpOnly: true, sameSite: 'Lax' }
+  }));
 }
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -55,7 +58,7 @@ app.use('/educator', educatorRoutes);
 app.use('/games', adventuresRoutes);
 app.use('/transcripts', transcriptRoutes);
 
-if (privateKey && certificate) {
+if (credentials) {
   https.createServer(credentials, app).listen(PORT, () => {
     console.log(`Server listening on port ${PORT} with SSL...`);
   });
